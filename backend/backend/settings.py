@@ -39,7 +39,11 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+<<<<<<< HEAD
     # 'django.middleware.csrf.CsrfViewMiddleware',  # Desabilitado para API
+=======
+    'django.middleware.csrf.CsrfViewMiddleware',
+>>>>>>> 71a80a39dabb1139e819a05a0b26dbd975c8c267
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -93,8 +97,13 @@ else:
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+<<<<<<< HEAD
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
+=======
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+>>>>>>> 71a80a39dabb1139e819a05a0b26dbd975c8c267
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -142,8 +151,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+<<<<<<< HEAD
     "http://localhost:3001",
     "http://127.0.0.1:3001",
+=======
+>>>>>>> 71a80a39dabb1139e819a05a0b26dbd975c8c267
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -151,6 +163,7 @@ CORS_ALLOW_CREDENTIALS = True
 # Allow all origins in development
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
+<<<<<<< HEAD
 
 # CSRF exempt for API endpoints
 CSRF_TRUSTED_ORIGINS = [
@@ -159,3 +172,5 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3001",
     "http://127.0.0.1:3001",
 ]
+=======
+>>>>>>> 71a80a39dabb1139e819a05a0b26dbd975c8c267

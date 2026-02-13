@@ -162,7 +162,11 @@ const TeamManagement = ({ token, initialShowForm = false }) => {
       ...loginFormData,
       equipe_id: team.id,
       username: team.codigo.toLowerCase().replace(/\s+/g, ''),
+<<<<<<< HEAD
       password: team.codigo.toLowerCase().replace(/\s+/g, '')  // Senha padrão = nome da equipe
+=======
+      password: 'equipe123'
+>>>>>>> 71a80a39dabb1139e819a05a0b26dbd975c8c267
     });
   };
 
@@ -357,7 +361,17 @@ const TeamManagement = ({ token, initialShowForm = false }) => {
                   <div>
                     <h5 style={{ fontWeight: 500, margin: '0 0 0.25rem 0' }}>{team.nome}</h5>
                     <p style={{ fontSize: '0.875rem', color: '#6b7280', margin: '0 0 0.125rem 0' }}>
+<<<<<<< HEAD
                       Senha: {team.codigo || 'N/A'}
+=======
+                      Senha: ••••••••
+                    </p>
+                    <p style={{ fontSize: '0.875rem', color: '#6b7280', margin: '0 0 0.125rem 0' }}>
+                      Regional: {team.regional_nome}
+                    </p>
+                    <p style={{ fontSize: '0.875rem', color: '#6b7280', margin: 0 }}>
+                      Vendedores: {team.vendedores_count || 0}
+>>>>>>> 71a80a39dabb1139e819a05a0b26dbd975c8c267
                     </p>
                   </div>
                 </div>
@@ -368,12 +382,26 @@ const TeamManagement = ({ token, initialShowForm = false }) => {
                   <Button 
                     size="sm" 
                     variant="outline"
+<<<<<<< HEAD
+=======
+                    onClick={() => openLoginForm(team)}
+                  >
+                    <Settings size={12} style={{ marginRight: '0.25rem' }} />
+                    Login
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+>>>>>>> 71a80a39dabb1139e819a05a0b26dbd975c8c267
                     onClick={() => handleDeleteTeam(team.id)}
                     style={{ color: '#dc2626' }}
                   >
                     <Trash2 size={12} />
                   </Button>
+<<<<<<< HEAD
                   {/* Botão de Login removido */}
+=======
+>>>>>>> 71a80a39dabb1139e819a05a0b26dbd975c8c267
                 </div>
               </div>
             ))

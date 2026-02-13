@@ -70,7 +70,11 @@ class ResultadoPosWorkshop(models.Model):
 class Equipe(models.Model):
     nome = models.CharField(max_length=100)
     codigo = models.CharField(max_length=20, unique=True)
+<<<<<<< HEAD
     regional = models.ForeignKey(Regional, on_delete=models.CASCADE, related_name='equipes', null=True, blank=True)
+=======
+    regional = models.ForeignKey(Regional, on_delete=models.CASCADE, related_name='equipes')
+>>>>>>> 71a80a39dabb1139e819a05a0b26dbd975c8c267
     ativo = models.BooleanField(default=True)
     data_criacao = models.DateTimeField(auto_now_add=True)
     
