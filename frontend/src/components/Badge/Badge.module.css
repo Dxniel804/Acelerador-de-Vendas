@@ -1,0 +1,89 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: var(--text-sm);
+  line-height: 1;
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+}
+
+/* Variants */
+.default {
+  background-color: var(--gray-100);
+  color: var(--gray-700);
+}
+
+.primary {
+  background-color: var(--primary-orange);
+  color: var(--white);
+}
+
+.secondary {
+  background-color: var(--secondary-green);
+  color: var(--white);
+}
+
+.success {
+  background-color: var(--success);
+  color: var(--white);
+}
+
+.warning {
+  background-color: var(--warning);
+  color: var(--white);
+}
+
+.error {
+  background-color: var(--error);
+  color: var(--white);
+}
+
+.info {
+  background-color: var(--info);
+  color: var(--white);
+}
+
+/* Outline variants */
+.outline {
+  background-color: transparent;
+  border: 1px solid;
+}
+
+.outline.default {
+  border-color: var(--gray-300);
+  color: var(--gray-700);
+}
+
+.outline.primary {
+  border-color: var(--primary-orange);
+  color: var(--primary-orange);
+}
+
+.outline.secondary {
+  border-color: var(--secondary-green);
+  color: var(--secondary-green);
+}
+
+.outline.success {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+/* Sizes */
+.small {
+  padding: var(--spacing-1) var(--spacing-2);
+  font-size: var(--text-xs);
+}
+
+.medium {
+  padding: var(--spacing-1) var(--spacing-3);
+  font-size: var(--text-sm);
+}
+
+.large {
+  padding: var(--spacing-2) var(--spacing-4);
+  font-size: var(--text-base);
+}
