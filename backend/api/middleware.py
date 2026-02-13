@@ -29,29 +29,19 @@ class PermissaoMiddleware:
         self.get_response = get_response
     
     def __call__(self, request):
-<<<<<<< HEAD
         print(f"DEBUG: Middleware - Path: {request.path}")
         
-=======
->>>>>>> 71a80a39dabb1139e819a05a0b26dbd975c8c267
         # Obter perfil de acesso se usuário estiver autenticado
         if request.user.is_authenticated:
             try:
                 request.perfil_acesso = request.user.perfil_acesso
-<<<<<<< HEAD
+
                 print(f"DEBUG: Middleware - Usuário {request.user.username} autenticado com perfil {request.perfil_acesso.nivel}")
             except Exception as e:
                 print(f"DEBUG: Middleware - Erro ao obter perfil: {e}")
                 request.perfil_acesso = None
         else:
             print(f"DEBUG: Middleware - Usuário não autenticado")
-=======
-            except:
-                request.perfil_acesso = None
-        else:
->>>>>>> 71a80a39dabb1139e819a05a0b26dbd975c8c267
-            request.perfil_acesso = None
-        
         response = self.get_response(request)
         return response
 

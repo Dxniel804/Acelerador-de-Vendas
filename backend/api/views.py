@@ -1,12 +1,6 @@
 import logging
-
-
-
-<<<<<<< HEAD
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-=======
->>>>>>> 71a80a39dabb1139e819a05a0b26dbd975c8c267
 from rest_framework import viewsets, generics, status
 
 from rest_framework.decorators import api_view, permission_classes
@@ -1298,11 +1292,10 @@ def dashboard_equipe(request):
 
             'equipe_id': perfil.equipe.id,
 
-<<<<<<< HEAD
             'regional': perfil.equipe.regional.nome if perfil.equipe.regional else None,
-=======
+
             'regional': perfil.equipe.regional.nome,
->>>>>>> 71a80a39dabb1139e819a05a0b26dbd975c8c267
+
 
             'total_propostas': total_propostas,
 
@@ -1335,7 +1328,7 @@ def dashboard_equipe(request):
 
 
 
-<<<<<<< HEAD
+
 @csrf_exempt
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -1385,7 +1378,7 @@ def login_view(request):
             return Response({'error': 'Perfil de acesso não encontrado'}, status=403)
     else:
         print(f"DEBUG: Falha na autenticação")
-=======
+
 @api_view(['POST'])
 
 @permission_classes([AllowAny])
@@ -1456,7 +1449,7 @@ def login_view(request):
 
     else:
 
->>>>>>> 71a80a39dabb1139e819a05a0b26dbd975c8c267
+
         return Response({'error': 'Credenciais inválidas'}, status=401)
 
 
@@ -1506,7 +1499,7 @@ def gerenciar_equipes(request):
     
 
     elif request.method == 'POST':
-<<<<<<< HEAD
+
         
         print(f"DEBUG: Dados recebidos para criar equipe: {request.data}")
         
@@ -1555,7 +1548,7 @@ def gerenciar_equipes(request):
             return Response(serializer.data, status=201)
         
         print(f"DEBUG: Erros do serializer: {serializer.errors}")
-=======
+
 
         serializer = EquipeSerializer(data=request.data)
 
@@ -1565,7 +1558,7 @@ def gerenciar_equipes(request):
 
             return Response(serializer.data, status=201)
 
->>>>>>> 71a80a39dabb1139e819a05a0b26dbd975c8c267
+
         return Response(serializer.errors, status=400)
 
 
@@ -1671,8 +1664,7 @@ def gerenciar_usuarios(request):
     
 
     elif request.method == 'POST':
-<<<<<<< HEAD
-        
+
         print(f"DEBUG: Dados recebidos para criar usuário: {request.data}")
         
         user_data = {
@@ -1742,8 +1734,7 @@ def gerenciar_usuarios(request):
                 return Response({
                     
                     'user': user_serializer.data,
-                    
-=======
+                }, status=201)
 
         user_data = {
 
@@ -1790,8 +1781,6 @@ def gerenciar_usuarios(request):
                 return Response({
 
                     'user': user_serializer.data,
-
->>>>>>> 71a80a39dabb1139e819a05a0b26dbd975c8c267
                     'perfil': perfil_serializer.data
 
                 }, status=201)
