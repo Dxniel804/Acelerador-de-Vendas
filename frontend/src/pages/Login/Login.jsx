@@ -6,6 +6,7 @@ import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import Badge from '../../components/Badge/Badge';
 import Card from '../../components/Card/Card';
+import { API_URL } from '../../api_config';
 
 const Login = ({ onLogin, onEquipeSelection, existingUser, onSwitchUser }) => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const Login = ({ onLogin, onEquipeSelection, existingUser, onSwitchUser }) => {
   const [equipes, setEquipes] = useState([]);
   const [token, setToken] = useState('');
 
-  const API_BASE = 'http://localhost:8000/api';
+  const API_BASE = API_URL;
 
   const handleContinue = () => {
     navigate('/dashboard');

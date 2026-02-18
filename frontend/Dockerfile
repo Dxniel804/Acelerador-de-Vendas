@@ -8,14 +8,18 @@ RUN npm install
 COPY . .
 RUN npm run build
 
+# Production stage
 FROM node:20-alpine
 
 WORKDIR /app
 
-COPY --from=builder /app/node_modules ./node_modules
+# Install 'serve' to serve the static files
+RUN npm install -g serve
+
+# Copy built files from builder stage
 COPY --from=builder /app/build ./build
-COPY package.json ./
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+# Use 'serve' to run the app on the port provided by Railway
+CMD ["sh", "-c", "serve -s build -l ${PORT:-3000}"]

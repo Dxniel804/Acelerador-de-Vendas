@@ -7,6 +7,7 @@ import DashboardEquipe from './components/DashboardEquipe';
 import DashboardGestor from './components/DashboardGestor';
 import DashboardBanca from './components/DashboardBanca';
 import GerenciarPropostasEquipe from './components/GerenciarPropostasEquipe';
+import { API_URL } from './api_config';
 import './styles/globals.css';
 
 const getStoredUser = () => {
@@ -89,7 +90,7 @@ function AppMain() {
       }
 
       try {
-        const response = await fetch('http://localhost:8000/api/auth/meu_perfil/', {
+        const response = await fetch(`${API_URL}/auth/meu_perfil/`, {
           headers: {
             'Authorization': `Token ${token}`,
             'Content-Type': 'application/json'

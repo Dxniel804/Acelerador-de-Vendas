@@ -34,14 +34,17 @@ RUN apt-get update \
 COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
 COPY --from=builder /usr/local/bin /usr/local/bin
 
+# Create non-root user
+RUN adduser --disabled-password --gecos '' appuser
+
 # Copy application code
 COPY . /app
 
-# Create non-root user for security
-RUN adduser --disabled-password --gecos '' appuser \
-    && chown -R appuser:appuser /app
+# Set permissions
+RUN chmod +x /app/start.sh && chown -R appuser:appuser /app
+
 USER appuser
 
 EXPOSE 8000
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["/app/start.sh"]
