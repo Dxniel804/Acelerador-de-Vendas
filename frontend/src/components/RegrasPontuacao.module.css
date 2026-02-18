@@ -1,0 +1,218 @@
+/* RegrasPontuacao.module.css - Mesmo padrão Admin */
+
+@import url('https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&display=swap');
+
+:root {
+  --color-primary-dark: #1A3A41;
+  --color-primary-orange: #FF5E3A;
+  --color-gray-dark: #333333;
+  --color-gray-medium: #999999;
+  --color-white: #FFFFFF;
+  --color-success: #10B981;
+  --color-error: #EF4444;
+  --color-warning: #F59E0B;
+  --color-info: #3B82F6;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-family: 'Jaro', sans-serif;
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--color-primary-dark);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--color-gray-medium);
+  font-size: 1rem;
+}
+
+/* Tabs - estilo Admin */
+.tabsCard {
+  background: var(--color-white);
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.tabsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  border-bottom: 2px solid #E5E7EB;
+  background: linear-gradient(135deg, #F9FAFB, #F3F4F6);
+  padding: 0.5rem 1rem;
+}
+
+.tabTrigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-gray-medium);
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  border-radius: 8px;
+}
+
+.tabTrigger:hover {
+  color: var(--color-gray-dark);
+  background-color: rgba(255, 94, 58, 0.05);
+}
+
+.tabTrigger:global(.bg-background) {
+  color: var(--color-primary-orange) !important;
+  border-bottom-color: var(--color-primary-orange) !important;
+  background-color: var(--color-white) !important;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.tabContent {
+  padding: 2.5rem;
+  background: var(--color-white);
+}
+
+/* Form fields - profissionais */
+.formGroup {
+  margin-bottom: 1.75rem;
+}
+
+.formLabel {
+  display: block;
+  font-weight: 600;
+  color: var(--color-gray-dark);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.formInput {
+  width: 100%;
+  max-width: 200px;
+  padding: 0.75rem 1rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: var(--color-primary-orange);
+  box-shadow: 0 0 0 3px rgba(255, 94, 58, 0.1);
+}
+
+.formRow {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.formActions {
+  margin-top: 2rem;
+}
+
+/* Cards */
+.card {
+  background: linear-gradient(135deg, var(--color-white), #F9FAFB);
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.5rem;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #F9FAFB, #F3F4F6);
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.cardTitle {
+  font-family: 'Jaro', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--color-gray-dark);
+  margin: 0;
+}
+
+.cardContent {
+  padding: 1.5rem;
+}
+
+/* Form sections */
+.formSection {
+  margin-bottom: 2.5rem;
+  padding: 2rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  background: #F9FAFB;
+}
+
+.formTitle {
+  font-weight: 600;
+  color: var(--color-gray-dark);
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Regra item */
+.regraItem {
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  background: var(--color-white);
+  transition: all 0.3s ease;
+}
+
+.regraItem:hover {
+  border-color: var(--color-primary-orange);
+  box-shadow: 0 4px 12px rgba(255, 94, 58, 0.1);
+}
+
+/* Card content spacing */
+.cardContent {
+  padding: 2rem !important;
+}
+
+.cardContent > * + * {
+  margin-top: 2rem;
+}
+
+
+/* Empty state */
+.emptyState {
+  text-align: center;
+  padding: 3rem;
+  color: var(--color-gray-medium);
+}
+
+.emptyIcon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+  color: var(--color-primary-orange);
+}

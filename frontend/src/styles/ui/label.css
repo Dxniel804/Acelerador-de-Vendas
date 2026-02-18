@@ -1,0 +1,296 @@
+/* Label.css - UI Component Styles */
+
+/* Base Label Styles */
+.label {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--foreground, #374151);
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.label--required {
+  position: relative;
+}
+
+.label--required::after {
+  content: '*';
+  color: var(--error, #ef4444);
+  margin-left: 4px;
+}
+
+.label--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Label Sizes */
+.label--sm {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.label--lg {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Label Variants */
+.label--secondary {
+  color: var(--muted-foreground, #6b7280);
+  font-weight: 400;
+}
+
+.label--accent {
+  color: var(--accent, #3b82f6);
+}
+
+.label--success {
+  color: var(--success, #10b981);
+}
+
+.label--warning {
+  color: var(--warning, #f59e0b);
+}
+
+.label--error {
+  color: var(--error, #ef4444);
+}
+
+/* Label Positions */
+.label--top {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.label--left {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 12px;
+  margin-bottom: 0;
+}
+
+.label--right {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 12px;
+  margin-bottom: 0;
+}
+
+.label--hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Label with Icon */
+.label--with-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.label-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* Label Group */
+.label-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label-group--horizontal {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Label Description */
+.label-description {
+  font-size: 12px;
+  color: var(--muted-foreground, #6b7280);
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+/* Label Container */
+.label-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.label-container--horizontal {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.label-container--horizontal .label {
+  margin-bottom: 0;
+  flex-shrink: 0;
+  min-width: fit-content;
+}
+
+/* Form Field */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-field--inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.form-field--inline .label {
+  margin-bottom: 0;
+  flex-shrink: 0;
+  min-width: 120px;
+}
+
+.form-field--compact {
+  margin-bottom: 12px;
+}
+
+.form-field--spacious {
+  margin-bottom: 32px;
+}
+
+/* Error State */
+.form-field--error .label {
+  color: var(--error, #ef4444);
+}
+
+.form-field--error .input,
+.form-field--error .textarea,
+.form-field--error .select {
+  border-color: var(--error, #ef4444);
+}
+
+.form-field--error .form-error {
+  color: var(--error, #ef4444);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Success State */
+.form-field--success .label {
+  color: var(--success, #10b981);
+}
+
+.form-field--success .input,
+.form-field--success .textarea,
+.form-field--success .select {
+  border-color: var(--success, #10b981);
+}
+
+/* Warning State */
+.form-field--warning .label {
+  color: var(--warning, #f59e0b);
+}
+
+.form-field--warning .input,
+.form-field--warning .textarea,
+.form-field--warning .select {
+  border-color: var(--warning, #f59e0b);
+}
+
+/* Dark Theme Support */
+@media (prefers-color-scheme: dark) {
+  .label {
+    color: var(--foreground-dark, #d1d5db);
+  }
+  
+  .label--secondary {
+    color: var(--muted-foreground-dark, #9ca3af);
+  }
+  
+  .label-description {
+    color: var(--muted-foreground-dark, #9ca3af);
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .label {
+    font-weight: 600;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .label {
+    transition: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .label {
+    color: black !important;
+    font-weight: 600;
+  }
+}
+
+/* Custom Properties for Theming */
+:root {
+  --foreground: #374151;
+  --muted-foreground: #6b7280;
+  --accent: #3b82f6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  
+  /* Dark theme */
+  --foreground-dark: #d1d5db;
+  --muted-foreground-dark: #9ca3af;
+}
+
+/* Accessibility */
+.label:focus {
+  outline: 2px solid var(--ring-color, #3b82f6);
+  outline-offset: 2px;
+}
+
+/* Animation Classes */
+@keyframes labelShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+.form-field--error .label {
+  animation: labelShake 0.3s ease-in-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-field--inline {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .form-field--inline .label {
+    min-width: auto;
+  }
+  
+  .label-container--horizontal {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}

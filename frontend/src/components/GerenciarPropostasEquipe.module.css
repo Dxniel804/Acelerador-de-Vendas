@@ -1,0 +1,401 @@
+/* GerenciarPropostasEquipe.module.css - Strict Palette: #FF5E3A, #FFFFFF, #1A3A41 */
+
+@import url('https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* === VARIABLES === */
+:root {
+  --color-teal: #1A3A41;
+  --color-orange: #FF5E3A;
+  --color-white: #FFFFFF;
+
+  --font-display: 'Jaro', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+.container {
+  min-height: 100vh;
+  background-color: var(--color-teal);
+  font-family: var(--font-body);
+  color: var(--color-white);
+  padding: 2rem;
+  position: relative;
+  overflow-x: hidden;
+  padding-bottom: 200px;
+}
+
+.container::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/img/img_workshop-removebg-preview.png');
+  background-size: 400px auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+
+/* === HEADER === */
+.header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.header h1 {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--color-white);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.header p {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* === CARDS === */
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.cardHeader {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cardTitle {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-orange);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cardContent {
+  padding: 2rem;
+}
+
+/* === PROPOSTA CARD === */
+.propostasList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.propostaCard {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.propostaCard:hover {
+  border-color: var(--color-orange);
+  transform: translateY(-2px);
+}
+
+.propostaHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.propostaTitle h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--color-white);
+  margin: 0 0 0.5rem 0;
+}
+
+.badgeRejected {
+  background-color: var(--color-orange);
+  color: var(--color-white);
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Rejection Reason */
+.rejectionReason {
+  background: rgba(255, 94, 58, 0.1);
+  border-left: 4px solid var(--color-orange);
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.rejectionReasonHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-orange);
+  font-weight: 700;
+}
+
+.rejectionReason p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-white);
+}
+
+/* Details */
+.propostaDetails {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.propostaDetail strong {
+  color: var(--color-orange);
+  margin-right: 0.5rem;
+}
+
+.propostaActions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* === BUTTONS === */
+.button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-body);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.buttonPrimary {
+  background-color: var(--color-orange);
+  color: var(--color-white);
+  border: none;
+}
+
+.buttonPrimary:hover:not(:disabled) {
+  background-color: var(--color-white);
+  color: var(--color-orange);
+}
+
+.buttonOutline {
+  background-color: transparent;
+  color: var(--color-white);
+  border: 1px solid var(--color-white);
+}
+
+.buttonOutline:hover {
+  background-color: var(--color-white);
+  color: var(--color-teal);
+}
+
+.buttonDanger {
+  background-color: transparent;
+  color: var(--color-white);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.buttonDanger:hover {
+  background-color: #ff3c1c;
+  border-color: #ff3c1c;
+}
+
+/* Form Overrides */
+.formInput,
+.formTextarea {
+  width: 100%;
+  background-color: #f9fafb !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 10px !important;
+  padding: 0.75rem 1rem !important;
+  font-family: var(--font-body) !important;
+  color: var(--color-teal) !important;
+  transition: all 0.2s !important;
+}
+
+.formInput:focus,
+.formTextarea:focus {
+  border-color: var(--color-orange) !important;
+  box-shadow: 0 0 0 3px rgba(255, 94, 58, 0.1) !important;
+  outline: none !important;
+}
+
+.formLabel {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--color-teal);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+/* === MODAL === */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1.5rem;
+}
+
+.modalContent {
+  background: var(--color-white);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 600px;
+  color: var(--color-teal);
+  overflow: hidden;
+}
+
+.modalHeader {
+  background-color: var(--color-teal);
+  padding: 1.5rem 2rem;
+  color: var(--color-white);
+}
+
+.modalHeader h2 {
+  font-family: var(--font-display);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.modalBody {
+  padding: 2rem;
+}
+
+/* Form Styles inside Modal */
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.formGroup :global(label) {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--color-teal);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.formGroup :global(input),
+.formGroup :global(textarea) {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-family: var(--font-body);
+}
+
+.formGroup :global(input:focus),
+.formGroup :global(textarea:focus) {
+  border-color: var(--color-orange);
+  outline: none;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.buttonSecondary {
+  background: transparent;
+  color: var(--color-teal);
+  border: 1px solid var(--color-teal);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+/* === WAVE DIVIDER === */
+.waveDivider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 15vw;
+  max-height: 200px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.waveDivider svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Loading */
+.loadingContainer,
+.errorContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-teal);
+  color: var(--color-white);
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--color-orange);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .propostaHeader {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,586 @@
+/* DashboardGestor.module.css - Standardized Premium Style */
+
+@import url('https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&display=swap');
+
+/* === VARIABLES === */
+:root {
+  --color-primary-dark: #1A3A41;
+  --color-primary-orange: #FF5E3A;
+  --color-secondary-green: #2ECC71;
+  --color-white: #FFFFFF;
+  --color-teal-light: #234951;
+  --font-display: 'Jaro', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+/* === DASHBOARD CONTAINER === */
+.dashboard {
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--color-primary-dark);
+  font-family: var(--font-body);
+  color: var(--color-white);
+  position: relative;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard::before {
+  content: "";
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 150px;
+  height: 150px;
+  background-image: url('../assets/img/img_workshop-removebg-preview.png');
+  background-size: contain;
+  background-position: bottom right;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* === HEADER === */
+.header {
+  background-color: #e5e5e5;
+  border-top: 2px solid #000;
+  border-bottom: 3px solid var(--color-primary-orange);
+  padding: 1rem 2rem;
+  z-index: 10;
+  position: relative;
+}
+
+.headerContent {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.logoImg {
+  height: 50px;
+  width: auto;
+}
+
+.headerTitle {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--color-primary-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.headerSubtitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin: 0.25rem 0 0 0;
+  color: var(--color-primary-orange);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.badgesRow {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.badge {
+  padding: 0.4rem 1rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badgeStatus {
+  background-color: var(--color-primary-dark);
+  color: var(--color-white);
+  border: 1px solid var(--color-primary-dark);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.userName {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+}
+
+.userRole {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-primary-orange);
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--color-primary-orange);
+  color: var(--color-white);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(255, 94, 58, 0.3);
+}
+
+.logoutButton:hover {
+  background-color: var(--color-white);
+  color: var(--color-primary-orange);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 94, 58, 0.4);
+}
+
+/* === MAIN CONTENT === */
+.main {
+  padding: 3rem 0;
+  padding-bottom: 250px;
+  /* Space for waves */
+  z-index: 2;
+  position: relative;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* === TABS (Padrão Banca) === */
+.tabsContainer {
+  background: var(--color-white);
+  border: 2px solid rgba(255, 94, 58, 0.2);
+  border-radius: 14px;
+  padding: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(255, 94, 58, 0.08);
+}
+
+.tabButton {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  background: transparent;
+  border: none;
+  color: var(--color-gray-medium);
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.tabButton:hover {
+  color: var(--color-primary-orange);
+  background: rgba(255, 94, 58, 0.08);
+}
+
+.tabButton.active {
+  background: linear-gradient(135deg, var(--color-primary-orange), #E54D2A) !important;
+  color: var(--color-white) !important;
+  box-shadow: 0 4px 15px rgba(255, 94, 58, 0.35);
+  transform: translateY(-1px);
+}
+
+.tabContent {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === CONTENT CARDS === */
+.contentCard {
+  background: var(--color-white) !important;
+  border-radius: 20px !important;
+  border: none !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+  overflow: hidden !important;
+}
+
+.contentCardHeader {
+  background: var(--color-primary-dark) !important;
+  padding: 1.5rem 2.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  border-bottom: 4px solid var(--color-primary-orange) !important;
+}
+
+.contentCardTitleIcon {
+  color: var(--color-primary-orange);
+  width: 24px;
+  height: 24px;
+}
+
+.contentCardTitle {
+  font-family: var(--font-display) !important;
+  color: white !important;
+  font-size: 1.5rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+}
+
+.contentCardBody {
+  padding: 2.5rem !important;
+  color: var(--color-primary-dark) !important;
+}
+
+/* === PROPOSTA ITEM (CARDS INTERNOS) === */
+.propostaItem {
+  background: #f9fafb !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 16px !important;
+  padding: 2rem !important;
+  margin-bottom: 1.5rem !important;
+  transition: all 0.3s ease !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.propostaItem:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-primary-orange) !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05) !important;
+}
+
+.propostaItem::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: var(--color-primary-orange);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.propostaItem:hover::before {
+  opacity: 1;
+}
+
+.propostaItem h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--color-primary-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* === EMPTY STATE === */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 0;
+  text-align: center;
+  opacity: 0.6;
+}
+
+.emptyStateIcon {
+  margin-bottom: 1.5rem;
+  color: var(--color-primary-orange);
+}
+
+.emptyStateTitle {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* === WAVE DIVIDER === */
+.waveDivider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.waveDivider svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* === MODAL === */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(26, 58, 65, 0.9);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 800px;
+  max-height: 85vh;
+  overflow-y: auto !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  animation: modalIn 0.3s ease-out;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modalBody {
+  padding: 3rem;
+}
+
+.modalTitle {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  color: var(--color-primary-dark);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 1rem;
+}
+
+/* === LOADING & ERROR === */
+.loadingContainer,
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--color-primary-dark);
+  color: white;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 5px solid rgba(255, 94, 58, 0.2);
+  border-top-color: var(--color-primary-orange);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 2rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .headerContent {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .headerRight {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .userDetails {
+    align-items: center;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+
+  .main {
+    padding: 2rem 0;
+    padding-bottom: 150px;
+  }
+}
+
+/* === EQUIPES === */
+.equipesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.equipeCard {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.equipeCard:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-primary-orange) !important;
+  box-shadow: 0 12px 30px rgba(255, 94, 58, 0.1) !important;
+}
+
+.equipeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.equipeName {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.equipeDataList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.equipeDataRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.equipeDataRow label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+.equipeValue {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.rowGray {
+  background: #f8fafc;
+  border-color: #f1f5f9;
+}
+
+.rowGray label {
+  color: #94a3b8;
+}
+
+.rowGray .equipeValue {
+  color: #1a3a41;
+}
+
+.rowBlue {
+  background: #eff6ff;
+  border-color: #dbeafe;
+}
+
+.rowBlue label {
+  color: #3b82f6;
+}
+
+.rowBlue .equipeValue {
+  color: #1d4ed8;
+}
+
+.rowStatusAtiva {
+  background: #f0fdf4;
+  border-color: #dcfce7;
+}
+
+.rowStatusAtiva label {
+  color: #22c55e;
+}
+
+.rowStatusAtiva .equipeValue {
+  color: #15803d;
+}
+
+.rowStatusPausada {
+  background: #fef2f2;
+  border-color: #fee2e2;
+}
+
+.rowStatusPausada label {
+  color: #ef4444;
+}
+
+.rowStatusPausada .equipeValue {
+  color: #b91c1c;
+}

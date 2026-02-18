@@ -1,0 +1,374 @@
+import React, { useState, useEffect } from 'react';
+import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
+import { Badge } from './ui/badge';
+import { useNavigate } from 'react-router-dom';
+import { LogIn, AlertCircle, Target } from 'lucide-react';
+import './LoginUniversal.css';
+
+const LoginUniversal = ({ onLogin, onEquipeSelection, existingUser, onSwitchUser }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [mostrarSelecao, setMostrarSelecao] = useState(false);
+  const [equipes, setEquipes] = useState([]);
+  const [token, setToken] = useState('');
+  const navigate = useNavigate();
+
+  const API_BASE = 'http://localhost:8000/api';
+
+  const handleContinue = () => {
+    window.location.href = '/dashboard';
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    if (!username || !password) {
+      setError('Usuário e senha são obrigatórios');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError('');
+
+      // Evitar reutilizar sessão antiga quando o usuário tenta logar com outro
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('user');
+      sessionStorage.removeItem('equipe');
+
+      const response = await fetch(`${API_BASE}/auth/login/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Erro no login');
+      }
+
+      // Salvar token
+      sessionStorage.setItem('token', data.token);
+
+      // Verificar se precisa selecionar equipe (usuário equipe sem equipe definida)
+      if (data.requires_equipe_selection) {
+        setToken(data.token);
+        await buscarEquipesDisponiveis(data.token);
+        setMostrarSelecao(true);
+      } else {
+        // Login direto para outros perfis
+        sessionStorage.setItem('user', JSON.stringify(data.user));
+        onLogin(data);
+      }
+    } catch (err) {
+      // Garante que não fica preso em sessão anterior em caso de erro
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('user');
+      sessionStorage.removeItem('equipe');
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const buscarEquipesDisponiveis = async (authToken) => {
+    try {
+      const response = await fetch(`${API_BASE}/auth/equipes_disponiveis/`, {
+        headers: {
+          'Authorization': `Token ${authToken}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao buscar equipes');
+      }
+
+      const equipesData = await response.json();
+      setEquipes(equipesData);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const selecionarEquipe = async (equipe) => {
+    try {
+      setLoading(true);
+      setError('');
+
+      const response = await fetch(`${API_BASE}/auth/selecionar_equipe/`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Token ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ equipe_id: equipe.id })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Erro ao selecionar equipe');
+      }
+
+      // Salvar informações completas
+      sessionStorage.setItem('token', token);
+      sessionStorage.setItem('equipe', JSON.stringify(equipe));
+      sessionStorage.setItem('user', JSON.stringify({
+        username: 'equipe',
+        nivel: 'equipe',
+        equipe: equipe.nome
+      }));
+
+      onEquipeSelection(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (mostrarSelecao) {
+    return (
+      <div style={{ background: '#1A3A41' }} className="min-h-screen flex items-center justify-center p-4">
+        <Card className="w-full max-w-2xl">
+          <CardHeader style={{ background: 'linear-gradient(135deg, #FF5E3A, #FF5E3A)', color: 'white' }} className="text-center rounded-t-lg">
+            <CardTitle className="flex items-center justify-center gap-2 text-2xl">
+              <Target className="h-6 w-6" />
+              Selecione sua Equipe
+            </CardTitle>
+            <p style={{ color: 'rgba(255, 255, 255, 0.8)' }}>Escolha a equipe que você representa</p>
+          </CardHeader>
+          <CardContent>
+            {error && (
+              <div className="mb-4 p-3 bg-red-100 border border-red-200 rounded-md flex items-center gap-2">
+                <AlertCircle className="h-4 w-4 text-red-600" />
+                <span className="text-red-700 text-sm">{error}</span>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {equipes.map((equipe) => (
+                <div
+                  key={equipe.id}
+                  className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer transition-colors"
+                  style={{ borderColor: 'rgba(255, 255, 255, 0.2)', backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
+                  onClick={() => selecionarEquipe(equipe)}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 style={{ color: 'white', fontWeight: '600' }} className="text-lg">{equipe.nome}</h3>
+                    <Badge style={{ backgroundColor: 'rgba(255, 94, 58, 0.2)', color: '#FF5E3A' }}>
+                      {equipe.responsavel || 'N/A'}
+                    </Badge>
+                  </div>
+                  <div style={{ color: 'rgba(255, 255, 255, 0.8)' }} className="space-y-1 text-sm">
+                    <div><span className="font-medium">Código:</span> {equipe.codigo}</div>
+                    <div><span className="font-medium">Regional:</span> {equipe.regional_nome}</div>
+                    <div><span className="font-medium">Status:</span>
+                      <Badge style={{ backgroundColor: equipe.ativo ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)', color: equipe.ativo ? '#10b981' : '#ef4444' }} className="ml-2">
+                        {equipe.ativo ? 'Ativa' : 'Inativa'}
+                      </Badge>
+                    </div>
+                  </div>
+                  <Button
+                    className="w-full mt-3"
+                    style={{ backgroundColor: '#FF5E3A', borderColor: '#FF5E3A' }}
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                    ) : (
+                      'Selecionar Equipe'
+                    )}
+                  </Button>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 text-center">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setMostrarSelecao(false);
+                  setUsername('');
+                  setPassword('');
+                  setError('');
+                }}
+              >
+                Voltar para Login
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (existingUser) {
+    return (
+      <div style={{ background: '#1A3A41' }} className="min-h-screen flex items-center justify-center p-4">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-8">
+            <div className="flex items-center justify-center mb-4">
+              <div style={{ backgroundColor: '#FF5E3A' }} className="p-4 rounded-full shadow-lg">
+                <Target className="h-8 w-8 text-white" />
+              </div>
+            </div>
+            <h1 style={{ color: 'white' }} className="text-3xl font-bold mb-2">Acelerador de Vendas</h1>
+            <p style={{ color: 'rgba(255, 255, 255, 0.8)' }}>Você já está logado</p>
+          </div>
+
+          <Card className="shadow-xl border-0">
+            <CardHeader style={{ background: 'linear-gradient(135deg, #FF5E3A, #FF5E3A)', color: 'white' }} className="text-center rounded-t-lg">
+              <CardTitle className="flex items-center justify-center gap-2 text-xl">
+                <LogIn className="h-5 w-5" />
+                Sessão Ativa
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-8 space-y-6">
+              <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderColor: 'rgba(255, 255, 255, 0.2)' }} className="p-4 border rounded-md">
+                <div style={{ color: 'rgba(255, 255, 255, 0.8)' }} className="text-sm">Logado como</div>
+                <div style={{ color: 'white' }} className="text-lg font-semibold">{existingUser.username}</div>
+                <div style={{ color: 'rgba(255, 255, 255, 0.8)' }} className="text-sm">Perfil: {existingUser.nivel?.toUpperCase()}</div>
+                {existingUser.equipe && (
+                  <div style={{ color: 'rgba(255, 255, 255, 0.8)' }} className="text-sm">Equipe: {existingUser.equipe}</div>
+                )}
+              </div>
+
+              <Button
+                type="button"
+                className="w-full h-12 text-white font-medium"
+                style={{ background: 'linear-gradient(135deg, #FF5E3A, #FF5E3A)' }}
+                onClick={handleContinue}
+              >
+                Continuar
+              </Button>
+
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full h-12"
+                onClick={onSwitchUser}
+              >
+                Trocar usuário
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="login-page">
+      {/* Header */}
+      <div className="login-header">
+        <div className="header-bar">
+          <div className="header-container">
+            <img
+              src="/IMG/vendamais_logo.png"
+              alt="VendaMais"
+              className="header-logo"
+              onClick={() => navigate('/')}
+              style={{ cursor: 'pointer' }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="login-main">
+        <div className="login-content">
+          {/* Left Side - Login Form */}
+          <div className="login-left">
+            {/* Custom SVG Wave Divider */}
+            <div className="wave-divider-svg">
+              <svg viewBox="0 0 100 1000" preserveAspectRatio="none">
+                <path d="M0,0 L0,1000 L50,1000 C50,1000 100,800 100,500 C100,200 50,0 50,0 Z" fill="#1A3A41" />
+              </svg>
+            </div>
+
+            <div className="login-left-content">
+              <h1 className="login-title">Fazer login</h1>
+
+              <div className="login-card">
+                <form onSubmit={handleLogin} className="login-form">
+                  {error && (
+                    <div className="error-message">
+                      <AlertCircle className="h-4 w-4" />
+                      <span>{error}</span>
+                    </div>
+                  )}
+
+                  <div className="form-group">
+                    <label htmlFor="username" className="form-label">
+                      Nome do usuário
+                    </label>
+                    <input
+                      id="username"
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      placeholder="Digite seu nome de usuário"
+                      className="form-input"
+                      disabled={loading}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="password" className="form-label">
+                      Senha
+                    </label>
+                    <input
+                      id="password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Digite sua senha"
+                      className="form-input"
+                      disabled={loading}
+                    />
+                  </div>
+
+                  <button type="submit" className="btn btn-primary" disabled={loading}>
+                    {loading ? (
+                      <div className="loading-spinner" />
+                    ) : (
+                      <>
+                        <LogIn className="h-5 w-5" />
+                        Entrar
+                      </>
+                    )}
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side - Image */}
+          <div className="login-right">
+            <img
+              src="img/Marketing-bro.png"
+              alt="Login Illustration"
+              className="login-image"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Decorative Elements */}
+      <div className="wave-element wave-1"></div>
+      <div className="wave-element wave-2"></div>
+      <div className="wave-element wave-3"></div>
+    </div>
+  );
+};
+
+export default LoginUniversal;

@@ -1,0 +1,331 @@
+/* DashboardEvento.css - Component Styles */
+
+.dashboard-evento-container {
+  background-color: #0f172a;
+  color: #fff;
+  min-height: 100vh;
+  padding: 40px 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Loading State */
+.dashboard-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 24px;
+  color: #60a5fa;
+}
+
+/* Error State */
+.dashboard-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 18px;
+  color: #ef4444;
+}
+
+/* Header */
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 40px;
+  border-bottom: 2px solid #334155;
+  padding-bottom: 20px;
+}
+
+.dashboard-title {
+  font-size: 48px;
+  margin: 0;
+  color: #60a5fa;
+  font-weight: bold;
+}
+
+.dashboard-subtitle {
+  font-size: 20px;
+  margin: 10px 0 0 0;
+  color: #94a3b8;
+}
+
+.dashboard-description {
+  font-size: 16px;
+  margin: 5px 0 0 0;
+  color: #64748b;
+}
+
+/* Main Cards Grid */
+.dashboard-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.dashboard-card {
+  background-color: #1e293b;
+  padding: 30px;
+  border-radius: 12px;
+  border: 2px solid #334155;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dashboard-card-title {
+  margin: 0 0 15px 0;
+  color: #94a3b8;
+  font-size: 18px;
+}
+
+.dashboard-card-value {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.dashboard-card-value.faturamento-previsto {
+  color: #60a5fa;
+}
+
+.dashboard-card-value.faturamento-realizado {
+  color: #22c55e;
+}
+
+.dashboard-card-value.desempenho {
+  color: #22c55e;
+}
+
+.dashboard-card-value.desempenho-bom {
+  color: #eab308;
+}
+
+.dashboard-card-value.desempenho-ruim {
+  color: #ef4444;
+}
+
+.dashboard-card-value.conversao {
+  color: #a78bfa;
+}
+
+/* Regional Table Section */
+.dashboard-regional-section {
+  background-color: #1e293b;
+  border-radius: 12px;
+  padding: 20px;
+  border: 2px solid #334155;
+  margin-bottom: 40px;
+}
+
+.dashboard-regional-title {
+  margin: 0 0 20px 0;
+  color: #60a5fa;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.dashboard-table-container {
+  overflow-x: auto;
+}
+
+.dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+.dashboard-table th {
+  padding: 15px;
+  text-align: left;
+  color: #94a3b8;
+  border-bottom: 2px solid #334155;
+  font-weight: 600;
+}
+
+.dashboard-table td {
+  padding: 15px;
+  border-bottom: 1px solid #334155;
+}
+
+.dashboard-table tr:nth-child(even) {
+  background-color: #0f172a;
+}
+
+.dashboard-table tr:hover {
+  background-color: #334155;
+}
+
+.dashboard-table td.regional-name {
+  font-weight: bold;
+  color: #e2e8f0;
+}
+
+.dashboard-table td.faturamento-previsto {
+  text-align: right;
+  color: #94a3b8;
+}
+
+.dashboard-table td.faturamento-realizado {
+  text-align: right;
+  color: #22c55e;
+}
+
+.dashboard-table td.desempenho {
+  text-align: right;
+  font-weight: bold;
+}
+
+.dashboard-table td.propostas {
+  text-align: right;
+  color: #94a3b8;
+}
+
+.dashboard-table td.conversao {
+  text-align: right;
+  color: #a78bfa;
+}
+
+/* Additional Indicators */
+.dashboard-indicators-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.dashboard-indicator {
+  background-color: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+  border: 2px solid #334155;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.dashboard-indicator:hover {
+  transform: translateY(-2px);
+}
+
+.dashboard-indicator-title {
+  margin: 0 0 10px 0;
+  color: #94a3b8;
+  font-size: 16px;
+}
+
+.dashboard-indicator-value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.dashboard-indicator-value.positive {
+  color: #22c55e;
+}
+
+.dashboard-indicator-value.negative {
+  color: #ef4444;
+}
+
+.dashboard-indicator-value.neutral {
+  color: #60a5fa;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-evento-container {
+    padding: 20px 10px;
+  }
+  
+  .dashboard-title {
+    font-size: 32px;
+  }
+  
+  .dashboard-subtitle {
+    font-size: 18px;
+  }
+  
+  .dashboard-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .dashboard-card {
+    padding: 20px;
+  }
+  
+  .dashboard-card-value {
+    font-size: 28px;
+  }
+  
+  .dashboard-regional-title {
+    font-size: 24px;
+  }
+  
+  .dashboard-table {
+    font-size: 14px;
+  }
+  
+  .dashboard-table th,
+  .dashboard-table td {
+    padding: 10px;
+  }
+  
+  .dashboard-indicators-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-title {
+    font-size: 28px;
+  }
+  
+  .dashboard-card-value {
+    font-size: 24px;
+  }
+  
+  .dashboard-table {
+    font-size: 12px;
+  }
+  
+  .dashboard-table th,
+  .dashboard-table td {
+    padding: 8px;
+  }
+}
+
+/* Animation Classes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dashboard-card,
+.dashboard-indicator {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Print Styles */
+@media print {
+  .dashboard-evento-container {
+    background: white;
+    color: black;
+  }
+  
+  .dashboard-card,
+  .dashboard-regional-section,
+  .dashboard-indicator {
+    border: 1px solid #ccc;
+    background: white;
+  }
+}

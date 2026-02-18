@@ -1,0 +1,281 @@
+import React, { useState, useEffect } from 'react';
+import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
+import { Badge } from './ui/badge';
+import { 
+  Settings, 
+  Calculator, 
+  Save,
+  AlertCircle,
+  TrendingUp,
+  Package
+} from 'lucide-react';
+
+const PontuacaoConfig = () => {
+  const [config, setConfig] = useState({
+    pontos_proposta_validada: 0,
+    pontos_por_produto: 0
+  });
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+
+  const API_BASE = 'http://localhost:8000/api';
+
+  useEffect(() => {
+    fetchConfig();
+  }, []);
+
+  const fetchConfig = async () => {
+    try {
+      setLoading(true);
+      const token = sessionStorage.getItem('token');
+      
+      if (!token) {
+        setError('Token de autenticação não encontrado');
+        return;
+      }
+
+      const response = await fetch(`${API_BASE}/configuracao-pontuacao/`, {
+        headers: {
+          'Authorization': `Token ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao buscar configuração de pontuação');
+      }
+
+      const data = await response.json();
+      setConfig({
+        pontos_proposta_validada: data.pontos_proposta_validada || 0,
+        pontos_por_produto: data.pontos_por_produto || 0
+      });
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const saveConfig = async () => {
+    try {
+      setSaving(true);
+      const token = sessionStorage.getItem('token');
+      
+      if (!token) {
+        setError('Token de autenticação não encontrado');
+        return;
+      }
+
+      const response = await fetch(`${API_BASE}/configuracao-pontuacao/`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Token ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(config)
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao salvar configuração de pontuação');
+      }
+
+      setSuccess('Configuração salva com sucesso!');
+      setError(null);
+      
+      // Limpar mensagem de sucesso após 3 segundos
+      setTimeout(() => setSuccess(null), 3000);
+    } catch (err) {
+      setError(err.message);
+      setSuccess(null);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const calcularExemplo = (quantidadeProdutos) => {
+    const pontosProposta = config.pontos_proposta_validada || 0;
+    const pontosProdutos = quantidadeProdutos * (config.pontos_por_produto || 0);
+    return pontosProposta + pontosProdutos;
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
+        <span className="ml-2">Carregando configuração...</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center gap-2">
+        <Settings className="h-6 w-6 text-orange-600" />
+        <h2 className="text-2xl font-bold text-gray-900">Configuração de Pontuação</h2>
+        <Badge variant="outline" className="bg-orange-50 text-orange-700 border-orange-200">
+          Banca
+        </Badge>
+      </div>
+
+      {/* Alertas */}
+      {error && (
+        <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+          <AlertCircle className="h-4 w-4" />
+          <span>{error}</span>
+        </div>
+      )}
+
+      {success && (
+        <div className="flex items-center gap-2 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700">
+          <TrendingUp className="h-4 w-4" />
+          <span>{success}</span>
+        </div>
+      )}
+
+      {/* Card Principal */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5" />
+            Regras de Pontuação por Produto
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Pontos por Proposta Validada */}
+            <div className="space-y-2">
+              <Label htmlFor="pontos_proposta_validada" className="flex items-center gap-2">
+                <TrendingUp className="h-4 w-4 text-orange-600" />
+                Pontos por Proposta Validada
+              </Label>
+              <Input
+                id="pontos_proposta_validada"
+                type="number"
+                min="0"
+                value={config.pontos_proposta_validada}
+                onChange={(e) => setConfig({
+                  ...config,
+                  pontos_proposta_validada: parseInt(e.target.value) || 0
+                })}
+                className="text-lg font-semibold"
+                placeholder="0"
+              />
+              <p className="text-sm text-gray-600">
+                Pontos fixos que cada equipe recebe quando o gestor valida uma proposta
+              </p>
+            </div>
+
+            {/* Pontos por Produto */}
+            <div className="space-y-2">
+              <Label htmlFor="pontos_por_produto" className="flex items-center gap-2">
+                <Package className="h-4 w-4 text-orange-600" />
+                Pontos por Produto
+              </Label>
+              <Input
+                id="pontos_por_produto"
+                type="number"
+                min="0"
+                value={config.pontos_por_produto}
+                onChange={(e) => setConfig({
+                  ...config,
+                  pontos_por_produto: parseInt(e.target.value) || 0
+                })}
+                className="text-lg font-semibold"
+                placeholder="0"
+              />
+              <p className="text-sm text-gray-600">
+                Pontos que cada produto gera na pontuação total da proposta
+              </p>
+            </div>
+          </div>
+
+          {/* Exemplos de Cálculo */}
+          <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+            <h3 className="font-semibold text-orange-800 mb-3 flex items-center gap-2">
+              <Calculator className="h-4 w-4" />
+              Exemplos de Cálculo
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+              <div className="bg-white rounded p-3 border border-orange-100">
+                <div className="font-medium text-gray-700">1 produto</div>
+                <div className="text-orange-600 font-bold">
+                  {calcularExemplo(1)} pts
+                </div>
+                <div className="text-xs text-gray-500 mt-1">
+                  {config.pontos_proposta_validada} + (1 × {config.pontos_por_produto})
+                </div>
+              </div>
+              <div className="bg-white rounded p-3 border border-orange-100">
+                <div className="font-medium text-gray-700">3 produtos</div>
+                <div className="text-orange-600 font-bold">
+                  {calcularExemplo(3)} pts
+                </div>
+                <div className="text-xs text-gray-500 mt-1">
+                  {config.pontos_proposta_validada} + (3 × {config.pontos_por_produto})
+                </div>
+              </div>
+              <div className="bg-white rounded p-3 border border-orange-100">
+                <div className="font-medium text-gray-700">5 produtos</div>
+                <div className="text-orange-600 font-bold">
+                  {calcularExemplo(5)} pts
+                </div>
+                <div className="text-xs text-gray-500 mt-1">
+                  {config.pontos_proposta_validada} + (5 × {config.pontos_por_produto})
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Fórmula */}
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <h3 className="font-semibold text-blue-800 mb-2">Fórmula de Pontuação</h3>
+            <div className="text-blue-700 font-mono text-center py-2 px-4 bg-white rounded border border-blue-100">
+              Pontos Totais = ({config.pontos_proposta_validada} pts por proposta) + (Quantidade de produtos × {config.pontos_por_produto} pts)
+            </div>
+            <p className="text-xs text-blue-600 mt-2">
+              A pontuação é calculada automaticamente quando o gestor valida uma proposta
+            </p>
+          </div>
+
+          {/* Botões */}
+          <div className="flex justify-end gap-4 pt-4 border-t">
+            <Button
+              variant="outline"
+              onClick={fetchConfig}
+              disabled={loading}
+            >
+              Cancelar
+            </Button>
+            <Button
+              onClick={saveConfig}
+              disabled={saving}
+              className="bg-orange-600 hover:bg-orange-700 text-white"
+            >
+              {saving ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  Salvando...
+                </>
+              ) : (
+                <>
+                  <Save className="h-4 w-4 mr-2" />
+                  Salvar Configuração
+                </>
+              )}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+export default PontuacaoConfig;

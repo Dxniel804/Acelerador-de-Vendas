@@ -1,0 +1,393 @@
+.vendas-concretizadas {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+}
+
+.vendas-concretizadas h2 {
+  color: #2d5016;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.error {
+  background-color: #fee;
+  color: #c33;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #fcc;
+}
+
+.success {
+  background-color: #efe;
+  color: #3c3;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #cfc;
+}
+
+.section {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.section h3 {
+  color: #2d5016;
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.empty-message {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 40px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 2px dashed #e5e7eb;
+}
+
+.propostas-list,
+.vendas-list {
+  display: grid;
+  gap: 16px;
+}
+
+.proposta-card,
+.venda-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.proposta-card:hover,
+.venda-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.proposta-info,
+.venda-info {
+  flex: 1;
+}
+
+.proposta-info h4,
+.venda-info h4 {
+  color: #2d5016;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.proposta-info p,
+.venda-info p {
+  margin: 6px 0;
+  color: #4b5563;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.proposta-info strong,
+.venda-info strong {
+  color: #374151;
+  font-weight: 600;
+}
+
+.btn-vender {
+  background: linear-gradient(135deg, #ff6b35, #e55a2b);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(255, 107, 53, 0.3);
+}
+
+.btn-vender:hover {
+  background: linear-gradient(135deg, #e55a2b, #d54a1b);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(255, 107, 53, 0.4);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.modal h3 {
+  color: #2d5016;
+  font-size: 1.5rem;
+  margin-bottom: 24px;
+  font-weight: 700;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #374151;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #ff6b35;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.btn-confirm,
+.btn-cancel {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.btn-confirm {
+  background: linear-gradient(135deg, #2d5016, #243f12);
+  color: white;
+  box-shadow: 0 2px 4px rgba(45, 80, 22, 0.3);
+}
+
+.btn-confirm:hover {
+  background: linear-gradient(135deg, #243f12, #1a2f0a);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(45, 80, 22, 0.4);
+}
+
+.btn-cancel {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+}
+
+.btn-cancel:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+/* Status badges */
+.status-badge {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.aguardando {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  color: #92400e;
+  border: 1px solid #f59e0b;
+}
+
+.status-badge.validada {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  color: #065f46;
+  border: 1px solid #10b981;
+}
+
+/* Resumo Section */
+.resumo-section {
+  background: linear-gradient(135deg, #f9fafb, #f3f4f6);
+  border-radius: 16px;
+  padding: 32px;
+  margin-top: 32px;
+  border: 1px solid #e5e7eb;
+}
+
+.resumo-section h3 {
+  color: #2d5016;
+  font-size: 1.5rem;
+  margin-bottom: 24px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.resumo-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.resumo-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+}
+
+.resumo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.resumo-card h4 {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.resumo-card .numero {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ff6b35;
+  line-height: 1;
+}
+
+.resumo-card.total {
+  background: linear-gradient(135deg, #ff6b35, #e55a2b);
+  color: white;
+}
+
+.resumo-card.total h4 {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.resumo-card.total .numero {
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .vendas-concretizadas {
+    padding: 16px;
+  }
+  
+  .vendas-concretizadas h2 {
+    font-size: 1.5rem;
+  }
+  
+  .section {
+    padding: 16px;
+  }
+  
+  .proposta-card,
+  .venda-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .btn-vender {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .modal {
+    padding: 24px;
+    margin: 20px;
+  }
+  
+  .modal-buttons {
+    flex-direction: column;
+  }
+  
+  .btn-confirm,
+  .btn-cancel {
+    width: 100%;
+  }
+  
+  .resumo-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .vendas-concretizadas {
+    padding: 12px;
+  }
+  
+  .section {
+    padding: 12px;
+  }
+  
+  .modal {
+    padding: 20px;
+    margin: 16px;
+  }
+  
+  .resumo-section {
+    padding: 20px;
+  }
+}

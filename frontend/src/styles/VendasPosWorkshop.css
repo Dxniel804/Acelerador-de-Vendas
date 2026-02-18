@@ -1,0 +1,657 @@
+/* VendasPosWorkshop.css - Strict Palette: #FF5E3A, #FFFFFF, #1A3A41 */
+
+/* === VARIABLES (Strict) === */
+:root {
+  --color-teal: #1A3A41;
+  --color-orange: #FF5E3A;
+  --color-white: #FFFFFF;
+  --font-display: 'Jaro', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+.vendas-pos-workshop {
+  padding: 0 0 100px 0;
+  /* Aumentado o padding inferior para dar respiro no final da página */
+  max-width: 1440px;
+  margin: 0 auto;
+  font-family: var(--font-body);
+  color: var(--color-teal);
+}
+
+.vendas-pos-workshop-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  color: var(--color-orange);
+}
+
+/* === HEADER === */
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.header h2 {
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.header p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
+}
+
+/* === ALERTS === */
+.alert {
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--color-white);
+}
+
+.alert.error {
+  border-color: var(--color-orange);
+  color: var(--color-orange);
+}
+
+.alert.success {
+  border-color: var(--color-white);
+  color: var(--color-white);
+}
+
+/* === PREMIUM MANAGEMENT SECTION (Ranking Model) === */
+.management-section {
+  background: var(--color-white);
+  border: 2px solid rgba(255, 94, 58, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: visible;
+  /* To allow floating icon shadow */
+  margin-top: 1rem;
+}
+
+.management-section::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  height: 4px;
+  background: var(--color-orange);
+  border-radius: 16px 16px 0 0;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--color-teal);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.section-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--color-orange);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 12px rgba(255, 94, 58, 0.3);
+}
+
+/* === DATA TABLE === */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th {
+  background: rgba(255, 94, 58, 0.05);
+  padding: 1rem 1.5rem;
+  text-align: left;
+  font-weight: 700;
+  color: var(--color-teal);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05rem;
+  border-bottom: 2px solid rgba(255, 94, 58, 0.1);
+}
+
+.data-table td {
+  padding: 1.2rem 1.5rem;
+  border-bottom: 1px solid #f8f8f8;
+  color: #4B5563;
+  font-size: 0.95rem;
+}
+
+.data-table tbody tr:hover {
+  background-color: rgba(255, 94, 58, 0.02);
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+/* === FORM CARD (Registrar Venda) === */
+.form-card {
+  background: var(--color-white) !important;
+  border: 2px solid rgba(255, 94, 58, 0.1) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+  position: relative !important;
+  width: 100% !important;
+}
+
+.form-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  height: 4px;
+  background: var(--color-orange);
+  border-radius: 16px 16px 0 0;
+}
+
+.form-card :global(.card-title) {
+  font-family: var(--font-display) !important;
+  color: var(--color-teal) !important;
+  text-transform: uppercase !important;
+  font-size: 1.25rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  letter-spacing: 0.1em;
+}
+
+
+
+.novo-fechamento-btn {
+  background-color: var(--color-orange) !important;
+  color: white !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  padding: 1.25rem 3rem !important;
+  border-radius: 12px !important;
+  font-size: 1.1rem !important;
+  box-shadow: 0 8px 25px rgba(255, 94, 58, 0.35) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  width: auto !important;
+  min-width: 250px !important;
+  margin: 1.5rem 0;
+  /* Add margin instead of container */
+}
+
+.novo-fechamento-btn:hover {
+  transform: translateY(-4px) scale(1.02) !important;
+  box-shadow: 0 15px 35px rgba(255, 94, 58, 0.45) !important;
+  background-color: #e54d2a !important;
+}
+
+/* === FORMS (Light Theme) === */
+.venda-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  /* Aumentado para separar mais as seções */
+}
+
+/* Espaçamento entre os grupos de campos */
+.venda-form .space-y-4>div {
+  margin-top: 2rem !important;
+}
+
+.venda-form .space-y-4>div:first-child {
+  margin-top: 0 !important;
+}
+
+.venda-form label {
+  color: #000000 !important;
+  font-weight: 800 !important;
+  text-transform: none !important;
+  font-size: 1.1rem !important;
+  margin-bottom: 0.75rem !important;
+  display: block !important;
+  letter-spacing: normal !important;
+  text-align: left !important;
+  max-width: 600px !important;
+  margin: 1.5rem auto 0.75rem auto !important;
+}
+
+/* Remover margem superior do primeiro título/label do formulário e garantir alinhamento */
+.venda-form .space-y-4>div:first-child label,
+.venda-form .form-group-selection label {
+  margin-top: 0 !important;
+  text-align: left !important;
+}
+
+.venda-form input,
+.venda-form textarea {
+  background: #FFFFFF !important;
+  border: 2px solid #000000 !important;
+  border-radius: 25px !important;
+  padding: 1rem 1.25rem !important;
+  color: #000000 !important;
+  font-family: var(--font-body) !important;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  transition: all 0.2s ease;
+  display: block;
+}
+
+.venda-form input:focus,
+.venda-form textarea:focus {
+  border-color: var(--color-orange) !important;
+  box-shadow: 0 0 0 3px rgba(255, 94, 58, 0.1) !important;
+  outline: none;
+}
+
+.btn-enviar-validacao {
+  background-color: var(--color-teal) !important;
+  color: white !important;
+  font-weight: 800 !important;
+  border-radius: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1rem !important;
+  transition: all 0.3s ease !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(26, 58, 65, 0.2) !important;
+  padding: 0 !important;
+  height: 44px !important;
+  font-size: 0.85rem !important;
+}
+
+.btn-enviar-validacao:hover {
+  background-color: #122a2f !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(26, 58, 65, 0.3) !important;
+}
+
+.btn-cancelar {
+  border: 2px solid #d1d5db !important;
+  color: #6b7280 !important;
+  font-weight: 800 !important;
+  border-radius: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1rem !important;
+  transition: all 0.2s ease !important;
+  padding: 0 !important;
+  height: 44px !important;
+  font-size: 0.85rem !important;
+}
+
+.btn-cancelar:hover {
+  background-color: #f3f4f6 !important;
+  border-color: #9ca3af !important;
+  color: #374151 !important;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  /* Aumentado para separar mais do formulário */
+  margin-bottom: 4rem;
+  /* ADICIONADO: Espaço extra no final para não colar no rodapé */
+  justify-content: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+/* === SELECTION INPUT === */
+.form-group-selection {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  align-items: center !important;
+  /* Centralizar os itens do grupo (label e wrapper) */
+}
+
+.selection-input-wrapper {
+  display: flex;
+  position: relative;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.selection-input {
+  padding-right: 3.5rem !important;
+  cursor: pointer !important;
+  width: 100% !important;
+  margin: 0 !important;
+  border-radius: 25px !important;
+  background: #FFFFFF !important;
+  border: 2px solid #000000 !important;
+}
+
+.selection-button {
+  position: absolute;
+  right: 12px;
+  background: var(--color-orange);
+  color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.selection-button:hover {
+  background-color: #e54d2a;
+  transform: scale(1.1);
+}
+
+/* === BONUS SELECTION PANEL === */
+.bonus-selection-panel {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin: 1rem auto;
+  /* Centered */
+  max-width: 600px;
+  /* Match form inputs */
+}
+
+.bonus-selection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.bonus-selection-header .title {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--color-teal);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.bonus-selection-header i {
+  color: var(--color-orange);
+  font-size: 1.1rem;
+}
+
+.bonus-selection-header .total {
+  font-weight: 800;
+  color: var(--color-orange);
+  font-size: 1.1rem;
+}
+
+.bonus-options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.bonus-option-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 12px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bonus-option-item:hover {
+  border-color: var(--color-orange);
+  background-color: rgba(255, 94, 58, 0.02);
+  transform: translateX(4px);
+}
+
+.bonus-option-item.active {
+  background: rgba(255, 94, 58, 0.05);
+  border-color: var(--color-orange);
+  box-shadow: 0 4px 12px rgba(255, 94, 58, 0.08);
+}
+
+.bonus-option-item .checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d1d5db;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.bonus-option-item.active .checkbox {
+  background-color: var(--color-orange);
+  border-color: var(--color-orange);
+}
+
+.bonus-option-item .checkbox i {
+  color: white;
+  font-size: 0.8rem;
+}
+
+.bonus-option-item .label {
+  font-size: 0.85rem;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.bonus-option-item.active .label {
+  color: var(--color-teal);
+  font-weight: 600;
+}
+
+.bonus-option-item .points {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #9ca3af;
+}
+
+.bonus-option-item.active .points {
+  color: var(--color-orange);
+}
+
+/* === MODAL === */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.modal {
+  background-color: var(--color-white);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 600px;
+  color: var(--color-teal);
+  overflow: hidden;
+}
+
+.modal-header {
+  background-color: var(--color-teal);
+  padding: 1.5rem 2.5rem;
+  color: var(--color-white);
+  border-bottom: 4px solid var(--color-orange);
+}
+
+.modal-header-orange {
+  background-color: var(--color-orange) !important;
+  padding: 1.5rem 2.5rem;
+  color: var(--color-white);
+  border-bottom: 4px solid var(--color-teal) !important;
+}
+
+.modal-header h3 {
+  font-family: var(--font-display);
+  margin: 0;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+}
+
+.modal-content {
+  padding: 2.5rem;
+}
+
+.status-badge {
+  background-color: var(--color-orange);
+  color: var(--color-white);
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+/* === REJECTION NOTICE === */
+.rejection-notice {
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.rejection-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #c53030;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.rejection-notice .proposta-info {
+  margin: 0;
+  color: #2d3748;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.rejection-notice .motivo-texto {
+  margin: 0.5rem 0 0 0;
+  color: #718096;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+/* === SELECTION LIST MODAL === */
+.vendas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 450px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.vendas-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.vendas-list::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 10px;
+}
+
+.venda-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.venda-item:hover {
+  background: white;
+  border-color: var(--color-orange);
+  box-shadow: 0 4px 15px rgba(255, 94, 58, 0.1);
+  transform: scale(1.01);
+}
+
+.venda-item h4 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  color: var(--color-teal);
+  margin: 0;
+  font-size: 1rem;
+}
+
+.venda-item p {
+  margin: 0.25rem 0 0 0;
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.venda-item i.bi-chevron-right {
+  color: #d1d5db;
+  font-size: 1.25rem;
+  transition: color 0.2s;
+}
+
+.venda-item:hover i.bi-chevron-right {
+  color: var(--color-orange);
+}
+
+/* === WAVE DIVIDER === */
+.wave-divider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10vw;
+  max-height: 200px;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.8;
+}

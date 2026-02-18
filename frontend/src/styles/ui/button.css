@@ -1,0 +1,307 @@
+/* Button.css - UI Component Styles */
+
+/* Base Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--ring-color, #3b82f6);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Button Variants */
+.btn--default {
+  background-color: var(--primary, #3b82f6);
+  color: var(--primary-foreground, #ffffff);
+}
+
+.btn--default:hover {
+  background-color: var(--primary-hover, #2563eb);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn--destructive {
+  background-color: var(--destructive, #ef4444);
+  color: var(--destructive-foreground, #ffffff);
+}
+
+.btn--destructive:hover {
+  background-color: var(--destructive-hover, #dc2626);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.btn--outline {
+  border: 1px solid var(--border, #e2e8f0);
+  background-color: var(--background, #ffffff);
+  color: var(--foreground, #1f2937);
+}
+
+.btn--outline:hover {
+  background-color: var(--accent, #f3f4f6);
+  color: var(--accent-foreground, #1f2937);
+  border-color: var(--border-hover, #d1d5db);
+}
+
+.btn--secondary {
+  background-color: var(--secondary, #6b7280);
+  color: var(--secondary-foreground, #ffffff);
+}
+
+.btn--secondary:hover {
+  background-color: var(--secondary-hover, #4b5563);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+}
+
+.btn--ghost {
+  background-color: transparent;
+  color: var(--foreground, #1f2937);
+}
+
+.btn--ghost:hover {
+  background-color: var(--accent, #f3f4f6);
+  color: var(--accent-foreground, #1f2937);
+}
+
+.btn--link {
+  background-color: transparent;
+  color: var(--primary, #3b82f6);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.btn--link:hover {
+  text-decoration: underline;
+  color: var(--primary-hover, #2563eb);
+}
+
+/* Button Sizes */
+.btn--default {
+  height: 40px;
+  padding: 0 16px;
+}
+
+.btn--sm {
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.btn--lg {
+  height: 44px;
+  padding: 0 32px;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.btn--icon {
+  height: 40px;
+  width: 40px;
+  padding: 0;
+}
+
+/* Button States */
+.btn--loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.btn--loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: auto;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.btn--active {
+  transform: scale(0.95);
+}
+
+/* Ripple Effect */
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Icon Button */
+.btn--icon-only {
+  padding: 0;
+  min-width: auto;
+}
+
+.btn--icon-only .btn-icon {
+  margin: 0;
+}
+
+/* Button with Icon */
+.btn .btn-icon {
+  margin-right: 8px;
+}
+
+.btn .btn-icon--right {
+  margin-right: 0;
+  margin-left: 8px;
+}
+
+/* Button Groups */
+.btn-group {
+  display: inline-flex;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.btn-group .btn {
+  border-radius: 0;
+  border-right: 1px solid var(--border, #e2e8f0);
+}
+
+.btn-group .btn:first-child {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.btn-group .btn:last-child {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  border-right: none;
+}
+
+/* Full Width Button */
+.btn--full-width {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Dark Theme Support */
+@media (prefers-color-scheme: dark) {
+  .btn--outline {
+    border-color: var(--border-dark, #374151);
+    background-color: var(--background-dark, #1f2937);
+    color: var(--foreground-dark, #f9fafb);
+  }
+  
+  .btn--outline:hover {
+    background-color: var(--accent-dark, #374151);
+    color: var(--accent-foreground-dark, #f9fafb);
+  }
+  
+  .btn--ghost {
+    color: var(--foreground-dark, #f9fafb);
+  }
+  
+  .btn--ghost:hover {
+    background-color: var(--accent-dark, #374151);
+    color: var(--accent-foreground-dark, #f9fafb);
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .btn {
+    border: 2px solid currentColor;
+  }
+  
+  .btn:focus-visible {
+    outline-width: 3px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+  
+  .btn::before {
+    transition: none;
+  }
+  
+  .btn--loading::after {
+    animation: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .btn {
+    border: 1px solid #000;
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* Animations */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Custom Properties for Theming - Professional Orange/Green Theme */
+:root {
+  --ring-color: var(--orange-primary);
+  --primary: var(--orange-primary);
+  --primary-hover: var(--orange-primary-hover);
+  --primary-foreground: #ffffff;
+  --destructive: #dc2626;
+  --destructive-hover: #b91c1c;
+  --destructive-foreground: #ffffff;
+  --secondary: var(--green-primary);
+  --secondary-hover: var(--green-primary-hover);
+  --secondary-foreground: #ffffff;
+  --accent: var(--background-secondary);
+  --accent-foreground: var(--text-primary);
+  --background: #ffffff;
+  --foreground: var(--text-primary);
+  --border: var(--border);
+  --border-hover: var(--border);
+  
+  /* Dark theme */
+  --background-dark: #1f2937;
+  --foreground-dark: #f9fafb;
+  --border-dark: #374151;
+  --accent-dark: #374151;
+  --accent-foreground-dark: #f9fafb;
+}

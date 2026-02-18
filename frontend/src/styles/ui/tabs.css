@@ -1,0 +1,484 @@
+/* Tabs.css - UI Component Styles */
+
+/* Base Tabs Container */
+.tabs {
+  width: 100%;
+}
+
+/* Tabs List */
+.tabs-list {
+  display: flex;
+  border-bottom: 1px solid var(--border, #e2e8f0);
+  background-color: var(--tabs-bg, #ffffff);
+  border-radius: 6px 6px 0 0;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.tabs-list::-webkit-scrollbar {
+  height: 4px;
+}
+
+.tabs-list::-webkit-scrollbar-track {
+  background: var(--scrollbar-track, #f3f4f6);
+}
+
+.tabs-list::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb, #d1d5db);
+  border-radius: 2px;
+}
+
+/* Tabs Trigger */
+.tabs-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--tabs-trigger, #6b7280);
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  position: relative;
+  outline: none;
+}
+
+.tabs-trigger:hover {
+  color: var(--tabs-trigger-hover, #374151);
+  background-color: var(--tabs-trigger-hover-bg, #f9fafb);
+}
+
+.tabs-trigger:focus-visible {
+  outline: 2px solid var(--ring-color, #3b82f6);
+  outline-offset: -2px;
+}
+
+.tabs-trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.tabs-trigger[data-state="active"] {
+  color: var(--tabs-trigger-active, #3b82f6);
+  background-color: var(--tabs-trigger-active-bg, #ffffff);
+  border-bottom-color: var(--tabs-trigger-active-border, #3b82f6);
+}
+
+/* Tabs Trigger Sizes */
+.tabs-trigger--sm {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.tabs-trigger--lg {
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+/* Tabs Trigger Variants */
+.tabs-trigger--pills {
+  border-radius: 6px;
+  margin: 2px;
+  border-bottom: none;
+}
+
+.tabs-trigger--pills:hover {
+  background-color: var(--tabs-trigger-hover-bg, #f3f4f6);
+}
+
+.tabs-trigger--pills[data-state="active"] {
+  background-color: var(--tabs-trigger-active-bg, #3b82f6);
+  color: var(--tabs-trigger-active, #ffffff);
+  border-bottom: none;
+}
+
+.tabs-trigger--underlined {
+  border-bottom-width: 3px;
+  border-radius: 0;
+}
+
+.tabs-trigger--underlined[data-state="active"] {
+  border-bottom-color: var(--tabs-trigger-active-border, #3b82f6);
+}
+
+.tabs-trigger--boxed {
+  border: 1px solid var(--border, #e2e8f0);
+  border-bottom: none;
+  margin: 0 2px;
+  border-radius: 6px 6px 0 0;
+}
+
+.tabs-trigger--boxed:hover {
+  background-color: var(--tabs-trigger-hover-bg, #f9fafb);
+}
+
+.tabs-trigger--boxed[data-state="active"] {
+  background-color: var(--tabs-trigger-active-bg, #ffffff);
+  border-bottom-color: var(--tabs-bg, #ffffff);
+}
+
+/* Tabs Trigger with Icon */
+.tabs-trigger--with-icon {
+  gap: 8px;
+}
+
+.tabs-trigger-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.tabs-trigger--sm .tabs-trigger-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.tabs-trigger--lg .tabs-trigger-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Tabs Trigger with Badge */
+.tabs-trigger--with-badge {
+  position: relative;
+}
+
+.tabs-trigger-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  background-color: var(--badge-bg, #ef4444);
+  color: var(--badge-foreground, #ffffff);
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* Tabs Content */
+.tabs-content {
+  padding: 20px;
+  background-color: var(--tabs-content-bg, #ffffff);
+  border-radius: 0 0 6px 6px;
+  border: 1px solid var(--border, #e2e8f0);
+  border-top: none;
+}
+
+.tabs-content--padded {
+  padding: 24px;
+}
+
+.tabs-content--compact {
+  padding: 12px;
+}
+
+.tabs-content--spacious {
+  padding: 32px;
+}
+
+/* Tabs Content Animation */
+.tabs-content[data-state="active"] {
+  animation: tabsContentFadeIn 0.2s ease-out;
+}
+
+@keyframes tabsContentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tabs Orientations */
+.tabs--vertical {
+  display: flex;
+  gap: 16px;
+}
+
+.tabs--vertical .tabs-list {
+  flex-direction: column;
+  border-bottom: none;
+  border-right: 1px solid var(--border, #e2e8f0);
+  border-radius: 6px 0 0 6px;
+  width: 200px;
+  min-width: 150px;
+}
+
+.tabs--vertical .tabs-trigger {
+  border-bottom: 1px solid var(--border, #e2e8f0);
+  border-right: 2px solid transparent;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.tabs--vertical .tabs-trigger:hover {
+  background-color: var(--tabs-trigger-hover-bg, #f9fafb);
+}
+
+.tabs--vertical .tabs-trigger[data-state="active"] {
+  border-right-color: var(--tabs-trigger-active-border, #3b82f6);
+  border-bottom-color: var(--border, #e2e8f0);
+  background-color: var(--tabs-trigger-active-bg, #ffffff);
+}
+
+.tabs--vertical .tabs-content {
+  flex: 1;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 6px;
+}
+
+/* Tabs Sizes */
+.tabs--sm .tabs-trigger {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.tabs--lg .tabs-trigger {
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+/* Tabs Variants */
+.tabs--card .tabs-list {
+  background-color: var(--tabs-card-bg, #f9fafb);
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.tabs--card .tabs-trigger {
+  border-radius: 4px;
+  border: none;
+  margin: 0;
+}
+
+.tabs--card .tabs-trigger:hover {
+  background-color: var(--tabs-trigger-hover-bg, #e5e7eb);
+}
+
+.tabs--card .tabs-trigger[data-state="active"] {
+  background-color: var(--tabs-trigger-active-bg, #ffffff);
+  color: var(--tabs-trigger-active, #3b82f6);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.tabs--card .tabs-content {
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 6px;
+  border-top: none;
+}
+
+/* Tabs Line */
+.tabs--line .tabs-list {
+  border-bottom: 2px solid var(--border, #e2e8f0);
+}
+
+.tabs--line .tabs-trigger {
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+}
+
+.tabs--line .tabs-trigger[data-state="active"] {
+  border-bottom-color: var(--tabs-trigger-active-border, #3b82f6);
+}
+
+/* Tabs Scrolling */
+.tabs--scrollable .tabs-list {
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+
+.tabs--scrollable .tabs-list::-webkit-scrollbar {
+  display: none;
+}
+
+.tabs--scrollable .tabs-list {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Tabs Disabled */
+.tabs--disabled .tabs-trigger {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Dark Theme Support */
+@media (prefers-color-scheme: dark) {
+  .tabs-list {
+    background-color: var(--tabs-bg-dark, #1f2937);
+    border-color: var(--border-dark, #374151);
+  }
+  
+  .tabs-trigger {
+    color: var(--tabs-trigger-dark, #9ca3af);
+  }
+  
+  .tabs-trigger:hover {
+    color: var(--tabs-trigger-hover-dark, #d1d5db);
+    background-color: var(--tabs-trigger-hover-bg-dark, #374151);
+  }
+  
+  .tabs-trigger[data-state="active"] {
+    color: var(--tabs-trigger-active-dark, #60a5fa);
+    background-color: var(--tabs-trigger-active-bg-dark, #1f2937);
+    border-bottom-color: var(--tabs-trigger-active-border-dark, #3b82f6);
+  }
+  
+  .tabs-content {
+    background-color: var(--tabs-content-bg-dark, #1f2937);
+    border-color: var(--border-dark, #374151);
+  }
+  
+  .tabs--vertical .tabs-list {
+    border-color: var(--border-dark, #374151);
+  }
+  
+  .tabs--vertical .tabs-trigger {
+    border-color: var(--border-dark, #374151);
+  }
+  
+  .tabs--vertical .tabs-trigger[data-state="active"] {
+    border-right-color: var(--tabs-trigger-active-border-dark, #3b82f6);
+  }
+  
+  .tabs--card .tabs-list {
+    background-color: var(--tabs-card-bg-dark, #111827);
+    border-color: var(--border-dark, #374151);
+  }
+  
+  .tabs--card .tabs-trigger:hover {
+    background-color: var(--tabs-trigger-hover-bg-dark, #374151);
+  }
+  
+  .tabs--card .tabs-trigger[data-state="active"] {
+    background-color: var(--tabs-trigger-active-bg-dark, #1f2937);
+  }
+  
+  .tabs--card .tabs-content {
+    border-color: var(--border-dark, #374151);
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .tabs-trigger {
+    border-bottom-width: 3px;
+  }
+  
+  .tabs-trigger[data-state="active"] {
+    border-bottom-width: 3px;
+  }
+  
+  .tabs-content {
+    border-width: 2px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .tabs-trigger {
+    transition: none;
+  }
+  
+  .tabs-content[data-state="active"] {
+    animation: none;
+  }
+  
+  .tabs--scrollable .tabs-list {
+    scroll-behavior: auto;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .tabs-list {
+    display: none;
+  }
+  
+  .tabs-content {
+    border: 1px solid #000;
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* Custom Properties for Theming */
+:root {
+  --tabs-bg: #ffffff;
+  --tabs-content-bg: #ffffff;
+  --tabs-trigger: #6b7280;
+  --tabs-trigger-hover: #374151;
+  --tabs-trigger-hover-bg: #f9fafb;
+  --tabs-trigger-active: #3b82f6;
+  --tabs-trigger-active-bg: #ffffff;
+  --tabs-trigger-active-border: #3b82f6;
+  --border: #e2e8f0;
+  --ring-color: #3b82f6;
+  --badge-bg: #ef4444;
+  --badge-foreground: #ffffff;
+  --scrollbar-track: #f3f4f6;
+  --scrollbar-thumb: #d1d5db;
+  --tabs-card-bg: #f9fafb;
+  
+  /* Dark theme */
+  --tabs-bg-dark: #1f2937;
+  --tabs-content-bg-dark: #1f2937;
+  --tabs-trigger-dark: #9ca3af;
+  --tabs-trigger-hover-dark: #d1d5db;
+  --tabs-trigger-hover-bg-dark: #374151;
+  --tabs-trigger-active-dark: #60a5fa;
+  --tabs-trigger-active-bg-dark: #1f2937;
+  --tabs-trigger-active-border-dark: #3b82f6;
+  --border-dark: #374151;
+  --tabs-card-bg-dark: #111827;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tabs-trigger {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .tabs-content {
+    padding: 16px;
+  }
+  
+  .tabs--vertical {
+    flex-direction: column;
+  }
+  
+  .tabs--vertical .tabs-list {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border, #e2e8f0);
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  
+  .tabs--vertical .tabs-trigger {
+    border-right: none;
+    border-bottom: 2px solid transparent;
+  }
+  
+  .tabs--vertical .tabs-trigger[data-state="active"] {
+    border-right: none;
+    border-bottom-color: var(--tabs-trigger-active-border, #3b82f6);
+  }
+}

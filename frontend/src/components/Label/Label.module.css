@@ -1,0 +1,12 @@
+.label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--gray-700);
+  margin-bottom: var(--spacing-1);
+  display: block;
+}
+
+.required {
+  color: var(--error);
+  margin-left: var(--spacing-1);
+}
