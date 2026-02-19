@@ -402,56 +402,66 @@ const DashboardGestor = () => {
                       <div className="space-y-4">
                         {propostas.map((proposta) => (
                           <div key={proposta.id} className={styles.propostaItem}>
-                            <div className="flex items-center justify-between">
-                              <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-2">
-                                  <h3 className="font-semibold">{proposta.equipe_nome} – Proposta {proposta.numero_proposta_equipe || proposta.id}</h3>
-                                  <Badge className={getStatusColor(proposta.status)}>
+                            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                              <div className="flex-1 w-full">
+                                <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
+                                  <h3 className="font-bold text-lg text-[#1A3A41] uppercase tracking-wide">
+                                    {proposta.equipe_nome} – Proposta {proposta.numero_proposta_equipe || proposta.id}
+                                  </h3>
+                                  <Badge className={`${getStatusColor(proposta.status)} px-3 py-1.5 rounded-full font-bold uppercase text-[10px] tracking-wider flex items-center gap-2`}>
                                     {getStatusIcon(proposta.status)}
-                                    <span className="ml-1">{proposta.status_display}</span>
+                                    {proposta.status_display}
                                   </Badge>
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
-                                  <div>
-                                    <span className="font-medium">Equipe:</span> {proposta.equipe_nome}
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-8">
+                                  <div className="flex flex-col gap-1.5">
+                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Cliente / Empresa</Label>
+                                    <span className="font-bold text-[#1A3A41]">{proposta.cliente_nome}</span>
                                   </div>
-                                  <div>
-                                    <span className="font-medium">Cliente:</span> {proposta.cliente_nome}
+                                  <div className="flex flex-col gap-1.5">
+                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Valor da Proposta</Label>
+                                    <span className="font-extrabold text-[#10B981] text-lg">
+                                      R$ {proposta.valor_proposta?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                                    </span>
                                   </div>
-                                  <div>
-                                    <span className="font-medium">Valor:</span> R$ {proposta.valor_proposta?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                                  <div className="flex flex-col gap-1.5">
+                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Consultor Responsável</Label>
+                                    <span className="font-semibold text-slate-600">{proposta.vendedor_nome}</span>
                                   </div>
-                                  <div>
-                                    <span className="font-medium">Vendedor:</span> {proposta.vendedor_nome}
+                                  <div className="flex flex-col gap-1.5">
+                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Mix de Produtos</Label>
+                                    <span className="font-bold text-[#FF5E3A]">{proposta.quantidade_produtos} itens</span>
                                   </div>
-                                  <div>
-                                    <span className="font-medium">Produtos:</span> {proposta.quantidade_produtos}
+                                  <div className="flex flex-col gap-1.5">
+                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Data de Registro</Label>
+                                    <span className="font-semibold text-slate-500">{new Date(proposta.data_envio).toLocaleDateString('pt-BR')}</span>
                                   </div>
-                                  <div>
-                                    <span className="font-medium">Data:</span> {new Date(proposta.data_envio).toLocaleDateString('pt-BR')}
+                                  <div className="flex flex-col gap-1.5">
+                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Equipe Representante</Label>
+                                    <span className="font-bold text-blue-600">{proposta.equipe_nome}</span>
                                   </div>
                                 </div>
                                 {proposta.descricao && (
-                                  <div className="mt-2 text-sm">
-                                    <span className="font-medium">Descrição:</span> {proposta.descricao}
+                                  <div className="mt-6 p-4 bg-slate-50 border border-slate-100 rounded-xl">
+                                    <Label className="uppercase text-[9px] font-extrabold tracking-widest text-slate-400 mb-1 block">Descrição Adicional</Label>
+                                    <p className="text-sm text-slate-600 italic leading-relaxed line-clamp-2">{proposta.descricao}</p>
                                   </div>
                                 )}
                               </div>
-                              <div className="flex items-center gap-2 ml-4">
+                              <div className="flex flex-row md:flex-col items-center gap-3 w-full md:w-auto h-full pt-4 md:pt-0">
                                 {proposta.arquivo_pdf && (
                                   <Button
                                     variant="outline"
-                                    size="sm"
                                     onClick={() => downloadPDF(proposta.arquivo_pdf)}
+                                    className="w-full h-12 border-2 border-teal-100 text-teal-600 hover:bg-teal-500 hover:text-white transition-all font-bold uppercase text-xs tracking-widest rounded-xl"
                                   >
                                     <Download className="h-4 w-4 mr-2" />
                                     PDF
                                   </Button>
                                 )}
                                 <Button
-                                  variant="outline"
-                                  size="sm"
                                   onClick={() => verDetalhesProposta(proposta.id)}
+                                  className="w-full h-12 bg-[#FF5E3A] hover:bg-[#E54D2A] text-white transition-all font-bold uppercase text-xs tracking-widest rounded-xl shadow-lg shadow-orange-100"
                                 >
                                   <Eye className="h-4 w-4 mr-2" />
                                   Validar
@@ -493,60 +503,73 @@ const DashboardGestor = () => {
                       <div className="space-y-4">
                         {vendasPendentes.map((venda) => (
                           <div key={venda.id} className={styles.propostaItem}>
-                            <div className="flex items-center justify-between">
-                              <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-2">
-                                  <h3 className="font-semibold">Venda #{venda.id}</h3>
-                                  <Badge className="bg-yellow-100 text-yellow-800">
-                                    <Clock className="h-4 w-4 mr-1" />
+                            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                              <div className="flex-1 w-full">
+                                <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
+                                  <h3 className="font-bold text-lg text-[#1A3A41] uppercase tracking-wide">
+                                    Venda #{venda.id} — {venda.cliente_nome}
+                                  </h3>
+                                  <Badge className="bg-yellow-500/10 text-yellow-600 border border-yellow-500/20 px-3 py-1.5 rounded-full font-bold uppercase text-[10px] tracking-wider flex items-center gap-2">
+                                    <Clock className="h-3 w-3" />
                                     {venda.status_validacao_display}
                                   </Badge>
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
-                                  <div>
-                                    <span className="font-medium">Equipe:</span> {venda.equipe_nome}
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-8">
+                                  <div className="flex flex-col gap-1.5">
+                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Equipe Responsável</Label>
+                                    <span className="font-bold text-orange-600 leading-none">{venda.equipe_nome}</span>
                                   </div>
-                                  <div>
-                                    <span className="font-medium">Cliente:</span> {venda.cliente_nome}
+                                  <div className="flex flex-col gap-1.5">
+                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Cliente / Empresa</Label>
+                                    <span className="font-bold text-blue-600 leading-none">{venda.cliente_nome}</span>
                                   </div>
-                                  <div>
-                                    <span className="font-medium">Valor:</span> R$ {venda.valor_total_venda?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                                  <div className="flex flex-col gap-1.5">
+                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Valor Total da Venda</Label>
+                                    <span className="font-extrabold text-[#10B981] text-lg leading-none">
+                                      R$ {venda.valor_total_venda?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                                    </span>
                                   </div>
-                                  <div>
-                                    <span className="font-medium">Produtos Vendidos:</span> {venda.quantidade_produtos_vendidos}
+                                  <div className="flex flex-col gap-1.5">
+                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Produtos Vendidos</Label>
+                                    <span className="font-bold text-slate-700 leading-none">{venda.quantidade_produtos_vendidos} itens</span>
                                   </div>
-                                  <div>
-                                    <span className="font-medium">Data da Venda:</span> {new Date(venda.data_venda).toLocaleDateString('pt-BR')}
+                                  <div className="flex flex-col gap-1.5">
+                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Data da Venda</Label>
+                                    <span className="font-semibold text-slate-500 leading-none">{new Date(venda.data_venda).toLocaleDateString('pt-BR')}</span>
                                   </div>
-                                  <div>
-                                    <span className="font-medium">Observações:</span> {venda.observacoes || 'Nenhuma'}
+                                  <div className="flex flex-col gap-1.5">
+                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Observações</Label>
+                                    <span className="font-medium text-slate-400 text-xs italic leading-tight">
+                                      {venda.observacoes || 'Nenhuma observação informada.'}
+                                    </span>
                                   </div>
                                 </div>
                               </div>
-                              <div className="flex items-center gap-2 ml-4">
+                              <div className="flex flex-row md:flex-col items-center gap-3 w-full md:w-auto pt-4 md:pt-0">
                                 <Button
                                   onClick={() => validarVenda(venda.id, 'validar')}
                                   disabled={validando}
-                                  className="bg-green-600 hover:bg-green-700"
+                                  className="w-full h-12 bg-green-500 hover:bg-green-600 text-white font-bold uppercase text-xs tracking-widest rounded-xl shadow-lg shadow-green-100 transition-all flex items-center justify-center gap-2"
                                 >
                                   {validando ? (
-                                    <div className="h-4 w-4 mr-2 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
                                   ) : (
-                                    <CheckCircle className="h-4 w-4 mr-2" />
+                                    <CheckCircle className="h-4 w-4" />
                                   )}
-                                  Validar
+                                  <span>Validar</span>
                                 </Button>
                                 <Button
                                   onClick={() => validarVenda(venda.id, 'rejeitar')}
                                   disabled={validando}
                                   variant="destructive"
+                                  className="w-full h-12 bg-white hover:bg-red-50 text-red-500 border-2 border-red-100 font-bold uppercase text-xs tracking-widest rounded-xl transition-all flex items-center justify-center gap-2"
                                 >
                                   {validando ? (
-                                    <div className="h-4 w-4 mr-2 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-red-500 border-t-transparent" />
                                   ) : (
-                                    <XCircle className="h-4 w-4 mr-2" />
+                                    <XCircle className="h-4 w-4" />
                                   )}
-                                  Rejeitar
+                                  <span>Rejeitar</span>
                                 </Button>
                               </div>
                             </div>
@@ -575,8 +598,8 @@ const DashboardGestor = () => {
                         <div key={equipe.id} className={styles.equipeCard}>
                           <div className={styles.equipeHeader}>
                             <h3 className={styles.equipeName}>{equipe.nome}</h3>
-                            <Badge className={equipe.ativo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}>
-                              {equipe.ativo ? 'Ativa' : 'Inativa'}
+                            <Badge className={`${equipe.ativo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'} font-bold px-3 py-1 rounded-full text-[10px]`}>
+                              {equipe.ativo ? 'ATIVA' : 'INATIVA'}
                             </Badge>
                           </div>
 
@@ -584,7 +607,7 @@ const DashboardGestor = () => {
                             <div className={`${styles.equipeDataRow} ${styles.rowGray}`}>
                               <label>
                                 <Hash className="h-4 w-4" />
-                                <span>Código</span>
+                                <span>CÓDIGO DE IDENTIFICAÇÃO</span>
                               </label>
                               <span className={styles.equipeValue}>{equipe.codigo}</span>
                             </div>
@@ -592,7 +615,7 @@ const DashboardGestor = () => {
                             <div className={`${styles.equipeDataRow} ${styles.rowBlue}`}>
                               <label>
                                 <User className="h-4 w-4" />
-                                <span>Responsável</span>
+                                <span>LÍDER RESPONSÁVEL</span>
                               </label>
                               <span className={styles.equipeValue}>{equipe.responsavel}</span>
                             </div>
@@ -600,7 +623,7 @@ const DashboardGestor = () => {
                             <div className={`${styles.equipeDataRow} ${equipe.ativo ? styles.rowStatusAtiva : styles.rowStatusPausada}`}>
                               <label>
                                 <Info className="h-4 w-4" />
-                                <span>Status</span>
+                                <span>STATUS OPERACIONAL</span>
                               </label>
                               <span className={styles.equipeValue}>
                                 {equipe.ativo ? 'EM ATIVIDADE' : 'PAUSADA'}

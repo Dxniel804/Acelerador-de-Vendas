@@ -480,33 +480,40 @@ const DashboardEquipe = () => {
                       (dashboardData?.status_sistema === 'pos_workshop' ? minhasVendasPos.vendas_rejeitadas : propostas).map((p) => (
                         <div key={p.id} className={styles.listItem}>
                           <div className="flex-1">
-                            <h4 className="font-bold">{p.equipe_nome || equipe.nome} – Proposta {p.numero_proposta_equipe || p.id} – {p.cliente_nome}</h4>
-                            <div className="grid grid-cols-2 gap-2 text-sm opacity-80 mt-2">
-                              <span><i className="bi bi-person mr-1"></i> {p.vendedor_nome}</span>
-                              <span><i className="bi bi-cash mr-1"></i> R$ {p.valor_proposta?.toLocaleString()}</span>
+                            <div className="flex items-center gap-3 mb-3">
+                              <h4 className="font-bold text-white text-lg m-0">{p.equipe_nome || equipe.nome} – Proposta {p.numero_proposta_equipe || p.id} – {p.cliente_nome}</h4>
+                              <Badge className={`${getStatusColor(p.status)} font-bold px-3 py-1 rounded-full text-[10px] uppercase tracking-wider`}>
+                                {getStatusIcon(p.status)} <span className="ml-1">{p.status_display}</span>
+                              </Badge>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mt-4 p-4 bg-white/5 rounded-xl border border-white/10">
+                              <span className="flex items-center gap-2 text-white/80"><i className="bi bi-person text-orange-400"></i> <b className="text-white/40 uppercase text-[10px] tracking-widest mr-1">Consultor:</b> {p.vendedor_nome}</span>
+                              <span className="flex items-center gap-2 text-white/80"><i className="bi bi-cash text-green-400"></i> <b className="text-white/40 uppercase text-[10px] tracking-widest mr-1">Valor:</b> R$ {p.valor_proposta?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+                              <span className="flex items-center gap-2 text-white/80"><i className="bi bi-box-seam text-blue-400"></i> <b className="text-white/40 uppercase text-[10px] tracking-widest mr-1">Mix:</b> {p.quantidade_produtos} produtos</span>
+                              {p.arquivo_pdf && (
+                                <span className="flex items-center gap-2 text-teal-400 cursor-pointer hover:underline" onClick={() => downloadPDF(p.arquivo_pdf)}>
+                                  <i className="bi bi-file-earmark-pdf"></i> <b className="text-white/40 uppercase text-[10px] tracking-widest mr-1">Documento:</b> Visualizar PDF
+                                </span>
+                              )}
                             </div>
                             {p.status === 'rejeitada' && p.motivo_rejeicao && (
-                              <div className="mt-2 p-2 bg-red-900/30 border border-red-500/50 rounded text-xs">
-                                <b>Motivo:</b> {p.motivo_rejeicao}
+                              <div className="mt-4 p-4 bg-red-950/40 border border-red-500/30 rounded-xl text-sm">
+                                <div className="flex items-center gap-2 text-red-400 font-bold uppercase text-[10px] tracking-widest mb-1">
+                                  <i className="bi bi-exclamation-triangle"></i> Feedback do Gestor
+                                </div>
+                                <p className="text-red-100 m-0 italic">{p.motivo_rejeicao}</p>
                               </div>
                             )}
                           </div>
-                          <div className="flex flex-col gap-2">
-                            <Badge className={getStatusColor(p.status)}>{getStatusIcon(p.status)} {p.status_display}</Badge>
-                            {p.arquivo_pdf && (
-                              <Button variant="outline" size="sm" onClick={() => downloadPDF(p.arquivo_pdf)}>
-                                <i className="bi bi-file-earmark-pdf"></i> PDF
-                              </Button>
-                            )}
+                          <div className="flex flex-col gap-3 min-w-[140px]">
                             {p.status === 'rejeitada' && (
                               <Button size="sm" className={styles.corrigirButton} onClick={() => window.location.href = '/corrigir-propostas'}>
-                                <i className="bi bi-pencil"></i> Corrigir
+                                <i className="bi bi-pencil-square mr-2"></i> CORRIGIR
                               </Button>
                             )}
-                            {/* Correção de venda rejeitada no pós-workshop */}
                             {p.status === 'nao_vendida' && (
                               <Button size="sm" className={styles.corrigirButton} onClick={() => handleCorrigirVenda(p)}>
-                                <i className="bi bi-pencil-square mr-2"></i> Corrigir Venda
+                                <i className="bi bi-arrow-repeat mr-2"></i> CORRIGIR VENDA
                               </Button>
                             )}
                           </div>
@@ -524,44 +531,52 @@ const DashboardEquipe = () => {
                   <CardTitle><i className="bi bi-plus-circle mr-2"></i> Nova Proposta</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className={styles.formGroup}>
-                      <Label className={styles.formLabel}>Cliente *</Label>
-                      <Input className={styles.formInput} value={novaProposta.cliente} onChange={(e) => setNovaProposta({ ...novaProposta, cliente: e.target.value })} placeholder="Nome completo" />
+                      <Label className={styles.formLabel}>Cliente / Empresa *</Label>
+                      <Input className={styles.formInput} value={novaProposta.cliente} onChange={(e) => setNovaProposta({ ...novaProposta, cliente: e.target.value })} placeholder="Nome completo do cliente" />
                     </div>
                     <div className={styles.formGroup}>
-                      <Label className={styles.formLabel}>Vendedor *</Label>
+                      <Label className={styles.formLabel}>Vendedor Responśavel *</Label>
                       <Input className={styles.formInput} value={novaProposta.vendedor} onChange={(e) => setNovaProposta({ ...novaProposta, vendedor: e.target.value })} placeholder="Seu nome" />
                     </div>
                     <div className={styles.formGroup}>
-                      <Label className={styles.formLabel}>Valor *</Label>
+                      <Label className={styles.formLabel}>Valor da Proposta *</Label>
                       <Input type="number" className={styles.formInput} value={novaProposta.valor_proposta} onChange={(e) => setNovaProposta({ ...novaProposta, valor_proposta: e.target.value })} placeholder="0.00" />
                     </div>
                     <div className={styles.formGroup}>
-                      <Label className={styles.formLabel}>Produtos *</Label>
-                      <Input type="number" className={styles.formInput} value={novaProposta.quantidade_produtos} onChange={(e) => setNovaProposta({ ...novaProposta, quantidade_produtos: e.target.value })} placeholder="0" />
+                      <Label className={styles.formLabel}>Mix de Produtos *</Label>
+                      <Input type="number" className={styles.formInput} value={novaProposta.quantidade_produtos} onChange={(e) => setNovaProposta({ ...novaProposta, quantidade_produtos: e.target.value })} placeholder="Ex: 10" />
                     </div>
                   </div>
                   <div className={styles.formGroup}>
-                    <Label className={styles.formLabel}>Descrição</Label>
-                    <Textarea className={styles.formTextarea} value={novaProposta.descricao} onChange={(e) => setNovaProposta({ ...novaProposta, descricao: e.target.value })} rows={3} />
+                    <Label className={styles.formLabel}>Detalhamento da Proposta</Label>
+                    <Textarea className={styles.formTextarea} value={novaProposta.descricao} onChange={(e) => setNovaProposta({ ...novaProposta, descricao: e.target.value })} rows={4} placeholder="Descreva os produtos e condições..." />
                   </div>
                   <div className={styles.formGroup}>
-                    <Label className={styles.formLabel}>PDF da Proposta *</Label>
-                    <Input type="file" className={styles.formInput} accept=".pdf" onChange={(e) => setNovaProposta({ ...novaProposta, arquivo_pdf: e.target.files[0] })} />
+                    <Label className={styles.formLabel}>PDF da Proposta Comercial *</Label>
+                    <Input type="file" className={`${styles.formInput} py-2`} accept=".pdf" onChange={(e) => setNovaProposta({ ...novaProposta, arquivo_pdf: e.target.files[0] })} />
                   </div>
 
                   {/* SEÇÃO DE PONTOS BÔNUS */}
-                  <div className="mt-6 border-t border-white/20 pt-6">
-                    <div className="flex items-center gap-2 mb-4">
-                      <i className="bi bi-stars text-orange-500 text-xl"></i>
-                      <h3 className="text-white font-bold text-lg uppercase tracking-wider">Pontos Bônus (Workshop)</h3>
+                  <div className="mt-8 border-t border-white/10 pt-8 pb-8">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="bg-orange-500/20 p-2 rounded-lg">
+                        <i className="bi bi-stars text-orange-500 text-xl"></i>
+                      </div>
+                      <div>
+                        <h3 className="text-white font-bold text-lg uppercase tracking-wider m-0">Pontos Bônus (Workshop)</h3>
+                        <p className="text-white/40 text-[10px] uppercase font-bold tracking-widest mt-1">Selecione os bônus aplicáveis para turbinar sua pontuação</p>
+                      </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {/* PONTOS EXTRAS */}
-                      <div className="space-y-3">
-                        <p className="text-orange-500 font-bold text-sm uppercase">PONTOS EXTRAS (+5 pts cada)</p>
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="h-1 w-4 bg-orange-500 rounded-full"></div>
+                          <p className="text-orange-500 font-extrabold text-[11px] uppercase tracking-[0.2em] m-0">Mix por Linha (+5 pts cada)</p>
+                        </div>
 
                         <div
                           className={`${styles.bonusCard} ${novaProposta.bonus_vinhos_casa_perini_mundo ? styles.bonusCardActive : ''}`}
@@ -572,8 +587,9 @@ const DashboardEquipe = () => {
                           </div>
                           <div className={styles.bonusInfo}>
                             <span className={styles.bonusLabel}>Linha Vinhos Casa Perini Mundo</span>
-                            <span className={styles.bonusSublabel}>min 5 Caixas</span>
+                            <span className={styles.bonusSublabel}>Mix mínimo de 5 Caixas</span>
                           </div>
+                          <span className="ml-auto text-orange-500 font-bold text-xs">+5 PTS</span>
                         </div>
 
                         <div
@@ -585,8 +601,9 @@ const DashboardEquipe = () => {
                           </div>
                           <div className={styles.bonusInfo}>
                             <span className={styles.bonusLabel}>Linha Vinhos Fração Única</span>
-                            <span className={styles.bonusSublabel}>min de 5 Caixas</span>
+                            <span className={styles.bonusSublabel}>Mix mínimo de 5 Caixas</span>
                           </div>
+                          <span className="ml-auto text-orange-500 font-bold text-xs">+5 PTS</span>
                         </div>
 
                         <div
@@ -598,8 +615,9 @@ const DashboardEquipe = () => {
                           </div>
                           <div className={styles.bonusInfo}>
                             <span className={styles.bonusLabel}>Linha Espumantes Vintage</span>
-                            <span className={styles.bonusSublabel}>min de 5 Caixas</span>
+                            <span className={styles.bonusSublabel}>Mix mínimo de 5 Caixas</span>
                           </div>
+                          <span className="ml-auto text-orange-500 font-bold text-xs">+5 PTS</span>
                         </div>
 
                         <div
@@ -611,14 +629,18 @@ const DashboardEquipe = () => {
                           </div>
                           <div className={styles.bonusInfo}>
                             <span className={styles.bonusLabel}>Linha Espumantes Premium</span>
-                            <span className={styles.bonusSublabel}>min de 2 Caixas</span>
+                            <span className={styles.bonusSublabel}>Mix mínimo de 2 Caixas</span>
                           </div>
+                          <span className="ml-auto text-orange-500 font-bold text-xs">+5 PTS</span>
                         </div>
                       </div>
 
                       {/* BÔNUS DE ACELERAÇÃO */}
-                      <div className="space-y-3">
-                        <p className="text-orange-500 font-bold text-sm uppercase">BÔNUS DE ACELERAÇÃO (+25 pts)</p>
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="h-1 w-4 bg-red-500 rounded-full"></div>
+                          <p className="text-red-500 font-extrabold text-[11px] uppercase tracking-[0.2em] m-0">Impulsionador (+25 pts)</p>
+                        </div>
 
                         <div
                           className={`${styles.bonusCard} ${styles.bonusCardAcceleration} ${novaProposta.bonus_aceleracao ? styles.bonusCardAccelerationActive : ''}`}
@@ -628,21 +650,35 @@ const DashboardEquipe = () => {
                             {novaProposta.bonus_aceleracao && <i className="bi bi-check-lg"></i>}
                           </div>
                           <div className={styles.bonusInfo}>
-                            <span className={styles.bonusLabel}>Venda fechada durante o game</span>
-                            <span className={styles.bonusSublabel}>Aceleração Máxima</span>
+                            <span className={styles.bonusLabel}>BÔNUS DE ACELERAÇÃO MÁXIMA</span>
+                            <span className={styles.bonusSublabel}>Venda concretizada durante o evento</span>
                           </div>
+                          <span className="ml-auto text-red-500 font-bold text-xs">+25 PTS</span>
                         </div>
 
-                        <div className="p-4 bg-white/5 rounded-lg border border-white/10 mt-4">
-                          <p className="text-xs opacity-60 italic">
-                            * Selecione os itens acima caso se apliquem à sua proposta. A pontuação bônus será validada pelo gestor.
-                          </p>
+                        <div className="p-6 bg-orange-500/5 rounded-2xl border border-orange-500/10 mt-6 group hover:bg-orange-500/10 transition-all">
+                          <div className="flex items-start gap-4">
+                            <i className="bi bi-info-circle-fill text-orange-500 text-lg mt-1"></i>
+                            <p className="text-xs text-white/50 leading-relaxed m-0">
+                              Os bônus selecionados estarão sujeitos à <b className="text-white/80">validação técnica do gestor</b>. Certifique-se de que os critérios mínimos de caixas por linha foram atingidos conforme o regulamento do workshop.
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <Button className={styles.primaryButton} onClick={cadastrarProposta} disabled={salvando}>
-                    {salvando ? 'Salvando...' : 'Cadastrar Proposta'}
+                  <Button className={`${styles.primaryButton} h-14 !rounded-2xl shadow-2xl mb-4`} onClick={cadastrarProposta} disabled={salvando}>
+                    {salvando ? (
+                      <div className="flex items-center gap-3">
+                        <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        <span>ENVIANDO...</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <i className="bi bi-send-fill text-lg"></i>
+                        <span>CADASTRAR E ENVIAR PROPOSTA</span>
+                      </div>
+                    )}
                   </Button>
                 </CardContent>
               </Card>
@@ -660,11 +696,16 @@ const DashboardEquipe = () => {
                     ) : (
                       propostas.filter(p => p.status === 'validada').map(p => (
                         <div key={p.id} className={styles.listItem}>
-                          <div>
-                            <h4 className="font-bold">{p.equipe_nome} – Proposta {p.numero_proposta_equipe || p.id} – {p.cliente_nome}</h4>
-                            <p className="text-sm opacity-70">R$ {p.valor_proposta?.toLocaleString()} - {p.quantidade_produtos} produtos</p>
+                          <div className="flex-1">
+                            <h4 className="font-bold text-white text-lg mb-2">{p.equipe_nome} – Proposta {p.numero_proposta_equipe || p.id} – {p.cliente_nome}</h4>
+                            <div className="flex gap-4 text-xs font-bold uppercase tracking-widest text-white/50">
+                              <span className="flex items-center gap-1"><i className="bi bi-cash text-green-400"></i> R$ {p.valor_proposta?.toLocaleString()}</span>
+                              <span className="flex items-center gap-1"><i className="bi bi-box-seam text-blue-400"></i> {p.quantidade_produtos} produtos</span>
+                            </div>
                           </div>
-                          <Button className={styles.corrigirButton} onClick={() => handleRegistrarVenda(p)}>Vender</Button>
+                          <Button className={`${styles.corrigirButton} !bg-green-500 hover:!bg-green-600 shadow-green-500/20`} onClick={() => handleRegistrarVenda(p)}>
+                            <i className="bi bi-cart-check-fill mr-2"></i> REGISTRAR VENDA
+                          </Button>
                         </div>
                       ))
                     )}
