@@ -400,76 +400,76 @@ const DashboardGestor = () => {
                       </div>
                     ) : (
                       <div className="space-y-4">
-                        {propostas.map((proposta) => (
-                          <div key={proposta.id} className={styles.propostaItem}>
-                            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                              <div className="flex-1 w-full">
-                                <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
-                                  <h3 className="font-bold text-lg text-[#1A3A41] uppercase tracking-wide">
-                                    {proposta.equipe_nome} – Proposta {proposta.numero_proposta_equipe || proposta.id}
+                        <div className="space-y-6">
+                          {propostas.map((proposta) => (
+                            <div key={proposta.id} className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all relative">
+                              <div className="absolute left-0 top-0 bottom-0 w-2 bg-[#FF5E3A]"></div>
+
+                              <div className="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/30">
+                                <div>
+                                  <h3 className="font-bold text-[#1A3A41] text-2xl uppercase tracking-tighter" style={{ fontFamily: "'Jaro', sans-serif" }}>
+                                    {proposta.equipe_nome} – PROPOSTA {proposta.numero_proposta_equipe || proposta.id}
                                   </h3>
-                                  <Badge className={`${getStatusColor(proposta.status)} px-3 py-1.5 rounded-full font-bold uppercase text-[10px] tracking-wider flex items-center gap-2`}>
-                                    {getStatusIcon(proposta.status)}
-                                    {proposta.status_display}
-                                  </Badge>
+                                  <p className="text-slate-400 font-bold text-[10px] uppercase tracking-[0.2em] mt-1">Registrado em {new Date(proposta.data_envio).toLocaleDateString('pt-BR')} às {new Date(proposta.data_envio).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</p>
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-8">
-                                  <div className="flex flex-col gap-1.5">
-                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Cliente / Empresa</Label>
-                                    <span className="font-bold text-[#1A3A41]">{proposta.cliente_nome}</span>
+                                <Badge className="bg-orange-50 text-orange-600 border border-orange-100 font-black px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.15em]">
+                                  AGUARDANDO VALIDAÇÃO
+                                </Badge>
+                              </div>
+
+                              <div className="p-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-8">
+                                  <div className="flex flex-col gap-2">
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Cliente / Empresa</label>
+                                    <span className="text-[#1A3A41] font-bold text-lg leading-tight">{proposta.cliente_nome}</span>
                                   </div>
-                                  <div className="flex flex-col gap-1.5">
-                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Valor da Proposta</Label>
-                                    <span className="font-extrabold text-[#10B981] text-lg">
-                                      R$ {proposta.valor_proposta?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                                  <div className="flex flex-col gap-2">
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Valor Estimado</label>
+                                    <span className="text-[#10B981] font-black text-2xl">
+                                      <span className="text-sm font-bold mr-1">R$</span>
+                                      {proposta.valor_proposta?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                                     </span>
                                   </div>
-                                  <div className="flex flex-col gap-1.5">
-                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Consultor Responsável</Label>
-                                    <span className="font-semibold text-slate-600">{proposta.vendedor_nome}</span>
+                                  <div className="flex flex-col gap-2">
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Mix de Produtos</label>
+                                    <span className="text-[#3B82F6] font-black text-2xl">
+                                      {proposta.quantidade_produtos} <span className="text-xs uppercase tracking-widest font-bold text-slate-400">Linhas</span>
+                                    </span>
                                   </div>
-                                  <div className="flex flex-col gap-1.5">
-                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Mix de Produtos</Label>
-                                    <span className="font-bold text-[#FF5E3A]">{proposta.quantidade_produtos} itens</span>
-                                  </div>
-                                  <div className="flex flex-col gap-1.5">
-                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Data de Registro</Label>
-                                    <span className="font-semibold text-slate-500">{new Date(proposta.data_envio).toLocaleDateString('pt-BR')}</span>
-                                  </div>
-                                  <div className="flex flex-col gap-1.5">
-                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Equipe Representante</Label>
-                                    <span className="font-bold text-blue-600">{proposta.equipe_nome}</span>
+                                  <div className="flex flex-col gap-2 text-right lg:text-left">
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Consultor</label>
+                                    <span className="text-slate-600 font-bold text-lg">{proposta.vendedor_nome}</span>
                                   </div>
                                 </div>
+
                                 {proposta.descricao && (
-                                  <div className="mt-6 p-4 bg-slate-50 border border-slate-100 rounded-xl">
-                                    <Label className="uppercase text-[9px] font-extrabold tracking-widest text-slate-400 mb-1 block">Descrição Adicional</Label>
-                                    <p className="text-sm text-slate-600 italic leading-relaxed line-clamp-2">{proposta.descricao}</p>
+                                  <div className="mt-8 p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                                    <label className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2 block">Resumo e Detalhamento</label>
+                                    <p className="text-slate-500 font-medium italic text-sm leading-relaxed">{proposta.descricao}</p>
                                   </div>
                                 )}
-                              </div>
-                              <div className="flex flex-row md:flex-col items-center gap-3 w-full md:w-auto h-full pt-4 md:pt-0">
-                                {proposta.arquivo_pdf && (
+
+                                <div className="flex flex-col sm:flex-row gap-4 justify-end mt-10 pt-8 border-t border-slate-100">
                                   <Button
                                     variant="outline"
                                     onClick={() => downloadPDF(proposta.arquivo_pdf)}
-                                    className="w-full h-12 border-2 border-teal-100 text-teal-600 hover:bg-teal-500 hover:text-white transition-all font-bold uppercase text-xs tracking-widest rounded-xl"
+                                    className="h-14 px-8 border-2 border-slate-200 text-slate-500 hover:bg-slate-50 hover:border-slate-300 font-black uppercase text-[11px] tracking-[0.2em] rounded-2xl transition-all"
                                   >
-                                    <Download className="h-4 w-4 mr-2" />
-                                    PDF
+                                    <Download className="h-5 w-5 mr-3" />
+                                    PDF Comercial
                                   </Button>
-                                )}
-                                <Button
-                                  onClick={() => verDetalhesProposta(proposta.id)}
-                                  className="w-full h-12 bg-[#FF5E3A] hover:bg-[#E54D2A] text-white transition-all font-bold uppercase text-xs tracking-widest rounded-xl shadow-lg shadow-orange-100"
-                                >
-                                  <Eye className="h-4 w-4 mr-2" />
-                                  Validar
-                                </Button>
+                                  <Button
+                                    onClick={() => verDetalhesProposta(proposta.id)}
+                                    className="h-14 px-10 bg-[#FF5E3A] hover:bg-[#E54D2A] text-white font-black uppercase text-[11px] tracking-[0.2em] rounded-2xl shadow-xl shadow-orange-500/20 transition-all flex items-center gap-3 transform hover:-translate-y-1"
+                                  >
+                                    <Eye className="h-5 w-5" />
+                                    <span>Analisar e Validar</span>
+                                  </Button>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     )}
                   </CardContent>
@@ -500,76 +500,72 @@ const DashboardGestor = () => {
                         <p className={styles.emptyStateText}>As equipes ainda não registraram vendas</p>
                       </div>
                     ) : (
-                      <div className="space-y-4">
+                      <div className="space-y-6">
                         {vendasPendentes.map((venda) => (
-                          <div key={venda.id} className={styles.propostaItem}>
-                            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                              <div className="flex-1 w-full">
-                                <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
-                                  <h3 className="font-bold text-lg text-[#1A3A41] uppercase tracking-wide">
-                                    Venda #{venda.id} — {venda.cliente_nome}
-                                  </h3>
-                                  <Badge className="bg-yellow-500/10 text-yellow-600 border border-yellow-500/20 px-3 py-1.5 rounded-full font-bold uppercase text-[10px] tracking-wider flex items-center gap-2">
-                                    <Clock className="h-3 w-3" />
-                                    {venda.status_validacao_display}
-                                  </Badge>
+                          <div key={venda.id} className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all relative">
+                            <div className="absolute left-0 top-0 bottom-0 w-2 bg-[#10B981]"></div>
+
+                            <div className="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/30">
+                              <div>
+                                <h3 className="font-bold text-[#1A3A41] text-2xl uppercase tracking-tighter" style={{ fontFamily: "'Jaro', sans-serif" }}>
+                                  VENDA #{venda.id} — {venda.cliente_nome}
+                                </h3>
+                                <p className="text-slate-400 font-bold text-[10px] uppercase tracking-[0.2em] mt-1">Registrada em {new Date(venda.data_venda).toLocaleDateString('pt-BR')}</p>
+                              </div>
+                              <Badge className="bg-emerald-50 text-emerald-600 border border-emerald-100 font-black px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.15em]">
+                                {venda.status_validacao_display}
+                              </Badge>
+                            </div>
+
+                            <div className="p-8">
+                              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-8">
+                                <div className="flex flex-col gap-2">
+                                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Equipe Responsável</label>
+                                  <span className="text-orange-500 font-bold text-lg leading-tight">{venda.equipe_nome}</span>
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-8">
-                                  <div className="flex flex-col gap-1.5">
-                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Equipe Responsável</Label>
-                                    <span className="font-bold text-orange-600 leading-none">{venda.equipe_nome}</span>
-                                  </div>
-                                  <div className="flex flex-col gap-1.5">
-                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Cliente / Empresa</Label>
-                                    <span className="font-bold text-blue-600 leading-none">{venda.cliente_nome}</span>
-                                  </div>
-                                  <div className="flex flex-col gap-1.5">
-                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Valor Total da Venda</Label>
-                                    <span className="font-extrabold text-[#10B981] text-lg leading-none">
-                                      R$ {venda.valor_total_venda?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                                    </span>
-                                  </div>
-                                  <div className="flex flex-col gap-1.5">
-                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Produtos Vendidos</Label>
-                                    <span className="font-bold text-slate-700 leading-none">{venda.quantidade_produtos_vendidos} itens</span>
-                                  </div>
-                                  <div className="flex flex-col gap-1.5">
-                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Data da Venda</Label>
-                                    <span className="font-semibold text-slate-500 leading-none">{new Date(venda.data_venda).toLocaleDateString('pt-BR')}</span>
-                                  </div>
-                                  <div className="flex flex-col gap-1.5">
-                                    <Label className="uppercase text-[10px] font-extrabold tracking-widest text-slate-400">Observações</Label>
-                                    <span className="font-medium text-slate-400 text-xs italic leading-tight">
-                                      {venda.observacoes || 'Nenhuma observação informada.'}
-                                    </span>
-                                  </div>
+                                <div className="flex flex-col gap-2">
+                                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Faturamento Realizado</label>
+                                  <span className="text-[#10B981] font-black text-2xl">
+                                    <span className="text-sm font-bold mr-1">R$</span>
+                                    {venda.valor_total_venda?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                                  </span>
+                                </div>
+                                <div className="flex flex-col gap-2">
+                                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Volume de Itens</label>
+                                  <span className="text-[#3B82F6] font-black text-2xl">
+                                    {venda.quantidade_produtos_vendidos} <span className="text-xs uppercase tracking-widest font-bold text-slate-400">Itens</span>
+                                  </span>
+                                </div>
+                                <div className="flex flex-col gap-2 text-right lg:text-left">
+                                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Consultor</label>
+                                  <span className="text-slate-600 font-bold text-lg">{venda.vendedor_nome}</span>
                                 </div>
                               </div>
-                              <div className="flex flex-row md:flex-col items-center gap-3 w-full md:w-auto pt-4 md:pt-0">
-                                <Button
-                                  onClick={() => validarVenda(venda.id, 'validar')}
-                                  disabled={validando}
-                                  className="w-full h-12 bg-green-500 hover:bg-green-600 text-white font-bold uppercase text-xs tracking-widest rounded-xl shadow-lg shadow-green-100 transition-all flex items-center justify-center gap-2"
-                                >
-                                  {validando ? (
-                                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                                  ) : (
-                                    <CheckCircle className="h-4 w-4" />
-                                  )}
-                                  <span>Validar</span>
-                                </Button>
+
+                              {venda.observacoes && (
+                                <div className="mt-8 p-6 bg-slate-50 rounded-2xl border border-slate-100">
+                                  <label className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2 block">Observações do Vendedor</label>
+                                  <p className="text-slate-500 font-medium italic text-sm leading-relaxed">{venda.observacoes}</p>
+                                </div>
+                              )}
+
+                              <div className="flex flex-col sm:flex-row gap-4 justify-end mt-10 pt-8 border-t border-slate-100">
                                 <Button
                                   onClick={() => validarVenda(venda.id, 'rejeitar')}
                                   disabled={validando}
-                                  variant="destructive"
-                                  className="w-full h-12 bg-white hover:bg-red-50 text-red-500 border-2 border-red-100 font-bold uppercase text-xs tracking-widest rounded-xl transition-all flex items-center justify-center gap-2"
+                                  variant="outline"
+                                  className="h-14 px-8 border-2 border-red-100 text-red-500 hover:bg-red-50 hover:border-red-200 font-black uppercase text-[11px] tracking-[0.2em] rounded-2xl transition-all flex items-center gap-3"
                                 >
-                                  {validando ? (
-                                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-red-500 border-t-transparent" />
-                                  ) : (
-                                    <XCircle className="h-4 w-4" />
-                                  )}
-                                  <span>Rejeitar</span>
+                                  {validando ? <RefreshCw className="h-4 w-4 animate-spin" /> : <XCircle className="h-5 w-5" />}
+                                  <span>Rejeitar Venda</span>
+                                </Button>
+                                <Button
+                                  onClick={() => validarVenda(venda.id, 'validar')}
+                                  disabled={validando}
+                                  className="h-14 px-10 bg-[#10B981] hover:bg-[#059669] text-white font-black uppercase text-[11px] tracking-[0.2em] rounded-2xl shadow-xl shadow-emerald-500/20 transition-all flex items-center gap-3 transform hover:-translate-y-1"
+                                >
+                                  {validando ? <RefreshCw className="h-4 w-4 animate-spin" /> : <CheckCircle className="h-5 w-5" />}
+                                  <span>Validar Venda</span>
                                 </Button>
                               </div>
                             </div>
