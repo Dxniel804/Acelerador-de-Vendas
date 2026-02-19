@@ -54,7 +54,7 @@ const TeamManagement = ({ token, initialShowForm = false }) => {
         if (!window.confirm('Tem certeza que deseja remover esta equipe?')) return;
 
         try {
-            const response = await fetch(`http://localhost:8000/api/admin/equipes/?equipe_id=${teamId}`, {
+            const response = await fetch(`${API_URL}/admin/equipes/?equipe_id=${teamId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Token ${token}`,

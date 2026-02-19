@@ -1,4 +1,4 @@
-import { API_URL } from '../api_config';
+import { API_URL, API_BASE_URL } from '../api_config';
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Button } from './ui/button';
@@ -169,7 +169,7 @@ const ValidarVendas = () => {
 
     const abrirPDF = (url) => {
         if (!url) return;
-        const pdfUrl = url.startsWith('http') ? url : `http://localhost:8000${url}`;
+        const pdfUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
         window.open(pdfUrl, '_blank');
     };
 
