@@ -1,31 +1,15 @@
 const getApiBaseUrl = () => {
-    // 1. Prioridade para a variável de ambiente
-    if (process.env.REACT_APP_API_URL) {
-        return process.env.REACT_APP_API_URL;
-    }
-
-    // 2. Comportamento inteligente baseado no onde o site está rodando
+    // Se estivermos rodando no navegador
     if (typeof window !== 'undefined') {
         const hostname = window.location.hostname;
 
-        // Se estamos acessando pelo domínio real
-        if (hostname === 'aceleradorvendas.online' || hostname === 'www.aceleradorvendas.online') {
-            // Se o seu backend e frontend rodam no MESMO domínio, as chamadas podem ser relativas
-            // Mas para garantir, vamos usar o domínio completo.
+        // Se NÃO for localhost, assume que é o domínio de produção
+        if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
             return 'https://aceleradorvendas.online';
         }
-
-        // Se ainda estivermos no localhost
-        if (hostname === 'localhost') {
-            return 'http://localhost:8000';
-        }
     }
 
-    // 3. Fallback para produção (se nada acima bater)
-    if (process.env.NODE_ENV === 'production') {
-        return 'https://aceleradorvendas.online';
-    }
-
+    // Fallback para desenvolvimento local
     return 'http://localhost:8000';
 };
 
