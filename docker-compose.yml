@@ -17,12 +17,13 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    restart: unless-stopped
+    restart: always
     env_file:
       - ./.env
     environment:
-      POSTGRES_HOST: db
-      POSTGRES_PORT: "5432"
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - PORT=8000
     ports:
       - "8000:8000"
     depends_on:
@@ -32,15 +33,13 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    restart: unless-stopped
+      args:
+        - REACT_APP_API_URL=${REACT_APP_API_URL:-http://localhost:8000}
+    restart: always
     env_file:
       - ./.env
     environment:
-      CHOKIDAR_USEPOLLING: "true"
-      WATCHPACK_POLLING: "true"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - PORT=3000
     ports:
       - "3000:3000"
     depends_on:
