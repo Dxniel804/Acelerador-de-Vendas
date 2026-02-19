@@ -14,6 +14,7 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   backend:
+    image: acelerador-vendas-backend
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -30,6 +31,7 @@ services:
       - db
 
   frontend:
+    image: acelerador-vendas-frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile

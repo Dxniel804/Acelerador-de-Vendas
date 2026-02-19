@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL, API_BASE_URL } from '../api_config';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -38,7 +39,7 @@ const DashboardGestor = () => {
   const [motivoRejeicao, setMotivoRejeicao] = useState('');
   const [activeTab, setActiveTab] = useState('propostas');
 
-  const API_BASE = 'http://localhost:8000/api';
+  const API_BASE = API_URL;
 
   useEffect(() => {
     fetchData();
@@ -232,7 +233,7 @@ const DashboardGestor = () => {
   const downloadPDF = (url) => {
     if (url) {
       // Construir URL completa para o arquivo PDF
-      const pdfUrl = `http://localhost:8000${url}`;
+      const pdfUrl = `${API_BASE_URL}${url}`;
       console.log('DEBUG: Abrindo PDF:', pdfUrl);
       window.open(pdfUrl, '_blank');
     }
