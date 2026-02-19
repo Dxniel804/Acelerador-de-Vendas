@@ -1,5 +1,5 @@
 import React from 'react';
-import marketingImage from '../IMG/marketing-sales-team.png';
+import marketingImage from '../img/marketing-sales-team.png';
 
 const ImageExample = () => {
   return (
@@ -17,7 +17,7 @@ const ImageExample = () => {
       
       <div className="image-card">
         <img 
-          src="/IMG/marketing-sales-team.png" 
+          src="/img/marketing-sales-team.png" 
           alt="Equipe de Marketing e Vendas (via public)" 
           className="marketing-image"
         />
@@ -28,3 +28,5 @@ const ImageExample = () => {
 };
 
 export default ImageExample;
+
+

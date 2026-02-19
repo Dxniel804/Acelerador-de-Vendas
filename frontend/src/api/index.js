@@ -46,3 +46,5 @@ export const deletePrevisao = (id) => api.delete(`/previsoes/${id}/`);
 export const deleteResultado = (id) => api.delete(`/resultados/${id}/`);
 
 export default api;
+
+

@@ -319,7 +319,7 @@ const DashboardGestor = () => {
       <header className={styles.header}>
         <div className={styles.headerContent}>
           <div className={styles.headerLeft}>
-            <img src="/IMG/vendamais_logo.png" alt="Logo" className={styles.logoImg} />
+            <img src="/img/vendamais_logo.png" alt="Logo" className={styles.logoImg} />
             <div>
               <h1 className={styles.headerTitle}>Dashboard do Gestor</h1>
               <p className={styles.headerSubtitle}>Painel de Validação e Equipes</p>
@@ -801,3 +801,5 @@ const DashboardGestor = () => {
 };
 
 export default DashboardGestor;
+
+
