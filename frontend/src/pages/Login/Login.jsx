@@ -7,6 +7,7 @@ import Input from '../../components/Input/Input';
 import Badge from '../../components/Badge/Badge';
 import Card from '../../components/Card/Card';
 import { API_URL } from '../../api_config';
+import { storage } from '../../utils/storage';
 
 // Importação das imagens para garantir que o build processe os caminhos corretamente
 import logoImg from '../../assets/img/vendamais_logo.png';
@@ -40,9 +41,8 @@ const Login = ({ onLogin, onEquipeSelection, existingUser, onSwitchUser }) => {
       setLoading(true);
       setError('');
 
-      sessionStorage.removeItem('token');
-      sessionStorage.removeItem('user');
-      sessionStorage.removeItem('equipe');
+      // Limpar dados antigos
+      storage.clear();
 
       const response = await fetch(`${API_BASE}/api/auth/login/`, {
         method: 'POST',
@@ -58,20 +58,20 @@ const Login = ({ onLogin, onEquipeSelection, existingUser, onSwitchUser }) => {
         throw new Error(data.error || 'Erro no login');
       }
 
-      sessionStorage.setItem('token', data.token);
+      // Salvar token no localStorage (persistente)
+      storage.setToken(data.token);
 
       if (data.requires_equipe_selection) {
         setToken(data.token);
         await buscarEquipesDisponiveis(data.token);
         setMostrarSelecao(true);
       } else {
-        sessionStorage.setItem('user', JSON.stringify(data.user));
+        // Salvar usuário no localStorage (persistente)
+        storage.setUser(data.user);
         onLogin(data);
       }
     } catch (err) {
-      sessionStorage.removeItem('token');
-      sessionStorage.removeItem('user');
-      sessionStorage.removeItem('equipe');
+      storage.clear();
       setError(err.message);
     } finally {
       setLoading(false);
@@ -117,13 +117,14 @@ const Login = ({ onLogin, onEquipeSelection, existingUser, onSwitchUser }) => {
         throw new Error(data.error || 'Erro ao selecionar equipe');
       }
 
-      sessionStorage.setItem('token', token);
-      sessionStorage.setItem('equipe', JSON.stringify(equipe));
-      sessionStorage.setItem('user', JSON.stringify({
+      // Salvar tudo no localStorage (persistente)
+      storage.setToken(token);
+      storage.setEquipe(equipe);
+      storage.setUser({
         username: 'equipe',
         nivel: 'equipe',
         equipe: equipe.nome
-      }));
+      });
 
       onEquipeSelection(data);
     } catch (err) {

@@ -1,4 +1,5 @@
 import { API_URL } from '../../api_config';
+import { storage } from '../../utils/storage';
 import React, { useState, useEffect } from 'react';
 import {
     Activity,
@@ -27,7 +28,7 @@ const DashboardAdmin = () => {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const token = sessionStorage.getItem('token');
+            const token = storage.getToken();
 
             if (!token) {
                 setError('Token de autenticação não encontrado');
@@ -42,7 +43,7 @@ const DashboardAdmin = () => {
             // Buscar dados do usuário
             const userResponse = await fetch(`${API_URL}/api/auth/meu_perfil/`, { headers });
             if (userResponse.status === 401 || userResponse.status === 403) {
-                sessionStorage.clear();
+                storage.clear();
                 window.location.href = '/login';
                 return;
             }
@@ -71,8 +72,8 @@ const DashboardAdmin = () => {
     };
 
     const logout = () => {
-        sessionStorage.clear();
-        window.location.reload();
+        storage.clear();
+        window.location.href = '/login';
     };
 
     if (loading) {
@@ -166,7 +167,7 @@ const DashboardAdmin = () => {
                                 </div>
                                 <div className={styles.cardBody}>
                                     <UserManagement
-                                        token={sessionStorage.getItem('token')}
+                                        token={storage.getToken()}
                                         initialShowForm={true}
                                     />
                                 </div>
@@ -181,7 +182,7 @@ const DashboardAdmin = () => {
                                 </div>
                                 <div className={styles.cardBody}>
                                     <TeamManagement
-                                        token={sessionStorage.getItem('token')}
+                                        token={storage.getToken()}
                                         initialShowForm={true}
                                     />
                                 </div>
@@ -195,7 +196,7 @@ const DashboardAdmin = () => {
                             <h3 className={styles.cardTitle}>Controle do Sistema</h3>
                         </div>
                         <div className={styles.cardBody}>
-                            <StatusControl token={sessionStorage.getItem('token')} />
+                            <StatusControl token={storage.getToken()} />
                         </div>
                     </Card>
                 </div>

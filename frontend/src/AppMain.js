@@ -8,17 +8,14 @@ import DashboardGestor from './components/DashboardGestor';
 import DashboardBanca from './components/DashboardBanca';
 import GerenciarPropostasEquipe from './components/GerenciarPropostasEquipe';
 import { API_URL } from './api_config';
+import { storage } from './utils/storage';
 import './styles/globals.css';
 
 const getStoredUser = () => {
-  try {
-    const token = sessionStorage.getItem('token');
-    const userStr = sessionStorage.getItem('user');
-    if (!token || !userStr) return null;
-    return JSON.parse(userStr);
-  } catch {
-    return null;
-  }
+  const token = storage.getToken();
+  const user = storage.getUser();
+  if (!token || !user) return null;
+  return user;
 };
 
 const DashboardByRole = ({ user, authChecked }) => {
@@ -83,7 +80,7 @@ function AppMain() {
 
   useEffect(() => {
     const bootstrapAuth = async () => {
-      const token = sessionStorage.getItem('token');
+      const token = storage.getToken();
       if (!token) {
         setUser(null);
         setAuthChecked(true);
@@ -91,7 +88,7 @@ function AppMain() {
       }
 
       try {
-        const response = await fetch(`${API_URL}/auth/meu_perfil/`, {
+        const response = await fetch(`${API_URL}/api/auth/meu_perfil/`, {
           headers: {
             'Authorization': `Token ${token}`,
             'Content-Type': 'application/json'
@@ -99,7 +96,7 @@ function AppMain() {
         });
 
         if (!response.ok) {
-          sessionStorage.clear();
+          storage.clear();
           setUser(null);
           setAuthChecked(true);
           return;
@@ -114,18 +111,18 @@ function AppMain() {
           equipe: profileData?.perfil?.equipe || null
         };
 
-        sessionStorage.setItem('user', JSON.stringify(normalizedUser));
+        storage.setUser(normalizedUser);
         if (normalizedUser.nivel === 'equipe' && normalizedUser.equipe) {
-          const existingEquipe = sessionStorage.getItem('equipe');
+          const existingEquipe = storage.getEquipe();
           if (!existingEquipe) {
-            sessionStorage.setItem('equipe', JSON.stringify({ nome: normalizedUser.equipe }));
+            storage.setEquipe({ nome: normalizedUser.equipe });
           }
         }
 
         setUser(normalizedUser);
         setAuthChecked(true);
       } catch {
-        sessionStorage.clear();
+        storage.clear();
         setUser(null);
         setAuthChecked(true);
       }
@@ -142,7 +139,7 @@ function AppMain() {
   };
 
   const handleSwitchUser = () => {
-    sessionStorage.clear();
+    storage.clear();
     setUser(null);
     setAuthChecked(true);
   };
