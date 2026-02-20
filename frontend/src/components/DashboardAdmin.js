@@ -27,6 +27,7 @@ import UserManagement from './UserManagement';
 import TeamManagement from './TeamManagement';
 import StatusControl from './StatusControl';
 import './DashboardAdmin.css';
+import './AdminFix.css';
 
 const DashboardAdmin = () => {
     const [userData, setUserData] = useState(null);
@@ -136,7 +137,7 @@ const DashboardAdmin = () => {
     }
 
     return (
-        <div className="min-h-screen bg-background-secondary">
+        <div className="dashboard-admin min-h-screen bg-background-secondary">
             {/* Header */}
             <div className="bg-white shadow-sm border-b">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

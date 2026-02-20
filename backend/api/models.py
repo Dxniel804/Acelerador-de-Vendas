@@ -122,19 +122,19 @@ class PerfilAcesso(models.Model):
     
     # Permissões Administrador
     def pode_criar_equipes(self):
-        return self.nivel in ['administrador', 'geral']
+        return self.nivel in ['administrador']
     
     def pode_criar_usuarios(self):
-        return self.nivel in ['administrador', 'geral']
+        return self.nivel in ['administrador']
     
     def pode_alterar_status_sistema(self):
-        return self.nivel in ['administrador', 'geral']
+        return self.nivel in ['administrador']
     
     # Permissões Gestor
     
     def pode_ver_todas_equipes(self):
         """Gestor pode ver todas as equipes da sua regional"""
-        return self.nivel in ['administrador', 'geral', 'gestor']
+        return self.nivel in ['administrador', 'gestor']
     
     def pode_ver_todas_propostas(self):
         """Gestor pode ver todas as propostas para validação"""
@@ -145,15 +145,15 @@ class PerfilAcesso(models.Model):
     
     # Permissões Banca
     def pode_ver_dashboard_geral(self):
-        return self.nivel in ['administrador', 'geral', 'banca']
+        return self.nivel in ['administrador', 'banca']
     
     def pode_gerenciar_regras_pontuacao(self):
         """Apenas banca e admin podem gerenciar regras de pontuação - GESTOR NÃO"""
-        return self.nivel in ['administrador', 'geral', 'banca']
+        return self.nivel in ['administrador', 'banca']
     
     def pode_ver_ranking_tempo_real(self):
         """Banca pode ver ranking em tempo real"""
-        return self.nivel in ['administrador', 'geral', 'banca']
+        return self.nivel in ['administrador', 'banca']
     
     def pode_validar_propostas(self):
         """BANCA NÃO VALIDA PROPOSTAS - APENAS GESTOR"""

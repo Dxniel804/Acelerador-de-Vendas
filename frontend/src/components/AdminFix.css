@@ -1,0 +1,247 @@
+/* CSS Admin Fix - Garantir visibilidade das funcionalidades admin */
+
+/* Garantir que as abas do DashboardAdmin sejam visíveis e clicáveis */
+.dashboard-admin .tabs-list {
+    display: flex !important;
+    width: 100% !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+    padding: 4px !important;
+    margin-bottom: 2rem !important;
+}
+
+.dashboard-admin .tabs-trigger {
+    flex: 1 !important;
+    padding: 12px 16px !important;
+    background: transparent !important;
+    border: none !important;
+    color: var(--neutral-400) !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+    font-size: 0.875rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+.dashboard-admin .tabs-trigger:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: var(--neutral-200) !important;
+}
+
+.dashboard-admin .tabs-trigger[data-state="active"] {
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-dark)) !important;
+    color: white !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+/* Garantir visibilidade do conteúdo das abas */
+.dashboard-admin .tabs-content {
+    display: block !important;
+    opacity: 1 !important;
+}
+
+.dashboard-admin .tabs-content[data-state="active"] {
+    display: block !important;
+}
+
+/* Cards de estatísticas */
+.dashboard-admin .stat-card {
+    background: rgba(255, 255, 255, 0.04) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 20px !important;
+    padding: 2rem !important;
+    transition: all 0.4s ease !important;
+}
+
+.dashboard-admin .stat-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: var(--shadow-xl) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Botões de ação */
+.dashboard-admin .btn-primary {
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-dark)) !important;
+    color: white !important;
+    border: none !important;
+    padding: 12px 24px !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.dashboard-admin .btn-primary:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+.dashboard-admin .btn-outline {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: var(--neutral-200) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    padding: 12px 24px !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.dashboard-admin .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+/* Formulários */
+.dashboard-admin .form-input,
+.dashboard-admin .form-select {
+    width: 100% !important;
+    padding: 12px 16px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 10px !important;
+    color: white !important;
+    font-size: 1rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.dashboard-admin .form-input:focus,
+.dashboard-admin .form-select:focus {
+    outline: none !important;
+    border-color: var(--accent-color) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 0 0 4px rgba(255, 94, 58, 0.1) !important;
+}
+
+.dashboard-admin .form-input::placeholder {
+    color: var(--neutral-500) !important;
+}
+
+/* Badges */
+.dashboard-admin .badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 6px 12px !important;
+    border-radius: 20px !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+.dashboard-admin .badge-primary {
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-dark)) !important;
+    color: white !important;
+}
+
+.dashboard-admin .badge-secondary {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: var(--neutral-200) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Status Control */
+.dashboard-admin .status-option {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 2px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 16px !important;
+    padding: 1.5rem !important;
+    text-align: center !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+}
+
+.dashboard-admin .status-option:hover {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    transform: translateY(-4px) !important;
+}
+
+.dashboard-admin .status-option.active {
+    background: rgba(255, 94, 58, 0.2) !important;
+    border-color: var(--accent-color) !important;
+    box-shadow: 0 0 0 4px rgba(255, 94, 58, 0.1) !important;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .dashboard-admin .tabs-list {
+        flex-direction: column !important;
+        gap: 4px !important;
+    }
+    
+    .dashboard-admin .tabs-trigger {
+        width: 100% !important;
+        text-align: center !important;
+    }
+    
+    .dashboard-admin .stat-card {
+        padding: 1.5rem !important;
+    }
+    
+    .dashboard-admin .btn-primary,
+    .dashboard-admin .btn-outline {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+}
+
+/* Acessibilidade */
+.dashboard-admin .tabs-trigger:focus,
+.dashboard-admin .btn-primary:focus,
+.dashboard-admin .btn-outline:focus,
+.dashboard-admin .form-input:focus,
+.dashboard-admin .form-select:focus,
+.dashboard-admin .status-option:focus {
+    outline: 2px solid var(--accent-color) !important;
+    outline-offset: 2px !important;
+}
+
+/* Animações suaves */
+.dashboard-admin .tabs-content,
+.dashboard-admin .stat-card,
+.dashboard-admin .status-option {
+    animation: fadeInUp 0.4s ease-out !important;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scrollbar personalizada */
+.dashboard-admin ::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+.dashboard-admin ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 10px !important;
+}
+
+.dashboard-admin ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3) !important;
+    border-radius: 10px !important;
+}
+
+.dashboard-admin ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5) !important;
+}
