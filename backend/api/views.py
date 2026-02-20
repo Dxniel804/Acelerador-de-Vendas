@@ -3360,11 +3360,16 @@ def dashboard_equipe(request):
         logger.info(f'Usuário {request.user.username} acessando dashboard como entidade direta')
         print(f"DEBUG dashboard_equipe: Usuário {request.user.username} tratado como entidade direta")
         
-        # Obter status atual do sistema
+        # Obter status atual do sistema (sempre atualizado)
         try:
-            status_atual = StatusSistema.get_status_atual()
-            status_display = StatusSistema.get_status_display()
-        except:
+            status_obj = StatusSistema.objects.first()
+            if status_obj:
+                status_atual = status_obj.status_atual
+                status_display = status_obj.get_status_atual_display()
+            else:
+                status_atual = 'pre_workshop'
+                status_display = 'Pré-Workshop'
+        except Exception:
             status_atual = 'pre_workshop'
             status_display = 'Pré-Workshop'
         
