@@ -8,6 +8,10 @@ import Badge from '../../components/Badge/Badge';
 import Card from '../../components/Card/Card';
 import { API_URL } from '../../api_config';
 
+// Importação das imagens para garantir que o build processe os caminhos corretamente
+import logoImg from '../../assets/img/vendamais_logo.png';
+import illustrationImg from '../../assets/img/Marketing-bro.png';
+
 const Login = ({ onLogin, onEquipeSelection, existingUser, onSwitchUser }) => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
@@ -257,7 +261,7 @@ const Login = ({ onLogin, onEquipeSelection, existingUser, onSwitchUser }) => {
         <div className={styles.headerBar}>
           <div className={styles.headerContainer}>
             <img
-              src="/img/vendamais_logo.png"
+              src={logoImg}
               alt="Venda Mais Logo"
               className={styles.headerLogo}
               onClick={() => navigate('/')}
@@ -324,7 +328,7 @@ const Login = ({ onLogin, onEquipeSelection, existingUser, onSwitchUser }) => {
           {/* Lado Direito - Ilustração */}
           <div className={styles.rightSide}>
             <img
-              src="/img/Marketing-bro.png"
+              src={illustrationImg}
               alt="Login Illustration"
               className={styles.illustration}
             />
