@@ -433,9 +433,9 @@ const DashboardGestor = () => {
                                     </span>
                                   </div>
                                   <div className="flex flex-col gap-2">
-                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Mix de Produtos</label>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Produtos</label>
                                     <span className="text-[#3B82F6] font-black text-2xl">
-                                      {proposta.quantidade_produtos} <span className="text-xs uppercase tracking-widest font-bold text-slate-400">Linhas</span>
+                                      {proposta.quantidade_produtos} <span className="text-xs uppercase tracking-widest font-bold text-slate-400">Produtos</span>
                                     </span>
                                   </div>
                                   <div className="flex flex-col gap-2 text-right lg:text-left">
@@ -671,8 +671,8 @@ const DashboardGestor = () => {
                   <p className="font-bold text-green-600 text-xl">R$ {propostaSelecionada.valor_proposta?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <Label className="uppercase text-[10px] font-bold tracking-widest text-gray-400">Mix de Produtos</Label>
-                  <p className="font-bold text-purple-600">{propostaSelecionada.quantidade_produtos} itens selecionados</p>
+                  <Label className="uppercase text-[10px] font-bold tracking-widest text-gray-400">Produtos</Label>
+                  <p className="font-bold text-purple-600">{propostaSelecionada.quantidade_produtos} produtos</p>
                 </div>
                 <div className="flex flex-col gap-1">
                   <Label className="uppercase text-[10px] font-bold tracking-widest text-gray-400">Data de Registro</Label>

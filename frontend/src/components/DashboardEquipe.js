@@ -1,5 +1,6 @@
 import { API_URL, API_BASE_URL } from '../api_config';
 import React, { useState, useEffect } from 'react';
+import { storage } from '../utils/storage';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
@@ -71,10 +72,18 @@ const DashboardEquipe = () => {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const token = sessionStorage.getItem('token');
+            const token = storage.getToken();
+            const user = storage.getUser();
 
             if (!token) {
                 setError('Token de autenticação não encontrado');
+                return;
+            }
+
+            // Só chamar API de equipe se o usuário for realmente da equipe
+            const nivel = (user?.nivel || '').toLowerCase();
+            if (nivel !== 'equipe') {
+                window.location.href = '/dashboard';
                 return;
             }
 
@@ -85,8 +94,13 @@ const DashboardEquipe = () => {
 
             const dashboardResponse = await fetch(`${API_BASE}/api/equipe/dashboard/`, { headers });
             if (dashboardResponse.status === 401) {
-                sessionStorage.clear();
+                storage.clear();
                 window.location.href = '/login';
+                return;
+            }
+            if (dashboardResponse.status === 403) {
+                // Usuário não é equipe (admin, gestor, banca) - redirecionar para o dashboard correto
+                window.location.href = '/dashboard';
                 return;
             }
             if (!dashboardResponse.ok) {
@@ -476,7 +490,7 @@ const DashboardEquipe = () => {
                                                     {p.equipe_nome || (dashboardData?.equipe?.nome || 'Minha Equipe')} – Proposta {p.numero_proposta_equipe || p.id}
                                                 </h4>
                                                 <Badge className={`${getStatusColor(p.status)} font-black px-5 py-2 rounded-full text-[10px] uppercase tracking-[0.15em]`}>
-                                                    {p.status_display}
+                                                    {p.status_display || (p.status === 'rejeitada' ? 'Rejeitada' : p.status === 'validada' ? 'Validada' : p.status === 'enviada' ? 'Pendente' : p.status === 'vendida' ? 'Vendida' : p.status === 'nao_vendida' ? 'Não Vendida' : p.status || 'Pendente')}
                                                 </Badge>
                                             </div>
                                             <div className={styles.propostaCardBody}>
@@ -490,8 +504,8 @@ const DashboardEquipe = () => {
                                                         <span className={styles.dataValueHighlight}>R$ {p.valor_proposta?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
                                                     </div>
                                                     <div className={styles.dataField}>
-                                                        <span className={styles.dataLabel}>Mix de Vendas</span>
-                                                        <span className={styles.dataValueAccent}>{p.quantidade_produtos} Linhas</span>
+                                                        <span className={styles.dataLabel}>Produtos</span>
+                                                        <span className={styles.dataValueAccent}>{p.quantidade_produtos} Produtos</span>
                                                     </div>
                                                     <div className={styles.dataField}>
                                                         <span className={styles.dataLabel}>Responsável</span>
@@ -557,7 +571,7 @@ const DashboardEquipe = () => {
                                             </div>
                                         </div>
                                         <div className={styles.formGroup}>
-                                            <label className={styles.formLabel}>Quantidade de Itens (Mix) *</label>
+                                            <label className={styles.formLabel}>Quantidade de Produtos *</label>
                                             <input type="number" className={`${styles.formInput} ${styles.formInputQuantity}`} value={novaProposta.quantidade_produtos} onChange={(e) => setNovaProposta({ ...novaProposta, quantidade_produtos: e.target.value })} placeholder="Ex: 12" />
                                         </div>
                                     </div>

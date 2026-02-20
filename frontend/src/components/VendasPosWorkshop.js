@@ -10,10 +10,10 @@ import '../styles/VendasPosWorkshop.css';
 
 const BonusSelection = ({ bonusData, onChange }) => {
     const bonusOptions = [
-        { key: 'bonus_vinhos_casa_perini_mundo', label: 'Linha Vinhos Casa Perini Mundo (min 5 Caixas)', pontos: 5 },
-        { key: 'bonus_vinhos_fracao_unica', label: 'Linha Vinhos Fração Única (min 5 Caixas)', pontos: 5 },
-        { key: 'bonus_espumantes_vintage', label: 'Linha Espumantes Vintage (min 5 Caixas)', pontos: 5 },
-        { key: 'bonus_espumantes_premium', label: 'Linha Espumantes Premium (min 2 Caixas)', pontos: 5 },
+        { key: 'bonus_vinhos_casa_perini_mundo', label: 'Vinhos Casa Perini Mundo (min 5 Produtos)', pontos: 5 },
+        { key: 'bonus_vinhos_fracao_unica', label: 'Vinhos Fração Única (min 5 Produtos)', pontos: 5 },
+        { key: 'bonus_espumantes_vintage', label: 'Espumantes Vintage (min 5 Produtos)', pontos: 5 },
+        { key: 'bonus_espumantes_premium', label: 'Espumantes Premium (min 2 Produtos)', pontos: 5 },
         { key: 'bonus_aceleracao', label: 'Bônus de Aceleração (Venda fechada durante o game)', pontos: 25 },
     ];
 
@@ -113,10 +113,10 @@ const VendasPosWorkshop = () => {
             const token = sessionStorage.getItem('token');
             const headers = { Authorization: `Token ${token}`, 'Content-Type': 'application/json' };
 
-            const propostasResponse = await fetch(`${API_BASE}/equipe/todas-propostas/`, { headers });
+            const propostasResponse = await fetch(`${API_BASE}/api/equipe/todas-propostas/`, { headers });
             if (propostasResponse.ok) setPropostasEquipe(await propostasResponse.json());
 
-            const vendasResponse = await fetch(`${API_BASE}/equipe/minhas-vendas-concretizadas/`, { headers });
+            const vendasResponse = await fetch(`${API_BASE}/api/equipe/minhas-vendas-concretizadas/`, { headers });
             if (vendasResponse.ok) setMinhasVendas(await vendasResponse.json());
 
             setError('');
@@ -139,7 +139,7 @@ const VendasPosWorkshop = () => {
                 }
             });
 
-            const response = await fetch(`${API_BASE}/equipe/vendas-concretizadas/`, {
+            const response = await fetch(`${API_BASE}/api/equipe/vendas-concretizadas/`, {
                 method: 'POST',
                 headers: { Authorization: `Token ${token}` },
                 body: dataToSend,
@@ -192,7 +192,7 @@ const VendasPosWorkshop = () => {
                 dataToSend.append('arquivo_pdf', formCorrecao.arquivo_pdf);
             }
 
-            const response = await fetch(`${API_BASE}/equipe/vendas-concretizadas/`, {
+            const response = await fetch(`${API_BASE}/api/equipe/vendas-concretizadas/`, {
                 method: 'POST',
                 headers: { Authorization: `Token ${token}` },
                 body: dataToSend,
@@ -469,7 +469,7 @@ const VendasPosWorkshop = () => {
                         <div className="modal-content">
                             <div className="vendas-list">
                                 {propostasEquipe
-                                    .filter((p) => !['vendida', 'nao_vendida'].includes(p.status))
+                                    .filter((p) => p.status === 'validada')
                                     .map((p) => (
                                         <div
                                             key={p.id}

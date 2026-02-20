@@ -73,7 +73,7 @@ const ValidarVendas = () => {
                 return;
             }
 
-            const response = await fetch(`${API_BASE}/gestor/validar-vendas/`, {
+            const response = await fetch(`${API_BASE}/api/gestor/validar-vendas/`, {
                 headers: {
                     Authorization: `Token ${token}`,
                     'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ const ValidarVendas = () => {
             setSubmitting(true);
             const token = sessionStorage.getItem('token');
 
-            const response = await fetch(`${API_BASE}/gestor/validar-vendas/`, {
+            const response = await fetch(`${API_BASE}/api/gestor/validar-vendas/`, {
                 method: 'POST',
                 headers: {
                     Authorization: `Token ${token}`,
@@ -340,8 +340,8 @@ const ValidarVendas = () => {
                                         <span className="valor-venda">{formatarValor(vendaSelecionada.valor_venda)}</span>
                                     </div>
                                     <div className="resumo-item">
-                                        <Label>Mix de Produtos</Label>
-                                        <span className="text-purple-600 font-bold">{vendaSelecionada.quantidade_produtos_venda} itens</span>
+                                        <Label>Produtos</Label>
+                                        <span className="text-purple-600 font-bold">{vendaSelecionada.quantidade_produtos_venda} produtos</span>
                                     </div>
                                 </div>
 

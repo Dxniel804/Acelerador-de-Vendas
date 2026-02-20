@@ -59,7 +59,7 @@ const RequireEquipe = ({ children, user, authChecked }) => {
   return children;
 };
 
-const RequireNivel = ({ children, user, authChecked, nivel }) => {
+const RequireNivel = ({ children, user, authChecked, nivel, niveisAlternativos = [] }) => {
   if (!authChecked) {
     return (
       <div className="min-h-screen bg-background-secondary flex items-center justify-center">
@@ -69,7 +69,9 @@ const RequireNivel = ({ children, user, authChecked, nivel }) => {
   }
 
   if (!user) return <Navigate to="/login" replace />;
-  if (user.nivel !== nivel) return <Navigate to="/dashboard" replace />;
+  const nivelNorm = (user.nivel || '').toLowerCase();
+  const permitidos = [nivel, ...niveisAlternativos].map(n => (n || '').toLowerCase());
+  if (!permitidos.includes(nivelNorm)) return <Navigate to="/dashboard" replace />;
   return children;
 };
 
@@ -177,7 +179,7 @@ function AppMain() {
       <Route
         path="/admin"
         element={
-          <RequireNivel user={user} authChecked={authChecked} nivel="administrador">
+          <RequireNivel user={user} authChecked={authChecked} nivel="administrador" niveisAlternativos={['admin', 'geral']}>
             <DashboardAdmin />
           </RequireNivel>
         }

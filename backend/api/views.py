@@ -3373,34 +3373,44 @@ def dashboard_equipe(request):
             status_atual = 'pre_workshop'
             status_display = 'Pré-Workshop'
         
-        # Buscar dados diretamente associados ao usuário
+        # Buscar dados da equipe do perfil
+        equipe = perfil.equipe
+        total_propostas = 0
+        propostas_validadas = 0
+        propostas_rejeitadas = 0
+        pontos_totais = 0
+        total_vendas = 0
+        valor_total_vendas = 0
+        vendas_validadas = 0
+        vendas_rejeitadas = 0
+        total_previsoes = 0
+        valor_previsto = 0
+
         try:
-            # Propostas associadas diretamente ao usuário
-            propostas = Proposta.objects.filter(usuario_criacao=request.user)
-            total_propostas = propostas.count()
-            
-            # Vendas associadas diretamente ao usuário  
-            vendas = Venda.objects.filter(usuario=request.user)
-            total_vendas = vendas.count()
-            valor_total_vendas = vendas.aggregate(total=Sum('valor'))['total'] or 0
-            
-            # Previsões associadas diretamente ao usuário
-            previsoes = PrevisaoWorkshop.objects.filter(usuario=request.user)
-            total_previsoes = previsoes.count()
-            valor_previsto = previsoes.aggregate(total=Sum('valor_previsto'))['total'] or 0
-            
-            print(f"DEBUG dashboard_equipe: Dados encontrados - Propostas: {total_propostas}, Vendas: {total_vendas}, Previsões: {total_previsoes}")
-            
+            if equipe:
+                propostas_qs = Proposta.objects.filter(equipe=equipe)
+                total_propostas = propostas_qs.count()
+                propostas_validadas = propostas_qs.filter(status='validada').count()
+                propostas_rejeitadas = propostas_qs.filter(status='rejeitada').count()
+                pontos_qs = propostas_qs.filter(status__in=['validada', 'vendida'])
+                pontos_totais = pontos_qs.aggregate(t=Coalesce(Sum('pontos'), 0))['t'] or 0
+                vendas_validadas = propostas_qs.filter(status='vendida', venda_validada=True).count()
+                vendas_rejeitadas = propostas_qs.filter(status='nao_vendida').count()
+            try:
+                previsoes = PrevisaoWorkshop.objects.filter(usuario=request.user)
+                total_previsoes = previsoes.count()
+                valor_previsto = previsoes.aggregate(total=Sum('valor_previsto'))['total'] or 0
+            except Exception:
+                pass
+            print(f"DEBUG dashboard_equipe: Propostas: {total_propostas}, Validadas: {propostas_validadas}, Rejeitadas: {propostas_rejeitadas}, Pontos: {pontos_totais}")
         except Exception as e:
             print(f"DEBUG dashboard_equipe: Erro ao buscar dados: {str(e)}")
-            # Valores padrão se houver erro
-            total_propostas = 0
-            total_vendas = 0
-            valor_total_vendas = 0
-            total_previsoes = 0
-            valor_previsto = 0
-        
-        # Montar resposta
+            import traceback
+            traceback.print_exc()
+
+        equipe_nome = equipe.nome if equipe else request.user.username
+        equipe_codigo = equipe.codigo if equipe else request.user.username.upper()
+
         response_data = {
             'usuario': {
                 'id': request.user.id,
@@ -3409,16 +3419,23 @@ def dashboard_equipe(request):
                 'nivel': perfil.nivel,
                 'nivel_display': perfil.get_nivel_display()
             },
+            'equipe': {'nome': equipe_nome, 'codigo': equipe_codigo} if equipe else None,
             'equipe_info': {
-                'nome': f'Equipe {request.user.username.replace("equipe", "")}',
-                'codigo': request.user.username.upper(),
-                'regional': 'São Paulo',  # Padrão, pode ser configurado depois
-                'descricao': f'Usuário {request.user.username} operando como equipe'
+                'nome': equipe_nome,
+                'codigo': equipe_codigo,
+                'regional': 'São Paulo',
+                'descricao': f'Equipe {equipe_nome}'
             },
             'status_sistema': {
                 'atual': status_atual,
                 'display': status_display
             },
+            'total_propostas': total_propostas,
+            'propostas_validadas': propostas_validadas,
+            'propostas_rejeitadas': propostas_rejeitadas,
+            'pontos_totais': int(pontos_totais),
+            'vendas_validadas': vendas_validadas,
+            'vendas_rejeitadas': vendas_rejeitadas,
             'estatisticas': {
                 'total_propostas': total_propostas,
                 'total_vendas': total_vendas,

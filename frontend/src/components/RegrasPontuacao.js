@@ -47,14 +47,14 @@ const RegrasPontuacao = () => {
             };
 
             // Buscar regra de proposta validada
-            const propostaResponse = await fetch(`${API_BASE}/banca/regra-proposta-validada/`, { headers });
+            const propostaResponse = await fetch(`${API_BASE}/api/banca/regra-proposta-validada/`, { headers });
             if (propostaResponse.ok) {
                 const propostaData = await propostaResponse.json();
                 setRegraPropostaValidada(propostaData);
             }
 
             // Buscar regra de venda por produto
-            const vendaResponse = await fetch(`${API_BASE}/banca/regra-venda-produto/`, { headers });
+            const vendaResponse = await fetch(`${API_BASE}/api/banca/regra-venda-produto/`, { headers });
             if (vendaResponse.ok) {
                 const vendaData = await vendaResponse.json();
                 setRegraVendaProduto(vendaData);
@@ -71,7 +71,7 @@ const RegrasPontuacao = () => {
     const salvarRegraPropostaValidada = async () => {
         try {
             const token = sessionStorage.getItem('token');
-            const response = await fetch(`${API_BASE}/banca/regra-proposta-validada/`, {
+            const response = await fetch(`${API_BASE}/api/banca/regra-proposta-validada/`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -99,7 +99,7 @@ const RegrasPontuacao = () => {
     const salvarRegraVendaProduto = async () => {
         try {
             const token = sessionStorage.getItem('token');
-            const response = await fetch(`${API_BASE}/banca/regra-venda-produto/`, {
+            const response = await fetch(`${API_BASE}/api/banca/regra-venda-produto/`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Token ${token}`,
