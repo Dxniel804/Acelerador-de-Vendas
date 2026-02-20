@@ -3661,4 +3661,22 @@ def minhas_vendas_concretizadas(request):
     })
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listar_regionais(request):
+    """Listar todas as regionais disponíveis"""
+    try:
+        # Por enquanto, retorna regionais hardcoded
+        # Futuramente pode vir de um modelo Regional
+        regionais = [
+            {'id': 1, 'nome': 'São Paulo', 'sigla': 'SP'},
+            {'id': 2, 'nome': 'Rio de Janeiro', 'sigla': 'RJ'},
+            {'id': 3, 'nome': 'Minas Gerais', 'sigla': 'MG'},
+            {'id': 4, 'nome': 'Bahia', 'sigla': 'BA'},
+        ]
+        return Response(regionais)
+    except Exception as e:
+        return Response({'error': f'Erro ao listar regionais: {str(e)}'}, status=500)
+
+
 
