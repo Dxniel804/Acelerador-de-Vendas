@@ -1443,7 +1443,11 @@ def gerenciar_status_sistema(request):
         try:
             status = StatusSistema.objects.first()
             if not status:
-                return Response({'error': 'Status do sistema não configurado'}, status=404)
+                # Se não existir um registro de status, cria um padrão
+                status = StatusSistema.objects.create(
+                    status_atual='pre_workshop',
+                    alterado_por=request.user
+                )
             
             serializer = StatusSistemaSerializer(status)
             return Response(serializer.data)
