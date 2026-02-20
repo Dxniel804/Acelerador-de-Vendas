@@ -334,37 +334,47 @@ const DashboardAdmin = () => {
                     </Tabs.Content>
 
                     <Tabs.Content value="system" className="space-y-6">
-                        <StatusControl token={sessionStorage.getItem('token')} />
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            {/* Cadastro de Usuários */}
+                            <Card>
+                                <div style={{ padding: '1.5rem' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+                                        <UserPlus className="h-5 w-5" />
+                                        <h3 style={{ fontSize: '1.125rem', fontWeight: 600 }}>Cadastro de Usuários</h3>
+                                    </div>
+                                    <p style={{ fontSize: '0.875rem', color: '#6b7280', marginBottom: '1rem' }}>
+                                        Crie usuários Gestor e Banca para o sistema
+                                    </p>
+                                    <UserManagement token={sessionStorage.getItem('token')} initialShowForm={true} />
+                                </div>
+                            </Card>
 
+                            {/* Cadastro de Equipes */}
+                            <Card>
+                                <div style={{ padding: '1.5rem' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+                                        <Building className="h-5 w-5" />
+                                        <h3 style={{ fontSize: '1.125rem', fontWeight: 600 }}>Cadastro de Equipes</h3>
+                                    </div>
+                                    <p style={{ fontSize: '0.875rem', color: '#6b7280', marginBottom: '1rem' }}>
+                                        Crie equipes e configure seus logins
+                                    </p>
+                                    <TeamManagement token={sessionStorage.getItem('token')} initialShowForm={true} />
+                                </div>
+                            </Card>
+                        </div>
+
+                        {/* Controle de Status */}
                         <Card>
                             <div style={{ padding: '1.5rem' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
                                     <Settings className="h-5 w-5" />
-                                    <h3 style={{ fontSize: '1.125rem', fontWeight: 600 }}>Informações Técnicas</h3>
+                                    <h3 style={{ fontSize: '1.125rem', fontWeight: 600 }}>Controle do Sistema</h3>
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem', border: '1px solid #e5e7eb', borderRadius: '0.5rem' }}>
-                                        <div>
-                                            <h3 style={{ fontWeight: 500 }}>Banco de Dados</h3>
-                                            <p style={{ fontSize: '0.875rem', color: '#6b7280' }}>SQLite local</p>
-                                        </div>
-                                        <Badge variant="success">
-                                            <CheckCircle className="h-3 w-3 mr-1" />
-                                            Ativo
-                                        </Badge>
-                                    </div>
-
-                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem', border: '1px solid #e5e7eb', borderRadius: '0.5rem' }}>
-                                        <div>
-                                            <h3 style={{ fontWeight: 500 }}>API Backend</h3>
-                                            <p style={{ fontSize: '0.875rem', color: '#6b7280' }}>Django REST Framework</p>
-                                        </div>
-                                        <Badge variant="success">
-                                            <CheckCircle className="h-3 w-3 mr-1" />
-                                            Online
-                                        </Badge>
-                                    </div>
-                                </div>
+                                <p style={{ fontSize: '0.875rem', color: '#6b7280', marginBottom: '1rem' }}>
+                                    Altere o status global do sistema
+                                </p>
+                                <StatusControl token={sessionStorage.getItem('token')} />
                             </div>
                         </Card>
                     </Tabs.Content>
