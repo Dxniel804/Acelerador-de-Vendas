@@ -9,6 +9,7 @@ const getApiBaseUrl = () => {
 
     // EM PRODUÇÃO, FORÇA O DOMÍNIO CORRETO SEM PORTA 8000
     return 'https://api.aceleradorvendas.online/api';
+};
 
 export const API_BASE_URL = getApiBaseUrl();
 export const API_URL = `${API_BASE_URL}`;
