@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Trophy, Users, DollarSign, LogOut, RefreshCw } from 'lucide-react';
 import RegrasPontuacao from './RegrasPontuacao';
 import styles from './DashboardBanca.module.css';
+import logoImg from '../assets/img/vendamais_logo.png';
 
 const DashboardBanca = () => {
     const [dashboardData, setDashboardData] = useState(null);
@@ -129,7 +130,7 @@ const DashboardBanca = () => {
             <header className={styles.header}>
                 <div className={styles.headerContent}>
                     <div className={styles.headerLeft}>
-                        <img src="/img/vendamais_logo.png" alt="Logo" className={styles.logoImg} />
+                        <img src={logoImg} alt="Venda Mais Logo" className={styles.logoImg} />
                         <div>
                             <h1 className={styles.headerTitle}>Dashboard da Banca</h1>
                             <p className={styles.headerSubtitle}>Visualização e Configuração de Pontuação</p>

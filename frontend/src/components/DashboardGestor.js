@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import ValidarVendas from './ValidarVendas';
 import styles from './DashboardGestor.module.css';
+import logoImg from '../assets/img/vendamais_logo.png';
 
 const DashboardGestor = () => {
   const [dashboardData, setDashboardData] = useState(null);
@@ -319,7 +320,7 @@ const DashboardGestor = () => {
       <header className={styles.header}>
         <div className={styles.headerContent}>
           <div className={styles.headerLeft}>
-            <img src="/img/vendamais_logo.png" alt="Logo" className={styles.logoImg} />
+            <img src={logoImg} alt="Venda Mais Logo" className={styles.logoImg} />
             <div>
               <h1 className={styles.headerTitle}>Dashboard do Gestor</h1>
               <p className={styles.headerSubtitle}>Painel de Validação e Equipes</p>

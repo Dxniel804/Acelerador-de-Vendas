@@ -17,6 +17,7 @@ import {
     ArrowRight
 } from 'lucide-react';
 import VendasPosWorkshop from './VendasPosWorkshop';
+import logoImg from '../assets/img/vendamais_logo.png';
 
 const DashboardEquipe = () => {
     const [dashboardData, setDashboardData] = useState(null);
@@ -135,7 +136,9 @@ const DashboardEquipe = () => {
     };
 
     const cadastrarProposta = async () => {
-        if (!dashboardData?.pode_enviar_propostas) {
+        const podeEnviar = dashboardData?.permissoes?.pode_enviar_propostas;
+        const statusAtual = dashboardData?.status_sistema?.atual;
+        if (!podeEnviar || (statusAtual !== 'workshop')) {
             setError('Envio de propostas não permitido no status atual do sistema');
             return;
         }
@@ -329,7 +332,7 @@ const DashboardEquipe = () => {
             <header className={styles.header}>
                 <div className={styles.headerBar}>
                     <div className={styles.headerContainer}>
-                        <img src="/img/vendamais_logo.png" alt="Venda Mais Logo" className={styles.headerLogo} />
+                        <img src={logoImg} alt="Venda Mais Logo" className={styles.headerLogo} />
                     </div>
                     <div className={styles.headerControls}>
                         <div className={styles.userInfo}>
@@ -365,10 +368,10 @@ const DashboardEquipe = () => {
                         </div>
                     )}
 
-                    {!dashboardData?.pode_enviar_propostas && (
+                    {(dashboardData?.status_sistema?.atual === 'pre_workshop' || dashboardData?.status_sistema?.atual === 'encerrado') && (
                         <div className={`${styles.alert} ${styles.alertWarning}`}>
                             <i className="bi bi-info-circle-fill"></i>
-                            <span>O envio de propostas não permitido: {dashboardData?.status_sistema?.atual}</span>
+                            <span>O envio de propostas não permitido no status atual ({dashboardData?.status_sistema?.display || dashboardData?.status_sistema?.atual})</span>
                         </div>
                     )}
 

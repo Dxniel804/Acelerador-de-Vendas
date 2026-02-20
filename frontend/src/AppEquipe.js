@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import LoginEquipe from './components/LoginEquipe';
 import DashboardEquipe from './components/DashboardEquipe';
 import GerenciarPropostasEquipe from './components/GerenciarPropostasEquipe';
+import logoImg from './assets/img/vendamais_logo.png';
 import './App.css';
 
 function AppEquipe() {
@@ -63,7 +64,7 @@ function AppEquipe() {
           <header style={{ backgroundColor: '#FFFFFF', borderBottom: '2px solid #FF5E3A', padding: '0 2rem', height: '80px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 50, boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <img
-                src="/img/vendamais_logo.png"
+                src={logoImg}
                 alt="Venda Mais Logo"
                 style={{ height: '40px', width: 'auto' }}
               />
