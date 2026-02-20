@@ -166,7 +166,7 @@ const DashboardEquipe = () => {
             formDataToSend.append('vendedor', novaProposta.vendedor);
             formDataToSend.append('valor_proposta', novaProposta.valor_proposta);
             formDataToSend.append('descricao', novaProposta.descricao);
-            formDataToSend.append('quantidade_produtos', novaProposta.quantidade_produtos);
+            formDataToSend.append('quantidade_produtos', String(Math.max(0, parseInt(novaProposta.quantidade_produtos, 10) || 0)));
             formDataToSend.append('bonus_vinhos_casa_perini_mundo', novaProposta.bonus_vinhos_casa_perini_mundo);
             formDataToSend.append('bonus_vinhos_fracao_unica', novaProposta.bonus_vinhos_fracao_unica);
             formDataToSend.append('bonus_espumantes_vintage', novaProposta.bonus_espumantes_vintage);
@@ -184,8 +184,16 @@ const DashboardEquipe = () => {
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Erro ao cadastrar proposta');
+                const errorData = await response.json().catch(() => ({}));
+                let msg = errorData.error;
+                if (!msg && errorData.details) {
+                    const firstKey = Object.keys(errorData.details)[0];
+                    const firstVal = errorData.details[firstKey];
+                    msg = Array.isArray(firstVal) ? firstVal[0] : String(firstVal);
+                }
+                if (!msg && errorData.arquivo_pdf) msg = Array.isArray(errorData.arquivo_pdf) ? errorData.arquivo_pdf[0] : errorData.arquivo_pdf;
+                if (!msg) msg = typeof errorData === 'object' ? JSON.stringify(errorData) : String(errorData);
+                throw new Error(typeof msg === 'string' ? msg : 'Erro ao cadastrar proposta');
             }
 
             setNovaProposta({
@@ -298,14 +306,25 @@ const DashboardEquipe = () => {
     };
 
     const getStatusColor = (status) => {
-        const colors = {
-            'enviada': 'bg-blue-100 text-blue-800',
-            'validada': 'bg-green-100 text-green-800',
-            'rejeitada': 'bg-red-100 text-red-800',
-            'vendida': 'bg-purple-100 text-purple-800',
-            'nao_vendida': 'bg-gray-100 text-gray-800'
+        const map = {
+            'enviada': styles.badgeStatusEmAndamento,
+            'validada': styles.badgeStatusValidada,
+            'rejeitada': styles.badgeStatusRejeitada,
+            'vendida': styles.badgeStatusVendida,
+            'nao_vendida': styles.badgeStatusNaoVendida
         };
-        return colors[status] || 'bg-gray-100 text-gray-800';
+        return map[status] || styles.badgeStatusEmAndamento;
+    };
+
+    const getStatusLabel = (status) => {
+        const labels = {
+            'enviada': 'Em andamento',
+            'validada': 'Validada',
+            'rejeitada': 'Rejeitada',
+            'vendida': 'Vendida',
+            'nao_vendida': 'Não Vendida'
+        };
+        return labels[status] || 'Em andamento';
     };
 
     const logout = () => {
@@ -489,9 +508,9 @@ const DashboardEquipe = () => {
                                                 <h4 className={styles.propostaCardTitle}>
                                                     {p.equipe_nome || (dashboardData?.equipe?.nome || 'Minha Equipe')} – Proposta {p.numero_proposta_equipe || p.id}
                                                 </h4>
-                                                <Badge className={`${getStatusColor(p.status)} font-black px-5 py-2 rounded-full text-[10px] uppercase tracking-[0.15em]`}>
-                                                    {p.status_display || (p.status === 'rejeitada' ? 'Rejeitada' : p.status === 'validada' ? 'Validada' : p.status === 'enviada' ? 'Pendente' : p.status === 'vendida' ? 'Vendida' : p.status === 'nao_vendida' ? 'Não Vendida' : p.status || 'Pendente')}
-                                                </Badge>
+                                                <span className={`${styles.statusBadge} ${getStatusColor(p.status)}`}>
+                                                    {getStatusLabel(p.status)}
+                                                </span>
                                             </div>
                                             <div className={styles.propostaCardBody}>
                                                 <div className={styles.propostaDataGrid}>

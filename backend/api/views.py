@@ -955,8 +955,13 @@ def propostas_equipe(request):
                 return Response({'error': 'Campos cliente, vendedor e valor_proposta são obrigatórios'}, status=400)
             
             try:
-                valor_str = str(valor_proposta).replace('.', '').replace(',', '.')
+                valor_str = str(valor_proposta).strip()
+                # Formato BR: "50.000,00" (ponto = milhar, vírgula = decimal)
+                if ',' in valor_str:
+                    valor_str = valor_str.replace('.', '').replace(',', '.')
                 valor_proposta_decimal = float(valor_str)
+                if valor_proposta_decimal < 0:
+                    valor_proposta_decimal = 0
             except (ValueError, TypeError) as e:
                 print(f"DEBUG: Valor conversion failed - '{valor_proposta}' -> {str(e)}")
                 return Response({'error': 'Campo valor_proposta deve ser um número válido'}, status=400)
@@ -996,14 +1001,20 @@ def propostas_equipe(request):
             
             print(f"DEBUG: Workshop utilizado: {workshop.nome}")
 
+            try:
+                qtd = request.data.get('quantidade_produtos', 0)
+                quantidade_produtos = int(qtd) if qtd is not None and str(qtd).strip() != '' else 0
+            except (ValueError, TypeError):
+                quantidade_produtos = 0
+
             proposta_data = {
                 'equipe': perfil.equipe.id,
                 'cliente': cliente.id,
                 'vendedor': vendedor.id,
                 'workshop': workshop.id,
                 'valor_proposta': valor_proposta_decimal,
-                'descricao': request.data.get('descricao', ''),
-                'quantidade_produtos': request.data.get('quantidade_produtos', 0),
+                'descricao': request.data.get('descricao') or '',
+                'quantidade_produtos': max(0, quantidade_produtos),
                 'bonus_vinhos_casa_perini_mundo': request.data.get('bonus_vinhos_casa_perini_mundo') in [True, 'true', '1'],
                 'bonus_vinhos_fracao_unica': request.data.get('bonus_vinhos_fracao_unica') in [True, 'true', '1'],
                 'bonus_espumantes_vintage': request.data.get('bonus_espumantes_vintage') in [True, 'true', '1'],
@@ -1029,8 +1040,13 @@ def propostas_equipe(request):
                 
                 return Response(serializer.data, status=201)
             else:
-                print(f"DEBUG: Serializer errors: {serializer.errors}")
-                return Response(serializer.errors, status=400)
+                err_msg = serializer.errors
+                print(f"DEBUG: Serializer errors: {err_msg}")
+                # Retornar mensagem amigável para o frontend
+                first_field = next(iter(err_msg.keys()), None)
+                first_errors = err_msg.get(first_field, [])
+                msg = first_errors[0] if isinstance(first_errors, list) and first_errors else str(err_msg)
+                return Response({'error': msg, 'details': err_msg}, status=400)
             
         except Exception as e:
             logger.error(f"Erro ao criar proposta: {str(e)}")
