@@ -48,15 +48,11 @@ const LoginUniversal = ({ onLogin, onEquipeSelection, existingUser, onSwitchUser
             }
 
             sessionStorage.setItem('token', data.token);
-
-            if (data.requires_equipe_selection) {
-                setToken(data.token);
-                await buscarEquipesDisponiveis(data.token);
-                setMostrarSelecao(true);
-            } else {
-                sessionStorage.setItem('user', JSON.stringify(data.user));
-                onLogin(data);
-            }
+            
+            // Removido: Não existe mais seleção de equipe
+            // Todos os usuários acessam diretamente
+            sessionStorage.setItem('user', JSON.stringify(data.user));
+            onLogin(data);
         } catch (err) {
             setError('Erro de conexão com o servidor. Verifique se a API está online.');
             console.error(err);

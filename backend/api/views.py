@@ -1060,12 +1060,9 @@ def login_view(request):
                 
                 token, created = Token.objects.get_or_create(user=user)
                 
-                # Para equipes: verificar se precisa selecionar equipe ou se já tem equipe associada
+                # Removido: Não existe mais seleção de equipe
+                # Todos os usuários acessam diretamente seus painéis
                 requires_equipe_selection = False
-                if perfil.nivel == 'equipe':
-                    # Para usuários do tipo equipe, não precisa selecionar equipe
-                    # Eles acessam diretamente com o próprio usuário
-                    requires_equipe_selection = False
                 
                 response_data = {
                     'token': token.key,
