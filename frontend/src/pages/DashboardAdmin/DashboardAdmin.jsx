@@ -4,16 +4,12 @@ import {
     Activity,
     TrendingUp,
     LogOut,
-    CheckCircle,
     AlertCircle,
-    Settings,
-    Plus,
 } from 'lucide-react';
 import styles from './DashboardAdmin.module.css';
 import Button from '../../components/Button/Button';
 import Badge from '../../components/Badge/Badge';
 import Card from '../../components/Card/Card';
-import Tabs from '../../components/Tabs/Tabs';
 import UserManagement from '../../components/UserManagement';
 import TeamManagement from '../../components/TeamManagement';
 import StatusControl from '../../components/StatusControl';
@@ -23,9 +19,6 @@ const DashboardAdmin = () => {
     const [systemStatus, setSystemStatus] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [activeTab, setActiveTab] = useState('overview');
-    const [showUserForm, setShowUserForm] = useState(false);
-    const [showTeamForm, setShowTeamForm] = useState(false);
 
     useEffect(() => {
         fetchData();
@@ -80,31 +73,6 @@ const DashboardAdmin = () => {
     const logout = () => {
         sessionStorage.clear();
         window.location.reload();
-    };
-
-    const handleCreateUser = () => {
-        setShowUserForm(true);
-        setActiveTab('users');
-    };
-
-    const handleCreateTeam = () => {
-        setShowTeamForm(true);
-        setActiveTab('teams');
-    };
-
-    const handleConfigureSystem = () => {
-        setActiveTab('system');
-    };
-
-    const handleTabChange = (value) => {
-        setActiveTab(value);
-        // Reset forms when switching tabs
-        if (value !== 'users') {
-            setShowUserForm(false);
-        }
-        if (value !== 'teams') {
-            setShowTeamForm(false);
-        }
     };
 
     if (loading) {
@@ -188,85 +156,47 @@ const DashboardAdmin = () => {
                         </div>
                     </Card>
 
-                    {/* Management Tabs - Apenas Visão Geral */}
-                    <Card className={styles.tabsCard}>
-                        <Tabs defaultValue="overview" className={styles.tabsContainer} onValueChange={handleTabChange}>
-                            <Tabs.List className={styles.tabsList}>
-                                <Tabs.Trigger value="overview" className={styles.tabTrigger}>
-                                    Visão Geral
-                                </Tabs.Trigger>
-                                <Tabs.Trigger value="users" className={styles.tabTrigger}>
-                                    Usuários
-                                </Tabs.Trigger>
-                                <Tabs.Trigger value="teams" className={styles.tabTrigger}>
-                                    Equipes
-                                </Tabs.Trigger>
-                                <Tabs.Trigger value="system" className={styles.tabTrigger}>
-                                    Sistema
-                                </Tabs.Trigger>
-                            </Tabs.List>
-
-                            <Tabs.Content value="overview" className={styles.tabContent}>
-                                <div className={styles.overviewGrid}>
-                                    <Card className={styles.activityCard}>
-                                        <div className={styles.cardHeader}>
-                                            <TrendingUp className={styles.headerIcon} />
-                                            <h3 className={styles.cardTitle}>Atividade Recente</h3>
-                                        </div>
-                                        <div className={styles.activityList}>
-                                            <div className={styles.activityItem}>
-                                                <div className={styles.activityIndicator}></div>
-                                                <span className={styles.activityText}>Sistema operacional</span>
-                                                <span className={styles.activityTime}>Agora</span>
-                                            </div>
-                                            <div className={styles.activityItem}>
-                                                <div className={`${styles.activityIndicator} ${styles.blue}`}></div>
-                                                <span className={styles.activityText}>Usuários ativos</span>
-                                                <span className={styles.activityTime}>Hoje</span>
-                                            </div>
-                                            <div className={styles.activityItem}>
-                                                <div className={`${styles.activityIndicator} ${styles.yellow}`}></div>
-                                                <span className={styles.activityText}>Workshop em andamento</span>
-                                                <span className={styles.activityTime}>2 dias</span>
-                                            </div>
-                                        </div>
-                                    </Card>
-
-                                    <Card className={styles.actionsCard}>
-                                        <div className={styles.cardHeader}>
-                                            <Settings className={styles.headerIcon} />
-                                            <h3 className={styles.cardTitle}>Ações Rápidas</h3>
-                                        </div>
-                                        <div className={styles.actionsList}>
-                                            <Button variant="outline" className={styles.actionButton} onClick={handleCreateUser}>
-                                                <Plus className={styles.buttonIcon} />
-                                                Criar Novo Usuário
-                                            </Button>
-                                            <Button variant="outline" className={styles.actionButton} onClick={handleCreateTeam}>
-                                                <Plus className={styles.buttonIcon} />
-                                                Criar Nova Equipe
-                                            </Button>
-                                            <Button variant="outline" className={styles.actionButton} onClick={handleConfigureSystem}>
-                                                <Settings className={styles.buttonIcon} />
-                                                Configurar Sistema
-                                            </Button>
-                                        </div>
-                                    </Card>
+                    {/* Management Sections – tudo sempre visível */}
+                    <div className={styles.managementGrid}>
+                        <div className={styles.managementColumn}>
+                            <Card className={styles.simpleCard}>
+                                <div className={styles.cardHeader}>
+                                    <TrendingUp className={styles.headerIcon} />
+                                    <h3 className={styles.cardTitle}>Gestão de Usuários</h3>
                                 </div>
-                            </Tabs.Content>
+                                <div className={styles.cardBody}>
+                                    <UserManagement
+                                        token={sessionStorage.getItem('token')}
+                                        initialShowForm={true}
+                                    />
+                                </div>
+                            </Card>
+                        </div>
 
-                            <Tabs.Content value="users" className={styles.tabContent}>
-                                <UserManagement token={sessionStorage.getItem('token')} initialShowForm={showUserForm} />
-                            </Tabs.Content>
+                        <div className={styles.managementColumn}>
+                            <Card className={styles.simpleCard}>
+                                <div className={styles.cardHeader}>
+                                    <TrendingUp className={styles.headerIcon} />
+                                    <h3 className={styles.cardTitle}>Gestão de Equipes</h3>
+                                </div>
+                                <div className={styles.cardBody}>
+                                    <TeamManagement
+                                        token={sessionStorage.getItem('token')}
+                                        initialShowForm={true}
+                                    />
+                                </div>
+                            </Card>
+                        </div>
+                    </div>
 
-                            <Tabs.Content value="teams" className={styles.tabContent}>
-                                <TeamManagement token={sessionStorage.getItem('token')} initialShowForm={showTeamForm} />
-                            </Tabs.Content>
-
-                            <Tabs.Content value="system" className={styles.tabContent}>
-                                <StatusControl token={sessionStorage.getItem('token')} />
-                            </Tabs.Content>
-                        </Tabs>
+                    <Card className={styles.simpleCard}>
+                        <div className={styles.cardHeader}>
+                            <TrendingUp className={styles.headerIcon} />
+                            <h3 className={styles.cardTitle}>Controle do Sistema</h3>
+                        </div>
+                        <div className={styles.cardBody}>
+                            <StatusControl token={sessionStorage.getItem('token')} />
+                        </div>
                     </Card>
                 </div>
             </main>

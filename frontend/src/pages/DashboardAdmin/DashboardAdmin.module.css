@@ -286,78 +286,7 @@
 }
 
 /* === TABS CARD === */
-.tabsCard {
-  background: var(--color-white);
-  border: 1px solid #E5E7EB;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-}
-
-.tabsContainer {
-  width: 100%;
-}
-
-.tabsList {
-  display: flex;
-  border-bottom: 2px solid #E5E7EB;
-  background: linear-gradient(135deg, #F9FAFB, #F3F4F6);
-  overflow-x: auto;
-}
-
-.tabTrigger {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 1.25rem 2rem;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--color-gray-medium);
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border-bottom: 3px solid transparent;
-  white-space: nowrap;
-  position: relative;
-}
-
-.tabTrigger:hover {
-  color: var(--color-gray-dark);
-  background-color: rgba(255, 94, 58, 0.05);
-}
-
-.tabTrigger.active {
-  color: var(--color-primary-orange);
-  border-bottom-color: var(--color-primary-orange);
-  background-color: var(--color-white);
-  font-weight: 700;
-}
-
-.tabIcon {
-  height: 1.25rem;
-  width: 1.25rem;
-}
-
-.teamsTabIcon {
-  color: var(--color-secondary-green);
-}
-
-.tabContent {
-  padding: 2.5rem;
-  min-height: 400px;
-}
-
-/* === OVERVIEW GRID === */
-.overviewGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 2rem;
-}
-
-.activityCard,
-.actionsCard {
+.simpleCard {
   background: var(--color-white);
   border: 1px solid #E5E7EB;
   border-radius: 12px;
@@ -385,6 +314,23 @@
   height: 1.5rem;
   width: 1.5rem;
   color: var(--color-primary-orange);
+}
+
+.cardBody {
+  padding: 1.5rem;
+}
+
+/* === MANAGEMENT GRID === */
+.managementGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 2rem;
+}
+
+.managementColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 /* === ACTIVITY LIST === */

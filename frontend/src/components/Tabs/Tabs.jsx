@@ -14,10 +14,10 @@ const Tabs = ({ children, defaultValue, className = '', onValueChange }) => {
   return (
     <div className={`${styles.tabs} ${className}`}>
       {React.Children.map(children, child => {
-        if (child.type.name === 'TabsList') {
+        if (child.type === TabsList) {
           return React.cloneElement(child, { activeTab, setActiveTab: handleTabChange });
         }
-        if (child.type.name === 'TabsContent') {
+        if (child.type === TabsContent) {
           return React.cloneElement(child, { activeTab });
         }
         return child;
@@ -30,7 +30,7 @@ const TabsList = ({ children, activeTab, setActiveTab, className = '' }) => {
   return (
     <div className={`${styles.tabsList} ${className}`}>
       {React.Children.map(children, child => {
-        if (child.type.name === 'TabsTrigger') {
+        if (child.type === TabsTrigger) {
           return React.cloneElement(child, { 
             isActive: activeTab === child.props.value,
             onClick: () => setActiveTab(child.props.value)
