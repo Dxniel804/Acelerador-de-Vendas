@@ -644,32 +644,38 @@ const DashboardGestor = () => {
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
             <div className={styles.modalBody}>
-              <h2 className={styles.modalTitle}>Validar Proposta {propostaSelecionada.equipe_nome} – Proposta {propostaSelecionada.numero_proposta_equipe || propostaSelecionada.id}</h2>
+              <h2 className={styles.modalTitle}>VALIDAR PROPOSTA {propostaSelecionada.equipe_nome} – PROPOSTA {propostaSelecionada.numero_proposta_equipe || propostaSelecionada.id}</h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-2xl border border-gray-100">
-                <div className="flex flex-col gap-1">
-                  <Label className="uppercase text-[10px] font-bold tracking-widest text-gray-400">Equipe Representante</Label>
-                  <p className="font-bold text-orange-600 text-lg">{propostaSelecionada.equipe_nome}</p>
+              <div className={styles.modalCardGrid}>
+                <div className={styles.modalCardCol}>
+                  <span className={styles.modalCardLabel}>EQUIPE REPRESENTANTE</span>
+                  <span className={`${styles.modalCardValue} ${styles.modalCardValueOrange}`}>{propostaSelecionada.equipe_nome}</span>
                 </div>
-                <div className="flex flex-col gap-1">
-                  <Label className="uppercase text-[10px] font-bold tracking-widest text-gray-400">Cliente / Empresa</Label>
-                  <p className="font-bold text-blue-600 text-lg">{propostaSelecionada.cliente_nome}</p>
+                <div className={styles.modalCardCol}>
+                  <span className={styles.modalCardLabel}>CLIENTE / EMPRESA</span>
+                  <span className={`${styles.modalCardValue} ${styles.modalCardValueBlue}`}>{propostaSelecionada.cliente_nome}</span>
                 </div>
-                <div className="flex flex-col gap-1">
-                  <Label className="uppercase text-[10px] font-bold tracking-widest text-gray-400">Consultor Responsável</Label>
-                  <p className="font-bold text-gray-700">{propostaSelecionada.vendedor_nome}</p>
+                <div className={styles.modalCardCol}>
+                  <span className={styles.modalCardLabel}>CONSULTOR RESPONSÁVEL</span>
+                  <span className={styles.modalCardValue}>{propostaSelecionada.vendedor_nome}</span>
                 </div>
-                <div className="flex flex-col gap-1">
-                  <Label className="uppercase text-[10px] font-bold tracking-widest text-gray-400">Valor da Proposta</Label>
-                  <p className="font-bold text-green-600 text-xl">R$ {propostaSelecionada.valor_proposta?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                <div className={styles.modalCardCol}>
+                  <span className={styles.modalCardLabel}>VALOR DA PROPOSTA</span>
+                  <span className={`${styles.modalCardValue} ${styles.modalCardValueGreen}`}>
+                    R$ {propostaSelecionada.valor_proposta?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                  </span>
                 </div>
-                <div className="flex flex-col gap-1">
-                  <Label className="uppercase text-[10px] font-bold tracking-widest text-gray-400">Produtos</Label>
-                  <p className="font-bold text-purple-600">{propostaSelecionada.quantidade_produtos} produtos</p>
+                <div className={styles.modalCardCol}>
+                  <span className={styles.modalCardLabel}>PRODUTOS</span>
+                  <span className={`${styles.modalCardValue} ${styles.modalCardValuePurple}`}>
+                    {propostaSelecionada.quantidade_produtos} Produtos
+                  </span>
                 </div>
-                <div className="flex flex-col gap-1">
-                  <Label className="uppercase text-[10px] font-bold tracking-widest text-gray-400">Data de Registro</Label>
-                  <p className="font-bold text-gray-600">{new Date(propostaSelecionada.data_envio).toLocaleDateString('pt-BR')}</p>
+                <div className={styles.modalCardCol}>
+                  <span className={styles.modalCardLabel}>DATA DE REGISTRO</span>
+                  <span className={styles.modalCardValue}>
+                    {new Date(propostaSelecionada.data_envio || propostaSelecionada.created_at).toLocaleDateString('pt-BR')}
+                  </span>
                 </div>
               </div>
 
@@ -679,11 +685,11 @@ const DashboardGestor = () => {
                 propostaSelecionada.bonus_espumantes_vintage ||
                 propostaSelecionada.bonus_espumantes_premium ||
                 propostaSelecionada.bonus_aceleracao) && (
-                  <div className="p-4 bg-orange-50/10 border border-orange-500/20 rounded-lg">
-                    <h4 className="text-orange-500 font-bold text-sm uppercase mb-3 flex items-center gap-2">
-                      <i className="bi bi-stars"></i> Bônus Selecionados pela Equipe
+                  <div className={styles.modalBonusSection}>
+                    <h4 className={styles.modalBonusTitle}>
+                      ✨ Bônus Selecionados pela Equipe
                     </h4>
-                    <div className="flex flex-wrap gap-2">
+                    <div className={styles.modalBonusBadges}>
                       {propostaSelecionada.bonus_vinhos_casa_perini_mundo && (
                         <Badge className="bg-orange-500/20 text-orange-500 border-orange-500/30">Casa Perini Mundo (+5)</Badge>
                       )}
@@ -697,26 +703,28 @@ const DashboardGestor = () => {
                         <Badge className="bg-orange-500/20 text-orange-500 border-orange-500/30">Esp. Premium (+5)</Badge>
                       )}
                       {propostaSelecionada.bonus_aceleracao && (
-                        <Badge className="bg-red-500 text-white font-bold border-red-600 shadow-sm animate-pulse">ACELERAÇÃO (+25)</Badge>
+                        <Badge className="bg-red-500 text-white font-bold border-red-600 shadow-sm">ACELERAÇÃO (+25)</Badge>
                       )}
                     </div>
                   </div>
                 )}
 
-              <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                <Label className="uppercase text-[10px] font-bold tracking-widest text-slate-400 mb-2 block">Detalhamento da Proposta</Label>
-                <p className="text-gray-600 leading-relaxed italic">{propostaSelecionada.descricao || 'Nenhuma descrição detalhada fornecida pela equipe.'}</p>
+              <div className={styles.modalDetalhamento}>
+                <span className={styles.modalDetalhamentoLabel}>Detalhamento da Proposta</span>
+                <p className={styles.modalDetalhamentoText}>
+                  {propostaSelecionada.descricao || 'Nenhuma descrição detalhada fornecida pela equipe.'}
+                </p>
               </div>
 
               {propostaSelecionada.arquivo_pdf && (
-                <div className="flex items-center justify-between p-4 bg-teal-50/30 rounded-xl border border-teal-100/50">
-                  <div className="flex items-center gap-3">
-                    <div className="bg-teal-500 p-2 rounded-lg">
+                <div className={styles.modalPdfSection}>
+                  <div className={styles.modalPdfInfo}>
+                    <div className={styles.modalPdfIcon}>
                       <FileText className="h-5 w-5 text-white" />
                     </div>
-                    <div>
-                      <p className="font-bold text-teal-800 text-sm">Documento Digital Anexo</p>
-                      <p className="text-teal-600 text-[10px] uppercase font-bold tracking-wider">Proposta Comercial.pdf</p>
+                    <div className={styles.modalPdfText}>
+                      <p className={styles.modalPdfTitle}>Documento Digital Anexo</p>
+                      <p className={styles.modalPdfSubtitle}>Proposta Comercial.pdf</p>
                     </div>
                   </div>
                   <Button
@@ -730,56 +738,59 @@ const DashboardGestor = () => {
                 </div>
               )}
 
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <AlertCircle className="h-5 w-5 text-orange-500" />
-                  <Label htmlFor="motivo" className="uppercase text-[10px] font-bold tracking-widest text-orange-600">Considerações de Validação / Motivo da Rejeição</Label>
+              <div className={styles.modalObservacoes}>
+                <div className={styles.modalObservacoesLabel}>
+                  <AlertCircle className="h-4 w-4" />
+                  <span>Considerações de Validação / Motivo da Rejeição</span>
                 </div>
                 <Textarea
                   id="motivo"
                   value={motivoRejeicao}
                   onChange={(e) => setMotivoRejeicao(e.target.value)}
                   placeholder="Utilize este campo para observações internas ou para justificar uma eventual rejeição..."
-                  className="w-100 min-h-[100px] border-2 border-slate-200 focus:border-orange-500 rounded-xl p-4 transition-all"
+                  className={styles.modalObservacoesTextarea}
                 />
               </div>
             </div>
 
-            <div className="flex justify-end gap-4 mt-8 pt-6 border-t border-gray-100">
-              <Button
-                variant="outline"
+            <div className={styles.modalActions}>
+              <button
+                type="button"
                 onClick={() => {
                   setPropostaSelecionada(null);
                   setMotivoRejeicao('');
                 }}
-                className="px-8 font-bold text-gray-400 uppercase tracking-widest text-xs h-12"
+                className={styles.modalBtnVoltar}
               >
+                <XCircle className="h-4 w-4" />
                 Voltar
-              </Button>
-              <Button
+              </button>
+              <button
+                type="button"
                 onClick={() => validarProposta('rejeitar')}
                 disabled={validando || !motivoRejeicao.trim()}
-                className="bg-red-500 hover:bg-red-600 text-white font-bold px-8 h-12 uppercase tracking-widest text-xs shadow-lg shadow-red-200"
+                className={styles.modalBtnRejeitar}
               >
                 {validando ? (
-                  <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                  <RefreshCw className="h-4 w-4 animate-spin" />
                 ) : (
-                  <XCircle className="h-4 w-4 mr-2" />
+                  <XCircle className="h-4 w-4" />
                 )}
                 Rejeitar
-              </Button>
-              <Button
+              </button>
+              <button
+                type="button"
                 onClick={() => validarProposta('validar')}
                 disabled={validando}
-                className="bg-green-500 hover:bg-green-600 text-white font-bold px-8 h-12 uppercase tracking-widest text-xs shadow-lg shadow-green-200"
+                className={styles.modalBtnValidar}
               >
                 {validando ? (
-                  <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                  <RefreshCw className="h-4 w-4 animate-spin" />
                 ) : (
-                  <CheckCircle className="h-4 w-4 mr-2" />
+                  <CheckCircle className="h-4 w-4" />
                 )}
                 Validar Proposta
-              </Button>
+              </button>
             </div>
           </div>
         </div>

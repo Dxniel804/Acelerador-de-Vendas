@@ -161,6 +161,13 @@ const DashboardEquipe = () => {
             setSalvando(true);
             const token = storage.getToken();
 
+            if (!token) {
+                setError('Token de autenticação não encontrado. Faça login novamente.');
+                storage.clear();
+                window.location.href = '/login';
+                return;
+            }
+
             const formDataToSend = new FormData();
             formDataToSend.append('cliente', novaProposta.cliente);
             formDataToSend.append('vendedor', novaProposta.vendedor);
@@ -179,9 +186,28 @@ const DashboardEquipe = () => {
 
             const response = await fetch(`${API_BASE}/api/equipe/propostas/`, {
                 method: 'POST',
-                headers: { 'Authorization': `Token ${token}` },
+                headers: { 
+                    'Authorization': `Token ${token}`,
+                    // Não definir Content-Type para FormData - o browser define automaticamente com boundary
+                },
                 body: formDataToSend
             });
+
+            if (response.status === 401) {
+                // Token inválido ou expirado
+                storage.clear();
+                window.location.href = '/login';
+                return;
+            }
+
+            if (response.status === 403) {
+                // Acesso negado - usuário não é equipe ou não tem permissão
+                const errorData = await response.json().catch(() => ({}));
+                const msg = errorData.error || 'Acesso negado. Verifique se você está logado como equipe.';
+                setError(msg);
+                alert('Erro ao cadastrar proposta: ' + msg);
+                return;
+            }
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
