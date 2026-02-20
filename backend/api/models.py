@@ -122,49 +122,49 @@ class PerfilAcesso(models.Model):
     
     # Permissões Administrador
     def pode_criar_equipes(self):
-        return self.nivel in ['administrador']
+        return self.nivel in ['administrador', 'admin']
     
     def pode_criar_usuarios(self):
-        return self.nivel in ['administrador']
+        return self.nivel in ['administrador', 'admin']
     
     def pode_alterar_status_sistema(self):
-        return self.nivel in ['administrador']
+        return self.nivel in ['administrador', 'admin']
     
     # Permissões Gestor
     
     def pode_ver_todas_equipes(self):
         """Gestor pode ver todas as equipes da sua regional"""
-        return self.nivel in ['administrador', 'gestor']
+        return self.nivel in ['administrador', 'admin', 'gestor']
     
     def pode_ver_todas_propostas(self):
         """Gestor pode ver todas as propostas para validação"""
-        return self.nivel in ['administrador', 'gestor']
+        return self.nivel in ['administrador', 'admin', 'gestor']
     
     
     
     
     # Permissões Banca
     def pode_ver_dashboard_geral(self):
-        return self.nivel in ['administrador', 'banca']
+        return self.nivel in ['administrador', 'admin', 'banca']
     
     def pode_gerenciar_regras_pontuacao(self):
         """Apenas banca e admin podem gerenciar regras de pontuação - GESTOR NÃO"""
-        return self.nivel in ['administrador', 'banca']
+        return self.nivel in ['administrador', 'admin', 'banca']
     
     def pode_ver_ranking_tempo_real(self):
         """Banca pode ver ranking em tempo real"""
-        return self.nivel in ['administrador', 'banca']
+        return self.nivel in ['administrador', 'admin', 'banca']
     
     def pode_validar_propostas(self):
         """BANCA NÃO VALIDA PROPOSTAS - APENAS GESTOR"""
         status_atual = StatusSistema.get_status_atual()
         if status_atual != 'workshop':
             return False  # Validação apenas durante workshop
-        return self.nivel in ['administrador', 'gestor']
+        return self.nivel in ['administrador', 'admin', 'gestor']
     
     # Permissões Equipe
     def pode_ver_dados_equipe(self):
-        return self.nivel in ['administrador', 'gestor', 'equipe']
+        return self.nivel in ['administrador', 'admin', 'gestor', 'equipe']
     
     def pode_registrar_previsao(self):
         """PRÉ-WORKSHOP: Não permitido para equipes"""
@@ -203,14 +203,14 @@ class PerfilAcesso(models.Model):
         status_atual = StatusSistema.get_status_atual()
         if status_atual not in ['pre_workshop', 'pos_workshop']:
             return False  # Validação apenas no pré ou pós-workshop
-        return self.nivel in ['administrador', 'gestor']
+        return self.nivel in ['administrador', 'admin', 'gestor']
     
     def pode_acessar_sistema_encerrado(self):
         """ENCERRADO: Apenas admin, gestor e banca acessam dashboards"""
         status_atual = StatusSistema.get_status_atual()
         if status_atual != 'encerrado':
             return True  # Se não está encerrado, todos podem acessar conforme suas permissões
-        return self.nivel in ['administrador', 'gestor', 'banca']
+        return self.nivel in ['administrador', 'admin', 'gestor', 'banca']
     
     def _pode_operar_no_status(self):
         """Método legado - mantido para compatibilidade"""
