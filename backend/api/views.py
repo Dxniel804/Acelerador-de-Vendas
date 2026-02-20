@@ -3322,7 +3322,7 @@ def propostas_validadas_api(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def dashboard_equipe(request):
-    """Dashboard específico para a equipe"""
+    """Dashboard específico para a equipe - usuário tratado diretamente como entidade"""
     try:
         print(f"DEBUG dashboard_equipe: Usuário autenticado: {request.user.username}")
         
@@ -3331,7 +3331,7 @@ def dashboard_equipe(request):
             perfil = request.user.perfil_acesso
             # Recarregar do banco para garantir que temos os dados mais recentes
             perfil.refresh_from_db()
-            print(f"DEBUG dashboard_equipe: Perfil encontrado - Nível: {perfil.nivel}, Equipe: {perfil.equipe.nome if perfil.equipe else 'NENHUMA'}")
+            print(f"DEBUG dashboard_equipe: Perfil encontrado - Nível: {perfil.nivel}")
         except PerfilAcesso.DoesNotExist:
             logger.error(f'Perfil não encontrado para usuário: {request.user.username}')
             print(f"DEBUG dashboard_equipe: ERRO - Perfil não encontrado para {request.user.username}")
@@ -3350,57 +3350,96 @@ def dashboard_equipe(request):
                 'nivel_atual': perfil.nivel
             }, status=403)
 
-        if not perfil.equipe:
-            logger.warning(f'Usuário {request.user.username} não tem equipe associada. Perfil ID: {perfil.id}')
-            print(f"DEBUG dashboard_equipe: Tentando associar equipe automaticamente para {request.user.username}")
+        # NOVA LÓGICA: Usuário é tratado diretamente como a entidade
+        # Não precisa mais de equipe associada
+        
+        logger.info(f'Usuário {request.user.username} acessando dashboard como entidade direta')
+        print(f"DEBUG dashboard_equipe: Usuário {request.user.username} tratado como entidade direta")
+        
+        # Obter status atual do sistema
+        try:
+            status_atual = StatusSistema.get_status_atual()
+            status_display = StatusSistema.get_status_display()
+        except:
+            status_atual = 'pre_workshop'
+            status_display = 'Pré-Workshop'
+        
+        # Buscar dados diretamente associados ao usuário
+        try:
+            # Propostas associadas diretamente ao usuário
+            propostas = Proposta.objects.filter(usuario_criacao=request.user)
+            total_propostas = propostas.count()
             
-            # Tentar encontrar a equipe pelo código do username
-            try:
-                equipe = Equipe.objects.get(codigo=request.user.username)
-                print(f"DEBUG dashboard_equipe: Equipe encontrada: {equipe.nome} (ID: {equipe.id})")
-                
-                # Associar a equipe ao perfil se encontrada
-                perfil.equipe = equipe
-                perfil.save()
-                logger.info(f'Equipe {equipe.nome} associada automaticamente ao usuário {request.user.username}')
-                print(f"DEBUG dashboard_equipe: Equipe associada com sucesso!")
-                
-                # Recarregar o perfil após salvar
-                perfil.refresh_from_db()
-            except Equipe.DoesNotExist:
-                # Listar todas as equipes disponíveis para debug
-                equipes_disponiveis = Equipe.objects.all()
-                equipes_list = [{'id': e.id, 'nome': e.nome, 'codigo': e.codigo} for e in equipes_disponiveis]
-                
-                print(f"DEBUG dashboard_equipe: ERRO - Nenhuma equipe encontrada com código '{request.user.username}'")
-                print(f"DEBUG dashboard_equipe: Username do usuário: '{request.user.username}'")
-                print(f"DEBUG dashboard_equipe: Equipes disponíveis: {equipes_list}")
-                
-                # Tentar buscar por nome também (caso o código tenha sido alterado)
-                equipe_por_nome = None
-                try:
-                    # Tentar encontrar por nome (removendo espaços e convertendo para minúsculas)
-                    username_limpo = request.user.username.strip().lower()
-                    for eq in equipes_disponiveis:
-                        codigo_limpo = eq.codigo.strip().lower() if eq.codigo else ''
-                        if codigo_limpo == username_limpo:
-                            equipe_por_nome = eq
-                            break
-                    
-                    if equipe_por_nome:
-                        print(f"DEBUG dashboard_equipe: Equipe encontrada por comparação case-insensitive: {equipe_por_nome.nome}")
-                        perfil.equipe = equipe_por_nome
-                        perfil.save()
-                        perfil.refresh_from_db()
-                    else:
-                        return Response({
-                            'error': 'Equipe não associada ao seu usuário',
-                            'message': 'Entre em contato com o administrador para associar uma equipe ao seu usuário',
-                            'username': request.user.username,
-                            'perfil_id': perfil.id,
-                            'debug': f'Nenhuma equipe encontrada com código "{request.user.username}"',
-                            'equipes_disponiveis': equipes_list
-                        }, status=400)
+            # Vendas associadas diretamente ao usuário  
+            vendas = Venda.objects.filter(usuario=request.user)
+            total_vendas = vendas.count()
+            valor_total_vendas = vendas.aggregate(total=Sum('valor'))['total'] or 0
+            
+            # Previsões associadas diretamente ao usuário
+            previsoes = PrevisaoWorkshop.objects.filter(usuario=request.user)
+            total_previsoes = previsoes.count()
+            valor_previsto = previsoes.aggregate(total=Sum('valor_previsto'))['total'] or 0
+            
+            print(f"DEBUG dashboard_equipe: Dados encontrados - Propostas: {total_propostas}, Vendas: {total_vendas}, Previsões: {total_previsoes}")
+            
+        except Exception as e:
+            print(f"DEBUG dashboard_equipe: Erro ao buscar dados: {str(e)}")
+            # Valores padrão se houver erro
+            total_propostas = 0
+            total_vendas = 0
+            valor_total_vendas = 0
+            total_previsoes = 0
+            valor_previsto = 0
+        
+        # Montar resposta
+        response_data = {
+            'usuario': {
+                'id': request.user.id,
+                'username': request.user.username,
+                'email': request.user.email,
+                'nivel': perfil.nivel,
+                'nivel_display': perfil.get_nivel_display()
+            },
+            'equipe_info': {
+                'nome': f'Equipe {request.user.username.replace("equipe", "")}',
+                'codigo': request.user.username.upper(),
+                'regional': 'São Paulo',  # Padrão, pode ser configurado depois
+                'descricao': f'Usuário {request.user.username} operando como equipe'
+            },
+            'status_sistema': {
+                'atual': status_atual,
+                'display': status_display
+            },
+            'estatisticas': {
+                'total_propostas': total_propostas,
+                'total_vendas': total_vendas,
+                'valor_total_vendas': float(valor_total_vendas),
+                'total_previsoes': total_previsoes,
+                'valor_previsto': float(valor_previsto)
+            },
+            'permissoes': {
+                'pode_enviar_propostas': perfil.pode_enviar_propostas(),
+                'pode_marcar_vendas': perfil.pode_marcar_vendas(),
+                'pode_ver_ranking': perfil.pode_ver_ranking()
+            }
+        }
+        
+        logger.info(f'Dashboard montado com sucesso para usuário {request.user.username}')
+        print(f"DEBUG dashboard_equipe: Response data montada com sucesso")
+        
+        return Response(response_data)
+        
+    except Exception as e:
+        logger.error(f'Erro no dashboard_equipe: {str(e)}')
+        print(f"DEBUG dashboard_equipe: ERRO GERAL: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        
+        return Response({
+            'error': 'Erro ao carregar dashboard',
+            'message': 'Ocorreu um erro interno. Tente novamente mais tarde.',
+            'debug': str(e)
+        }, status=500)
                 except Exception as e:
                     print(f"DEBUG dashboard_equipe: Erro ao tentar buscar equipe por nome: {str(e)}")
                     return Response({
