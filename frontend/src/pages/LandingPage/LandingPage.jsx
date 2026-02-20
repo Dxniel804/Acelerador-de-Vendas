@@ -3,6 +3,10 @@ import { ArrowRight } from 'lucide-react';
 import styles from './LandingPage.module.css';
 import Button from '../../components/Button/Button';
 
+// Importando as imagens para garantir que o Webpack as processe e inclua no build
+import logoImg from '../../assets/img/vendamais_logo.png';
+import heroImg from '../../assets/img/img1_acelerador.png';
+
 const LandingPage = ({ onLoginClick }) => {
   return (
     <div className={styles.landingPage}>
@@ -11,7 +15,7 @@ const LandingPage = ({ onLoginClick }) => {
         <div className={styles.headerBar}>
           <div className={styles.headerContainer}>
             <img
-              src="/img/vendamais_logo.png"
+              src={logoImg}
               alt="Venda Mais Logo"
               className={styles.headerLogo}
             />
@@ -45,7 +49,7 @@ const LandingPage = ({ onLoginClick }) => {
           {/* Illustration */}
           <div className={styles.illustration}>
             <img
-              src="/img/img1_acelerador.png"
+              src={heroImg}
               alt="Acelerador de Vendas"
               className={styles.illustrationImg}
             />
