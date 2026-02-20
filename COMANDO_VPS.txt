@@ -1,0 +1,43 @@
+=== COMANDO PARA EXECUTAR NA VPS ===
+
+Copie e cole este comando diretamente no terminal da sua VPS:
+
+docker-compose exec backend python manage.py shell -c "
+from django.contrib.auth.models import User
+from api.models import PerfilAcesso
+
+# Remover admin existente
+try:
+    User.objects.get(username='aceleradorVMadm').delete()
+    print('Admin existente removido')
+except:
+    print('Nenhum admin existente')
+
+# Criar novo admin
+admin = User.objects.create_user(
+    username='aceleradorVMadm',
+    email='admin@aceleradorvendas.online', 
+    password='aceleravendaVM',
+    is_staff=True,
+    is_superuser=True
+)
+
+# Criar perfil
+PerfilAcesso.objects.create(
+    usuario=admin,
+    nivel='administrador',
+    ativo=True
+)
+
+print('✅ Admin criado com sucesso!')
+print('Usuário: aceleradorVMadm')
+print('Senha: aceleravendaVM')
+print('URL: https://aceleradorvendas.online/login')
+"
+
+=== APÓS EXECUTAR O COMANDO ===
+
+1. Acesse: https://aceleradorvendas.online/login
+2. Usuário: aceleradorVMadm
+3. Senha: aceleravendaVM
+4. Faça login e acesse o painel admin
