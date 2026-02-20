@@ -74,10 +74,10 @@ const DashboardAdmin = () => {
 
             // Buscar estatísticas reais da API
             const [usersResponse, equipesResponse, regionaisResponse, statusResponse] = await Promise.all([
-                fetch(`${API_URL}/admin/usuarios/`, { headers }),
-                fetch(`${API_URL}/admin/equipes/`, { headers }),
-                fetch(`${API_URL}/regionais/`, { headers }),
-                fetch(`${API_URL}/admin/status_sistema/`, { headers })
+                fetch(`${API_URL}/api/admin/usuarios/`, { headers }),
+                fetch(`${API_URL}/api/admin/equipes/`, { headers }),
+                fetch(`${API_URL}/api/regionais/`, { headers }),
+                fetch(`${API_URL}/api/admin/status_sistema/`, { headers })
             ]);
 
             const anyForbidden = [usersResponse, equipesResponse, regionaisResponse, statusResponse].some(

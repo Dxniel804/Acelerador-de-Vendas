@@ -34,7 +34,7 @@ const LoginUniversal = ({ onLogin, onEquipeSelection, existingUser, onSwitchUser
             setLoading(true);
             setError('');
 
-            const response = await fetch(`${API_URL}/auth/login/`, {
+            const response = await fetch(`${API_URL}/api/auth/login/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
@@ -63,7 +63,7 @@ const LoginUniversal = ({ onLogin, onEquipeSelection, existingUser, onSwitchUser
 
     const buscarEquipesDisponiveis = async (authToken) => {
         try {
-            const response = await fetch(`${API_URL}/auth/equipes_disponiveis/`, {
+            const response = await fetch(`${API_URL}/api/auth/equipes_disponiveis/`, {
                 headers: { 'Authorization': `Token ${authToken}` }
             });
             const equipesData = await response.json();
@@ -76,7 +76,7 @@ const LoginUniversal = ({ onLogin, onEquipeSelection, existingUser, onSwitchUser
     const selecionarEquipe = async (equipe) => {
         try {
             setLoading(true);
-            const response = await fetch(`${API_URL}/auth/selecionar_equipe/`, {
+            const response = await fetch(`${API_URL}/api/auth/selecionar_equipe/`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Token ${token}`,

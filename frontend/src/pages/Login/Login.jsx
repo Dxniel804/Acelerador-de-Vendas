@@ -44,7 +44,7 @@ const Login = ({ onLogin, onEquipeSelection, existingUser, onSwitchUser }) => {
       sessionStorage.removeItem('user');
       sessionStorage.removeItem('equipe');
 
-      const response = await fetch(`${API_BASE}/auth/login/`, {
+      const response = await fetch(`${API_BASE}/api/auth/login/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -80,7 +80,7 @@ const Login = ({ onLogin, onEquipeSelection, existingUser, onSwitchUser }) => {
 
   const buscarEquipesDisponiveis = async (authToken) => {
     try {
-      const response = await fetch(`${API_BASE}/auth/equipes_disponiveis/`, {
+      const response = await fetch(`${API_BASE}/api/auth/equipes_disponiveis/`, {
         headers: {
           'Authorization': `Token ${authToken}`
         }
@@ -102,7 +102,7 @@ const Login = ({ onLogin, onEquipeSelection, existingUser, onSwitchUser }) => {
       setLoading(true);
       setError('');
 
-      const response = await fetch(`${API_BASE}/auth/selecionar_equipe/`, {
+      const response = await fetch(`${API_BASE}/api/auth/selecionar_equipe/`, {
         method: 'POST',
         headers: {
           'Authorization': `Token ${token}`,

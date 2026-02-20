@@ -82,7 +82,7 @@ const DashboardEquipe = () => {
                 'Content-Type': 'application/json'
             };
 
-            const dashboardResponse = await fetch(`${API_BASE}/equipe/dashboard/`, { headers });
+            const dashboardResponse = await fetch(`${API_BASE}/api/equipe/dashboard/`, { headers });
             if (dashboardResponse.status === 401) {
                 sessionStorage.clear();
                 window.location.href = '/login';
@@ -94,7 +94,7 @@ const DashboardEquipe = () => {
             }
             const dashboard = await dashboardResponse.json();
 
-            const propostasResponse = await fetch(`${API_BASE}/equipe/propostas/`, { headers });
+            const propostasResponse = await fetch(`${API_BASE}/api/equipe/propostas/`, { headers });
             if (propostasResponse.status === 401) {
                 sessionStorage.clear();
                 window.location.href = '/login';
@@ -111,8 +111,8 @@ const DashboardEquipe = () => {
                 total_validadas: 0,
                 total_rejeitadas: 0
             };
-            if (dashboard?.status_sistema === 'pos_workshop') {
-                const minhasVendasResponse = await fetch(`${API_BASE}/equipe/minhas-vendas-concretizadas/`, { headers });
+            if (dashboard?.status_sistema?.atual === 'pos_workshop') {
+                const minhasVendasResponse = await fetch(`${API_BASE}/api/equipe/minhas-vendas-concretizadas/`, { headers });
                 if (minhasVendasResponse.status === 401) {
                     sessionStorage.clear();
                     window.location.href = '/login';
@@ -160,7 +160,7 @@ const DashboardEquipe = () => {
                 formDataToSend.append('arquivo_pdf', novaProposta.arquivo_pdf);
             }
 
-            const response = await fetch(`${API_BASE}/equipe/propostas/`, {
+            const response = await fetch(`${API_BASE}/api/equipe/propostas/`, {
                 method: 'POST',
                 headers: { 'Authorization': `Token ${token}` },
                 body: formDataToSend
@@ -208,7 +208,7 @@ const DashboardEquipe = () => {
         try {
             setSalvando(true);
             const token = sessionStorage.getItem('token');
-            const response = await fetch(`${API_BASE}/propostas/${selectedProposta.id}/registrar_venda_pre_workshop/`, {
+            const response = await fetch(`${API_BASE}/api/propostas/${selectedProposta.id}/registrar_venda_pre_workshop/`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -249,7 +249,7 @@ const DashboardEquipe = () => {
         try {
             setSalvando(true);
             const token = sessionStorage.getItem('token');
-            const response = await fetch(`${API_BASE}/equipe/vendas-concretizadas/`, {
+            const response = await fetch(`${API_BASE}/api/equipe/vendas-concretizadas/`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -339,7 +339,7 @@ const DashboardEquipe = () => {
                             </span>
                             <span className={`${styles.badge} ${styles.badgeStatus}`}>
                                 <i className="bi bi-activity" style={{ marginRight: '0.4rem' }}></i>
-                                {dashboardData?.status_sistema?.replace('_', ' ').toUpperCase()}
+                                {dashboardData?.status_sistema?.display || dashboardData?.status_sistema?.atual?.replace('_', ' ').toUpperCase() || 'PRÉ-WORKSHOP'}
                             </span>
                         </div>
                         <div className={styles.actionButtons}>
@@ -368,26 +368,26 @@ const DashboardEquipe = () => {
                     {!dashboardData?.pode_enviar_propostas && (
                         <div className={`${styles.alert} ${styles.alertWarning}`}>
                             <i className="bi bi-info-circle-fill"></i>
-                            <span>O envio de propostas não permitido: {dashboardData?.status_sistema}</span>
+                            <span>O envio de propostas não permitido: {dashboardData?.status_sistema?.atual}</span>
                         </div>
                     )}
 
                     <Tabs
                         defaultValue={
-                            (dashboardData?.status_sistema === 'pre_workshop') ? "vendas" :
-                                (dashboardData?.status_sistema === 'pos_workshop') ? "propostas-vendidas" :
+                            (dashboardData?.status_sistema?.atual === 'pre_workshop') ? "vendas" :
+                                (dashboardData?.status_sistema?.atual === 'pos_workshop') ? "propostas-vendidas" :
                                     "dashboard"
                         }
                         className={styles.tabsContainer}
                     >
                         <TabsList className={styles.tabsList}>
                             <TabsTrigger value="dashboard" className={styles.tabItem}>DASHBOARD</TabsTrigger>
-                            {dashboardData?.status_sistema !== 'pos_workshop' && (
+                            {dashboardData?.status_sistema?.atual !== 'pos_workshop' && (
                                 <TabsTrigger value="propostas" className={styles.tabItem}>MINHAS PROPOSTAS</TabsTrigger>
                             )}
-                            {(dashboardData?.status_sistema === 'pre_workshop') ? (
+                            {(dashboardData?.status_sistema?.atual === 'pre_workshop') ? (
                                 <TabsTrigger value="vendas" className={styles.tabItem}>REGISTRAR VENDA</TabsTrigger>
-                            ) : (dashboardData?.status_sistema === 'pos_workshop') ? (
+                            ) : (dashboardData?.status_sistema?.atual === 'pos_workshop') ? (
                                 <TabsTrigger value="propostas-vendidas" className={styles.tabItem}>MINHAS VENDAS</TabsTrigger>
                             ) : (
                                 <TabsTrigger value="nova" className={styles.tabItem}>NOVA PROPOSTA</TabsTrigger>
@@ -397,7 +397,7 @@ const DashboardEquipe = () => {
                         {/* ABA: DASHBOARD */}
                         <TabsContent value="dashboard" className="space-y-6">
                             <div className={styles.statsGrid}>
-                                {dashboardData?.status_sistema === 'pos_workshop' ? (
+                                {dashboardData?.status_sistema?.atual === 'pos_workshop' ? (
                                     <>
                                         <div className={styles.metricCard}>
                                             <div className={styles.metricFloatingIcon}><i className="bi bi-file-earmark-text"></i></div>
@@ -452,7 +452,7 @@ const DashboardEquipe = () => {
                         {/* ABA: MINHAS PROPOSTAS */}
                         <TabsContent value="propostas" className="animate-in fade-in slide-in-from-bottom-4 duration-500">
                             <div className={styles.propostasContainer}>
-                                {(dashboardData?.status_sistema === 'pos_workshop'
+                                {(dashboardData?.status_sistema?.atual === 'pos_workshop'
                                     ? (minhasVendasPos?.vendas_rejeitadas || [])
                                     : propostas
                                 ).length === 0 ? (
@@ -462,7 +462,7 @@ const DashboardEquipe = () => {
                                         <p className={styles.emptyStateText}>Suas propostas cadastradas aparecerão nesta seção</p>
                                     </div>
                                 ) : (
-                                    (dashboardData?.status_sistema === 'pos_workshop'
+                                    (dashboardData?.status_sistema?.atual === 'pos_workshop'
                                         ? minhasVendasPos.vendas_rejeitadas
                                         : propostas
                                     ).map((p) => (
@@ -514,7 +514,7 @@ const DashboardEquipe = () => {
                                                         Corrigir Proposta
                                                     </button>
                                                 )}
-                                                {p.status === 'nao_vendida' && dashboardData?.status_sistema === 'pos_workshop' && (
+                                                {p.status === 'nao_vendida' && dashboardData?.status_sistema?.atual === 'pos_workshop' && (
                                                     <button className={`${styles.actionButton} ${styles.btnPrimary}`} onClick={() => handleCorrigirVenda(p)}>
                                                         Registrar Correção
                                                     </button>

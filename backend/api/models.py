@@ -155,6 +155,10 @@ class PerfilAcesso(models.Model):
         """Banca pode ver ranking em tempo real"""
         return self.nivel in ['administrador', 'admin', 'banca']
     
+    def pode_ver_ranking(self):
+        """Quem pode ver ranking - Banca, Admin e Gestor"""
+        return self.nivel in ['administrador', 'admin', 'gestor', 'banca']
+    
     def pode_validar_propostas(self):
         """BANCA NÃO VALIDA PROPOSTAS - APENAS GESTOR"""
         status_atual = StatusSistema.get_status_atual()

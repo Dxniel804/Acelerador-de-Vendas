@@ -153,6 +153,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # CORS settings
 CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'https://aceleradorvendas.online https://www.aceleradorvendas.online http://localhost:3000 http://127.0.0.1:3000').split()
 
+# Adiciona mais origens para garantir
+CORS_ALLOWED_ORIGINS.extend([
+    'https://aceleradorvendas.online',
+    'https://www.aceleradorvendas.online',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000'
+])
+
 CORS_ALLOW_CREDENTIALS = True
 
 # Allow all origins in development

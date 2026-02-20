@@ -77,7 +77,7 @@ const DashboardGestor = () => {
       };
 
       // Buscar dashboard
-      const dashboardResponse = await fetch(`${API_BASE}/gestor/dashboard/`, { headers });
+      const dashboardResponse = await fetch(`${API_BASE}/api/gestor/dashboard/`, { headers });
       if (dashboardResponse.status === 401 || dashboardResponse.status === 403) {
         sessionStorage.clear();
         window.location.href = '/login';
@@ -87,7 +87,7 @@ const DashboardGestor = () => {
       const dashboard = await dashboardResponse.json();
 
       // Buscar equipes
-      const equipesResponse = await fetch(`${API_BASE}/gestor/equipes/`, { headers });
+      const equipesResponse = await fetch(`${API_BASE}/api/gestor/equipes/`, { headers });
       if (equipesResponse.status === 401 || equipesResponse.status === 403) {
         sessionStorage.clear();
         window.location.href = '/login';
@@ -99,7 +99,7 @@ const DashboardGestor = () => {
       // Buscar propostas pendentes (não exibir no Pós-Workshop)
       let propostasData = [];
       if (dashboard.status_sistema !== 'pos_workshop') {
-        const propostasResponse = await fetch(`${API_BASE}/gestor/propostas/`, { headers });
+        const propostasResponse = await fetch(`${API_BASE}/api/gestor/propostas/`, { headers });
         if (propostasResponse.status === 401 || propostasResponse.status === 403) {
           sessionStorage.clear();
           window.location.href = '/login';
@@ -112,7 +112,7 @@ const DashboardGestor = () => {
       // Buscar vendas pendentes (apenas no Pré-Workshop)
       let vendasPendentesData = [];
       if (dashboard.status_sistema === 'pre_workshop') {
-        const vendasResponse = await fetch(`${API_BASE}/vendas/para_validar/`, { headers });
+        const vendasResponse = await fetch(`${API_BASE}/api/vendas/para_validar/`, { headers });
         if (vendasResponse.status === 401 || vendasResponse.status === 403) {
           sessionStorage.clear();
           window.location.href = '/login';
@@ -148,7 +148,7 @@ const DashboardGestor = () => {
   const verDetalhesProposta = async (propostaId) => {
     try {
       const token = sessionStorage.getItem('token');
-      const response = await fetch(`${API_BASE}/gestor/propostas/${propostaId}/`, {
+      const response = await fetch(`${API_BASE}/api/gestor/propostas/${propostaId}/`, {
         headers: {
           'Authorization': `Token ${token}`,
           'Content-Type': 'application/json'
@@ -174,7 +174,7 @@ const DashboardGestor = () => {
     try {
       setValidando(true);
       const token = sessionStorage.getItem('token');
-      const response = await fetch(`${API_BASE}/gestor/propostas/${propostaSelecionada.id}/validar/`, {
+      const response = await fetch(`${API_BASE}/api/gestor/propostas/${propostaSelecionada.id}/validar/`, {
         method: 'PUT',
         headers: {
           'Authorization': `Token ${token}`,
@@ -254,7 +254,7 @@ const DashboardGestor = () => {
         return;
       }
 
-      const response = await fetch(`${API_BASE}/vendas/${vendaId}/validar_pre_workshop/`, {
+      const response = await fetch(`${API_BASE}/api/vendas/${vendaId}/validar_pre_workshop/`, {
         method: 'PUT',
         headers: {
           'Authorization': `Token ${token}`,

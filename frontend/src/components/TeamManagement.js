@@ -37,7 +37,7 @@ const TeamManagement = ({ token, initialShowForm = false }) => {
             };
 
             // Buscar equipes
-            const teamsResponse = await fetch(`${API_URL}/admin/equipes/`, { headers });
+            const teamsResponse = await fetch(`${API_URL}/api/admin/equipes/`, { headers });
             if (!teamsResponse.ok) throw new Error('Erro ao buscar equipes');
             const teamsData = await teamsResponse.json();
 
@@ -54,7 +54,7 @@ const TeamManagement = ({ token, initialShowForm = false }) => {
         if (!window.confirm('Tem certeza que deseja remover esta equipe?')) return;
 
         try {
-            const response = await fetch(`${API_URL}/admin/equipes/?equipe_id=${teamId}`, {
+            const response = await fetch(`${API_URL}/api/admin/equipes/?equipe_id=${teamId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -82,7 +82,7 @@ const TeamManagement = ({ token, initialShowForm = false }) => {
                 codigo: formData.codigo,
                 responsavel: formData.responsavel
             };
-            const response = await fetch(`${API_URL}/admin/equipes/`, {
+            const response = await fetch(`${API_URL}/api/admin/equipes/`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Token ${token}`,

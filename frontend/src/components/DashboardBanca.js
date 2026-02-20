@@ -56,7 +56,7 @@ const DashboardBanca = () => {
             };
 
             // Buscar dados do dashboard
-            const dashboardResponse = await fetch(`${API_BASE}/banca/dashboard/`, { headers });
+            const dashboardResponse = await fetch(`${API_BASE}/api/banca/dashboard/`, { headers });
             if (dashboardResponse.status === 401 || dashboardResponse.status === 403) {
                 sessionStorage.clear();
                 window.location.href = '/login';
@@ -66,7 +66,7 @@ const DashboardBanca = () => {
             const dashboard = await dashboardResponse.json();
 
             // Buscar ranking
-            const rankingResponse = await fetch(`${API_BASE}/banca/ranking/`, { headers });
+            const rankingResponse = await fetch(`${API_BASE}/api/banca/ranking/`, { headers });
             if (rankingResponse.status === 401 || rankingResponse.status === 403) {
                 sessionStorage.clear();
                 window.location.href = '/login';

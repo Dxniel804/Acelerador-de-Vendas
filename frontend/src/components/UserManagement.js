@@ -37,7 +37,7 @@ const UserManagement = ({ token, initialShowForm = false }) => {
     const fetchUsers = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`${API_URL}/admin/usuarios/`, {
+            const response = await fetch(`${API_URL}/api/admin/usuarios/`, {
                 headers: {
                     'Authorization': `Token ${token}`,
                     'Content-Type': 'application/json'
@@ -59,7 +59,7 @@ const UserManagement = ({ token, initialShowForm = false }) => {
         if (!window.confirm('Tem certeza que deseja remover este usuário?')) return;
 
         try {
-            const response = await fetch(`${API_URL}/admin/usuarios/?user_id=${userId}`, {
+            const response = await fetch(`${API_URL}/api/admin/usuarios/?user_id=${userId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -88,7 +88,7 @@ const UserManagement = ({ token, initialShowForm = false }) => {
                 email: formData.email ? formData.email : ''
             };
 
-            const response = await fetch(`${API_URL}/admin/usuarios/`, {
+            const response = await fetch(`${API_URL}/api/admin/usuarios/`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Token ${token}`,

@@ -21,7 +21,7 @@ def create_admin():
     
     # Remover usuário admin existente se houver
     try:
-        existing_admin = User.objects.get(username='aceleradorVMadm')
+        existing_admin = User.objects.get(username='admin')
         print(f"Removendo usuário admin existente: {existing_admin.username}")
         existing_admin.delete()
     except User.DoesNotExist:
@@ -29,9 +29,9 @@ def create_admin():
     
     # Criar novo usuário admin
     admin_user = User.objects.create_user(
-        username='aceleradorVMadm',
+        username='admin',
         email='admin@aceleradorvendas.online',
-        password='aceleravendaVM',
+        password='admin123',
         is_staff=True,
         is_superuser=True
     )
@@ -49,7 +49,7 @@ def create_admin():
     
     # Verificar criação
     try:
-        user_check = User.objects.get(username='aceleradorVMadm')
+        user_check = User.objects.get(username='admin')
         perfil_check = user_check.perfil_acesso
         print(f"✅ Verificação OK: {user_check.username} - {perfil_check.nivel}")
         print("✅ Usuário admin pronto para uso em produção!")
@@ -58,8 +58,8 @@ def create_admin():
     
     print("\n=== CREDENCIAIS DE ACESSO ===")
     print("URL: https://aceleradorvendas.online/login")
-    print("Usuário: aceleradorVMadm")
-    print("Senha: aceleravendaVM")
+    print("Usuário: admin")
+    print("Senha: admin123")
 
 if __name__ == '__main__':
     create_admin()

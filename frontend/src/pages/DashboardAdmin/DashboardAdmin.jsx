@@ -47,7 +47,7 @@ const DashboardAdmin = () => {
             };
 
             // Buscar dados do usuário
-            const userResponse = await fetch(`${API_URL}/auth/meu_perfil/`, { headers });
+            const userResponse = await fetch(`${API_URL}/api/auth/meu_perfil/`, { headers });
             if (userResponse.status === 401 || userResponse.status === 403) {
                 sessionStorage.clear();
                 window.location.href = '/login';

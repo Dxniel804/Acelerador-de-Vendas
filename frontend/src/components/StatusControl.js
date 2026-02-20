@@ -25,7 +25,7 @@ const StatusControl = ({ token }) => {
     const fetchStatus = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`${API_URL}/admin/status_sistema/`, {
+            const response = await fetch(`${API_URL}/api/admin/status_sistema/`, {
                 headers: {
                     'Authorization': `Token ${token}`,
                     'Content-Type': 'application/json'
@@ -53,7 +53,7 @@ const StatusControl = ({ token }) => {
 
         try {
             setUpdating(true);
-            const response = await fetch(`${API_URL}/admin/status_sistema/`, {
+            const response = await fetch(`${API_URL}/api/admin/status_sistema/`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Token ${token}`,
