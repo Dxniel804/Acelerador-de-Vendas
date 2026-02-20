@@ -1,11 +1,11 @@
 import { API_URL } from '../api_config';
 import React, { useState, useEffect } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { Badge } from './ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
+import Card from './Card/Card';
+import Button from './Button/Button';
+import Input from './Input/Input';
+import Label from './Label/Label';
+import Badge from './Badge/Badge';
+import Tabs from './Tabs/Tabs';
 import {
     Users,
     Settings,
@@ -259,58 +259,54 @@ const DashboardAdmin = () => {
 
                 {/* Management Tabs */}
                 <Tabs defaultValue="overview" className="space-y-6">
-                    <TabsList className="grid w-full grid-cols-4">
-                        <TabsTrigger value="overview">Visão Geral</TabsTrigger>
-                        <TabsTrigger value="users">Usuários</TabsTrigger>
-                        <TabsTrigger value="teams">Equipes</TabsTrigger>
-                        <TabsTrigger value="system">Sistema</TabsTrigger>
-                    </TabsList>
+                    <Tabs.List className="grid w-full grid-cols-4">
+                        <Tabs.Trigger value="overview">Visão Geral</Tabs.Trigger>
+                        <Tabs.Trigger value="users">Usuários</Tabs.Trigger>
+                        <Tabs.Trigger value="teams">Equipes</Tabs.Trigger>
+                        <Tabs.Trigger value="system">Sistema</Tabs.Trigger>
+                    </Tabs.List>
 
-                    <TabsContent value="overview" className="space-y-6">
+                    <Tabs.Content value="overview" className="space-y-6">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             <Card>
-                                <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
+                                <div style={{ padding: '1.5rem' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
                                         <TrendingUp className="h-5 w-5" />
-                                        Atividade Recente
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-4">
-                                        <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                                                <span className="text-sm">Sistema operacional</span>
+                                        <h3 style={{ fontSize: '1.125rem', fontWeight: 600 }}>Atividade Recente</h3>
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.75rem', backgroundColor: '#f9fafb', borderRadius: '0.5rem' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                                <div style={{ width: '8px', height: '8px', backgroundColor: '#10b981', borderRadius: '50%' }}></div>
+                                                <span style={{ fontSize: '0.875rem' }}>Sistema operacional</span>
                                             </div>
-                                            <span className="text-xs text-gray-500">Agora</span>
+                                            <span style={{ fontSize: '0.75rem', color: '#6b7280' }}>Agora</span>
                                         </div>
-                                        <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                                                <span className="text-sm">Usuários ativos</span>
+                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.75rem', backgroundColor: '#f9fafb', borderRadius: '0.5rem' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                                <div style={{ width: '8px', height: '8px', backgroundColor: '#3b82f6', borderRadius: '50%' }}></div>
+                                                <span style={{ fontSize: '0.875rem' }}>Usuários ativos</span>
                                             </div>
-                                            <span className="text-xs text-gray-500">Hoje</span>
+                                            <span style={{ fontSize: '0.75rem', color: '#6b7280' }}>Hoje</span>
                                         </div>
-                                        <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                                                <span className="text-sm">Workshop em andamento</span>
+                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.75rem', backgroundColor: '#f9fafb', borderRadius: '0.5rem' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                                <div style={{ width: '8px', height: '8px', backgroundColor: '#eab308', borderRadius: '50%' }}></div>
+                                                <span style={{ fontSize: '0.875rem' }}>Workshop em andamento</span>
                                             </div>
-                                            <span className="text-xs text-gray-500">2 dias</span>
+                                            <span style={{ fontSize: '0.75rem', color: '#6b7280' }}>2 dias</span>
                                         </div>
                                     </div>
-                                </CardContent>
+                                </div>
                             </Card>
 
                             <Card>
-                                <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
+                                <div style={{ padding: '1.5rem' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
                                         <Settings className="h-5 w-5" />
-                                        Ações Rápidas
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-3">
+                                        <h3 style={{ fontSize: '1.125rem', fontWeight: 600 }}>Ações Rápidas</h3>
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                                         <Button className="w-full justify-start" variant="outline">
                                             <Plus className="h-4 w-4 mr-2" />
                                             Criar Novo Usuário
@@ -324,56 +320,54 @@ const DashboardAdmin = () => {
                                             Configurar Sistema
                                         </Button>
                                     </div>
-                                </CardContent>
+                                </div>
                             </Card>
                         </div>
-                    </TabsContent>
+                    </Tabs.Content>
 
-                    <TabsContent value="users" className="space-y-6">
+                    <Tabs.Content value="users" className="space-y-6">
                         <UserManagement token={sessionStorage.getItem('token')} />
-                    </TabsContent>
+                    </Tabs.Content>
 
-                    <TabsContent value="teams" className="space-y-6">
+                    <Tabs.Content value="teams" className="space-y-6">
                         <TeamManagement token={sessionStorage.getItem('token')} />
-                    </TabsContent>
+                    </Tabs.Content>
 
-                    <TabsContent value="system" className="space-y-6">
+                    <Tabs.Content value="system" className="space-y-6">
                         <StatusControl token={sessionStorage.getItem('token')} />
 
                         <Card>
-                            <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
+                            <div style={{ padding: '1.5rem' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
                                     <Settings className="h-5 w-5" />
-                                    Informações Técnicas
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="space-y-4">
-                                    <div className="flex items-center justify-between p-4 border rounded-lg">
+                                    <h3 style={{ fontSize: '1.125rem', fontWeight: 600 }}>Informações Técnicas</h3>
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem', border: '1px solid #e5e7eb', borderRadius: '0.5rem' }}>
                                         <div>
-                                            <h3 className="font-medium">Banco de Dados</h3>
-                                            <p className="text-sm text-gray-500">SQLite local</p>
+                                            <h3 style={{ fontWeight: 500 }}>Banco de Dados</h3>
+                                            <p style={{ fontSize: '0.875rem', color: '#6b7280' }}>SQLite local</p>
                                         </div>
-                                        <Badge className="bg-green-100 text-green-primary">
+                                        <Badge variant="success">
                                             <CheckCircle className="h-3 w-3 mr-1" />
                                             Ativo
                                         </Badge>
                                     </div>
 
-                                    <div className="flex items-center justify-between p-4 border rounded-lg">
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem', border: '1px solid #e5e7eb', borderRadius: '0.5rem' }}>
                                         <div>
-                                            <h3 className="font-medium">API Backend</h3>
-                                            <p className="text-sm text-gray-500">Django REST Framework</p>
+                                            <h3 style={{ fontWeight: 500 }}>API Backend</h3>
+                                            <p style={{ fontSize: '0.875rem', color: '#6b7280' }}>Django REST Framework</p>
                                         </div>
-                                        <Badge className="bg-green-100 text-green-primary">
+                                        <Badge variant="success">
                                             <CheckCircle className="h-3 w-3 mr-1" />
                                             Online
                                         </Badge>
                                     </div>
                                 </div>
-                            </CardContent>
+                            </div>
                         </Card>
-                    </TabsContent>
+                    </Tabs.Content>
                 </Tabs>
             </div>
         </div>
