@@ -6,6 +6,8 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Badge } from './ui/badge';
+import { storage } from '../utils/storage';
+import { FileText, Download, XCircle, AlertCircle } from 'lucide-react';
 import styles from './GerenciarPropostasEquipe.module.css';
 
 const GerenciarPropostasEquipe = () => {
@@ -30,19 +32,36 @@ const GerenciarPropostasEquipe = () => {
     const fetchPropostas = async () => {
         try {
             setLoading(true);
-            const token = sessionStorage.getItem('token');
-            const response = await fetch(`${API_BASE}/propostas/`, {
-                headers: { 'Authorization': `Token ${token}` }
-            });
+            const token = storage.getToken();
+            
+            if (!token) {
+                setError('Token de autenticação não encontrado');
+                storage.clear();
+                window.location.href = '/login';
+                return;
+            }
+
+            const headers = {
+                'Authorization': `Token ${token}`,
+                'Content-Type': 'application/json'
+            };
+
+            // Usar o endpoint correto da API de equipe
+            const response = await fetch(`${API_BASE}/api/equipe/propostas/`, { headers });
+            
+            if (response.status === 401 || response.status === 403) {
+                storage.clear();
+                window.location.href = '/login';
+                return;
+            }
+            
             if (!response.ok) throw new Error('Erro ao buscar propostas');
+            
             const propostasData = await response.json();
-            const equipe = JSON.parse(sessionStorage.getItem('equipe') || '{}');
-            const propostasRejeitadas = propostasData.filter((p) => {
-                if (p.status !== 'rejeitada') return false;
-                if (p.equipe && equipe.id && p.equipe === equipe.id) return true;
-                if (p.equipe_nome && equipe.nome && p.equipe_nome === equipe.nome) return true;
-                return false;
-            });
+            
+            // Filtrar apenas propostas rejeitadas da equipe logada
+            const propostasRejeitadas = propostasData.filter((p) => p.status === 'rejeitada');
+            
             setPropostas(propostasRejeitadas);
             setError(null);
         } catch (err) {
@@ -66,39 +85,74 @@ const GerenciarPropostasEquipe = () => {
         if (!propostaEditando) return;
         try {
             setSalvando(true);
-            const token = sessionStorage.getItem('token');
+            const token = storage.getToken();
+            
+            if (!token) {
+                setError('Token de autenticação não encontrado');
+                return;
+            }
+
             const formDataToSend = new FormData();
             formDataToSend.append('valor_proposta', formData.valor_proposta);
             formDataToSend.append('descricao', formData.descricao);
             formDataToSend.append('quantidade_produtos', formData.quantidade_produtos);
             if (formData.arquivo_pdf) formDataToSend.append('arquivo_pdf', formData.arquivo_pdf);
 
-            const response = await fetch(`${API_BASE}/propostas/${propostaEditando.id}/reenviar/`, {
+            const response = await fetch(`${API_BASE}/api/propostas/${propostaEditando.id}/reenviar/`, {
                 method: 'PUT',
                 headers: { 'Authorization': `Token ${token}` },
                 body: formDataToSend
             });
-            if (!response.ok) throw new Error('Erro ao reenviar proposta');
+            
+            if (response.status === 401 || response.status === 403) {
+                storage.clear();
+                window.location.href = '/login';
+                return;
+            }
+            
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.error || 'Erro ao reenviar proposta');
+            }
+            
             setPropostaEditando(null);
             fetchPropostas();
+            alert('Proposta reenviada com sucesso!');
         } catch (err) {
             setError(err.message);
+            alert('Erro ao reenviar proposta: ' + err.message);
         } finally {
             setSalvando(false);
         }
     };
 
     const apagarProposta = async (propostaId) => {
-        if (!window.confirm('Apagar proposta?')) return;
+        if (!window.confirm('Tem certeza que deseja apagar esta proposta?')) return;
         try {
-            const token = sessionStorage.getItem('token');
-            await fetch(`${API_BASE}/propostas/${propostaId}/apagar/`, {
+            const token = storage.getToken();
+            
+            if (!token) {
+                setError('Token de autenticação não encontrado');
+                return;
+            }
+
+            const response = await fetch(`${API_BASE}/api/propostas/${propostaId}/apagar/`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Token ${token}` }
             });
+            
+            if (response.status === 401 || response.status === 403) {
+                storage.clear();
+                window.location.href = '/login';
+                return;
+            }
+            
+            if (!response.ok) throw new Error('Erro ao apagar proposta');
+            
             fetchPropostas();
         } catch (err) {
             setError(err.message);
+            alert('Erro ao apagar proposta: ' + err.message);
         }
     };
 
@@ -136,31 +190,73 @@ const GerenciarPropostasEquipe = () => {
                         ) : (
                             <div className={styles.propostasList}>
                                 {propostas.map((p) => (
-                                    <div key={p.id} className={styles.propostaCard}>
+                                    <article key={p.id} className={styles.propostaCard}>
                                         <div className={styles.propostaHeader}>
                                             <div className={styles.propostaInfo}>
                                                 <div className={styles.propostaTitle}>
-                                                    <h3>{p.equipe_nome} – Proposta {p.numero_proposta_equipe || p.id} – {p.cliente_nome}</h3>
-                                                    <Badge className={styles.badgeRejected}><i className="bi bi-x-circle-fill mr-1"></i> Rejeitada</Badge>
+                                                    <h3>{p.equipe_nome || 'Minha Equipe'} – PROPOSTA {p.numero_proposta_equipe || p.id}</h3>
+                                                    <span className={styles.badgeRejected}>
+                                                        <XCircle className="h-3 w-3" />
+                                                        REJEITADA
+                                                    </span>
                                                 </div>
+                                                
                                                 {p.motivo_rejeicao && (
                                                     <div className={styles.rejectionReason}>
-                                                        <i className="bi bi-info-circle-fill"></i>
-                                                        <p><b>Motivo:</b> {p.motivo_rejeicao}</p>
+                                                        <AlertCircle className="h-4 w-4" />
+                                                        <p><b>Feedback da Gestão:</b> {p.motivo_rejeicao}</p>
                                                     </div>
                                                 )}
+                                                
                                                 <div className={styles.propostaDetails}>
-                                                    <span><b>Valor:</b> R$ {p.valor_proposta?.toLocaleString()}</span>
-                                                    <span><b>Produtos:</b> {p.quantidade_produtos}</span>
+                                                    <div className={styles.propostaDetail}>
+                                                        <strong>NOME DO CLIENTE</strong>
+                                                        <span>{p.cliente_nome}</span>
+                                                    </div>
+                                                    <div className={styles.propostaDetail}>
+                                                        <strong>VALOR ESTIMADO</strong>
+                                                        <span className={styles.valorHighlight}>
+                                                            R$ {p.valor_proposta?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                                                        </span>
+                                                    </div>
+                                                    <div className={styles.propostaDetail}>
+                                                        <strong>PRODUTOS</strong>
+                                                        <span className={styles.produtosHighlight}>
+                                                            {p.quantidade_produtos} Produtos
+                                                        </span>
+                                                    </div>
+                                                    <div className={styles.propostaDetail}>
+                                                        <strong>RESPONSÁVEL</strong>
+                                                        <span>{p.vendedor_nome}</span>
+                                                    </div>
                                                 </div>
+                                                
+                                                {p.descricao && (
+                                                    <div style={{ marginTop: '16px', padding: '12px 16px', background: '#f9fafb', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
+                                                        <strong style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#9ca3af', display: 'block', marginBottom: '6px' }}>RESUMO E DETALHAMENTO</strong>
+                                                        <p style={{ fontSize: '0.85rem', color: '#4b5563', fontStyle: 'italic', lineHeight: '1.5', margin: 0 }}>{p.descricao}</p>
+                                                    </div>
+                                                )}
                                             </div>
+                                            
                                             <div className={styles.propostaActions}>
-                                                <button className={styles.button} onClick={() => downloadPDF(p.arquivo_pdf)}><i className="bi bi-file-earmark-pdf"></i> PDF</button>
-                                                <button className={styles.button} onClick={() => editarProposta(p)}><i className="bi bi-pencil-square"></i> Corrigir</button>
-                                                <button className={`${styles.button} ${styles.buttonDanger}`} onClick={() => apagarProposta(p.id)}><i className="bi bi-trash"></i></button>
+                                                {p.arquivo_pdf && (
+                                                    <button className={styles.button} onClick={() => downloadPDF(p.arquivo_pdf)}>
+                                                        <FileText className="h-4 w-4" />
+                                                        PDF DA PROPOSTA
+                                                    </button>
+                                                )}
+                                                <button className={styles.buttonPrimary} onClick={() => editarProposta(p)}>
+                                                    <i className="bi bi-pencil-square"></i>
+                                                    CORRIGIR PROPOSTA
+                                                </button>
+                                                <button className={`${styles.button} ${styles.buttonDanger}`} onClick={() => apagarProposta(p.id)}>
+                                                    <i className="bi bi-trash"></i>
+                                                    APAGAR
+                                                </button>
                                             </div>
                                         </div>
-                                    </div>
+                                    </article>
                                 ))}
                             </div>
                         )}

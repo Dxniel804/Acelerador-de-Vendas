@@ -232,12 +232,12 @@ const DashboardGestor = () => {
   };
 
   const downloadPDF = (url) => {
-    if (url) {
-      // Construir URL completa para o arquivo PDF
-      const pdfUrl = `${API_BASE_URL}${url}`;
-      console.log('DEBUG: Abrindo PDF:', pdfUrl);
-      window.open(pdfUrl, '_blank');
-    }
+    if (!url) return;
+    // Se já é uma URL completa (http/https), usar diretamente
+    // Caso contrário, construir URL completa usando API_BASE_URL
+    const pdfUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url.startsWith('/') ? url : '/' + url}`;
+    console.log('DEBUG: Abrindo PDF:', pdfUrl);
+    window.open(pdfUrl, '_blank');
   };
 
   const validarVenda = async (vendaId, acao) => {
@@ -691,19 +691,29 @@ const DashboardGestor = () => {
                     </h4>
                     <div className={styles.modalBonusBadges}>
                       {propostaSelecionada.bonus_vinhos_casa_perini_mundo && (
-                        <Badge className="bg-orange-500/20 text-orange-500 border-orange-500/30">Casa Perini Mundo (+5)</Badge>
+                        <span className={`${styles.modalBonusBadge} ${styles.modalBonusBadgeNormal}`}>
+                          Casa Perini Mundo (+5)
+                        </span>
                       )}
                       {propostaSelecionada.bonus_vinhos_fracao_unica && (
-                        <Badge className="bg-orange-500/20 text-orange-500 border-orange-500/30">Fração Única (+5)</Badge>
+                        <span className={`${styles.modalBonusBadge} ${styles.modalBonusBadgeNormal}`}>
+                          Fração Única (+5)
+                        </span>
                       )}
                       {propostaSelecionada.bonus_espumantes_vintage && (
-                        <Badge className="bg-orange-500/20 text-orange-500 border-orange-500/30">Esp. Vintage (+5)</Badge>
+                        <span className={`${styles.modalBonusBadge} ${styles.modalBonusBadgeNormal}`}>
+                          Esp. Vintage (+5)
+                        </span>
                       )}
                       {propostaSelecionada.bonus_espumantes_premium && (
-                        <Badge className="bg-orange-500/20 text-orange-500 border-orange-500/30">Esp. Premium (+5)</Badge>
+                        <span className={`${styles.modalBonusBadge} ${styles.modalBonusBadgeNormal}`}>
+                          Esp. Premium (+5)
+                        </span>
                       )}
                       {propostaSelecionada.bonus_aceleracao && (
-                        <Badge className="bg-red-500 text-white font-bold border-red-600 shadow-sm">ACELERAÇÃO (+25)</Badge>
+                        <span className={`${styles.modalBonusBadge} ${styles.modalBonusBadgeAceleracao}`}>
+                          ⚡ ACELERAÇÃO (+25)
+                        </span>
                       )}
                     </div>
                   </div>
