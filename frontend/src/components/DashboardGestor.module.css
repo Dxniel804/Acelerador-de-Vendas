@@ -309,6 +309,198 @@
   letter-spacing: 0.05em;
 }
 
+/* === PROPOSTAS AGUARDANDO VALIDAÇÃO - CARD (design Imagem 2) === */
+.propostaCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.propostaCard {
+  background-color: #ffffff;
+  border-radius: 18px;
+  border-left: 6px solid var(--color-primary-orange, #ff5e3a);
+  padding: 18px 22px;
+  margin-bottom: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.propostaCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.propostaCardTitle {
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #111827;
+}
+
+.propostaCardStatus {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.propostaCardStatusAguardando {
+  background-color: #fef9c3;
+  color: #854d0e;
+  border-color: #fef08a;
+}
+
+.propostaCardBody {
+  display: flex;
+  align-items: flex-end;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.propostaCardGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px 32px;
+  flex: 1;
+  min-width: 0;
+}
+
+.propostaCardCol {
+  min-width: 0;
+}
+
+.propostaCardLabel {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin-bottom: 6px;
+}
+
+.propostaCardValue {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.propostaCardValueGreen {
+  color: #16a34a;
+}
+
+.propostaCardValueOrange {
+  color: #f97316;
+}
+
+.propostaCardActions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.propostaCardPdfBtn {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background-color: #f9fafb;
+  color: #374151;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.05s ease;
+}
+
+.propostaCardPdfBtn:hover {
+  background-color: #f3f4f6;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.12);
+  transform: translateY(-1px);
+}
+
+.propostaCardPrimaryBtn {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: none;
+  background-color: var(--color-primary-orange, #ff5e3a);
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.05s ease;
+}
+
+.propostaCardPrimaryBtn:hover {
+  background-color: #e54d2a;
+  box-shadow: 0 4px 14px rgba(255, 94, 58, 0.35);
+  transform: translateY(-1px);
+}
+
+.propostaCardResumo {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: #f9fafb;
+  border-radius: 12px;
+  border: 1px solid #f3f4f6;
+}
+
+.propostaCardResumoLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin-bottom: 6px;
+}
+
+.propostaCardResumoText {
+  font-size: 0.85rem;
+  color: #4b5563;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .propostaCardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .propostaCardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .propostaCardBody {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .propostaCardActions {
+    margin-left: 0;
+  }
+}
+
 /* === EMPTY STATE === */
 .emptyState {
   display: flex;

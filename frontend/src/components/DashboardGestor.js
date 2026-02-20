@@ -401,77 +401,70 @@ const DashboardGestor = () => {
                         <p className={styles.emptyStateText}>As propostas enviadas pelas equipes aparecerão aqui para validação</p>
                       </div>
                     ) : (
-                      <div className="space-y-4">
-                        <div className="space-y-6">
-                          {propostas.map((proposta) => (
-                            <div key={proposta.id} className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all relative">
-                              <div className="absolute left-0 top-0 bottom-0 w-2 bg-[#FF5E3A]"></div>
+                      <div className={styles.propostaCardList}>
+                        {propostas.map((proposta) => (
+                          <article key={proposta.id} className={styles.propostaCard}>
+                            <header className={styles.propostaCardHeader}>
+                              <h3 className={styles.propostaCardTitle}>
+                                {proposta.equipe_nome} – PROPOSTA {proposta.numero_proposta_equipe || proposta.id}
+                              </h3>
+                              <span className={`${styles.propostaCardStatus} ${styles.propostaCardStatusAguardando}`}>
+                                AGUARDANDO VALIDAÇÃO
+                              </span>
+                            </header>
 
-                              <div className="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/30">
-                                <div>
-                                  <h3 className="font-bold text-[#1A3A41] text-2xl uppercase tracking-tighter" style={{ fontFamily: "'Jaro', sans-serif" }}>
-                                    {proposta.equipe_nome} – PROPOSTA {proposta.numero_proposta_equipe || proposta.id}
-                                  </h3>
-                                  <p className="text-slate-400 font-bold text-[10px] uppercase tracking-[0.2em] mt-1">Registrado em {new Date(proposta.data_envio).toLocaleDateString('pt-BR')} às {new Date(proposta.data_envio).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</p>
+                            <div className={styles.propostaCardBody}>
+                              <div className={styles.propostaCardGrid}>
+                                <div className={styles.propostaCardCol}>
+                                  <span className={styles.propostaCardLabel}>NOME DO CLIENTE</span>
+                                  <span className={styles.propostaCardValue}>{proposta.cliente_nome}</span>
                                 </div>
-                                <Badge className="bg-orange-50 text-orange-600 border border-orange-100 font-black px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.15em]">
-                                  AGUARDANDO VALIDAÇÃO
-                                </Badge>
+                                <div className={styles.propostaCardCol}>
+                                  <span className={styles.propostaCardLabel}>VALOR ESTIMADO</span>
+                                  <span className={`${styles.propostaCardValue} ${styles.propostaCardValueGreen}`}>
+                                    R$ {proposta.valor_proposta?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                                  </span>
+                                </div>
+                                <div className={styles.propostaCardCol}>
+                                  <span className={styles.propostaCardLabel}>PRODUTOS</span>
+                                  <span className={`${styles.propostaCardValue} ${styles.propostaCardValueOrange}`}>
+                                    {proposta.quantidade_produtos} Produtos
+                                  </span>
+                                </div>
+                                <div className={styles.propostaCardCol}>
+                                  <span className={styles.propostaCardLabel}>RESPONSÁVEL</span>
+                                  <span className={styles.propostaCardValue}>{proposta.vendedor_nome}</span>
+                                </div>
                               </div>
 
-                              <div className="p-8">
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-8">
-                                  <div className="flex flex-col gap-2">
-                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Cliente / Empresa</label>
-                                    <span className="text-[#1A3A41] font-bold text-lg leading-tight">{proposta.cliente_nome}</span>
-                                  </div>
-                                  <div className="flex flex-col gap-2">
-                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Valor Estimado</label>
-                                    <span className="text-[#10B981] font-black text-2xl">
-                                      <span className="text-sm font-bold mr-1">R$</span>
-                                      {proposta.valor_proposta?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                                    </span>
-                                  </div>
-                                  <div className="flex flex-col gap-2">
-                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Produtos</label>
-                                    <span className="text-[#3B82F6] font-black text-2xl">
-                                      {proposta.quantidade_produtos} <span className="text-xs uppercase tracking-widest font-bold text-slate-400">Produtos</span>
-                                    </span>
-                                  </div>
-                                  <div className="flex flex-col gap-2 text-right lg:text-left">
-                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Consultor</label>
-                                    <span className="text-slate-600 font-bold text-lg">{proposta.vendedor_nome}</span>
-                                  </div>
-                                </div>
-
-                                {proposta.descricao && (
-                                  <div className="mt-8 p-6 bg-slate-50 rounded-2xl border border-slate-100">
-                                    <label className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2 block">Resumo e Detalhamento</label>
-                                    <p className="text-slate-500 font-medium italic text-sm leading-relaxed">{proposta.descricao}</p>
-                                  </div>
-                                )}
-
-                                <div className="flex flex-col sm:flex-row gap-4 justify-end mt-10 pt-8 border-t border-slate-100">
-                                  <Button
-                                    variant="outline"
-                                    onClick={() => downloadPDF(proposta.arquivo_pdf)}
-                                    className="h-14 px-8 border-2 border-slate-200 text-slate-500 hover:bg-slate-50 hover:border-slate-300 font-black uppercase text-[11px] tracking-[0.2em] rounded-2xl transition-all"
-                                  >
-                                    <Download className="h-5 w-5 mr-3" />
-                                    PDF Comercial
-                                  </Button>
-                                  <Button
-                                    onClick={() => verDetalhesProposta(proposta.id)}
-                                    className="h-14 px-10 bg-[#FF5E3A] hover:bg-[#E54D2A] text-white font-black uppercase text-[11px] tracking-[0.2em] rounded-2xl shadow-xl shadow-orange-500/20 transition-all flex items-center gap-3 transform hover:-translate-y-1"
-                                  >
-                                    <Eye className="h-5 w-5" />
-                                    <span>Analisar e Validar</span>
-                                  </Button>
-                                </div>
+                              <div className={styles.propostaCardActions}>
+                                <button
+                                  type="button"
+                                  className={styles.propostaCardPdfBtn}
+                                  onClick={() => downloadPDF(proposta.arquivo_pdf)}
+                                >
+                                  <Download className="h-4 w-4" />
+                                  PDF DA PROPOSTA
+                                </button>
+                                <button
+                                  type="button"
+                                  className={styles.propostaCardPrimaryBtn}
+                                  onClick={() => verDetalhesProposta(proposta.id)}
+                                >
+                                  <Eye className="h-4 w-4" />
+                                  Analisar e Validar
+                                </button>
                               </div>
                             </div>
-                          ))}
-                        </div>
+
+                            {proposta.descricao && (
+                              <div className={styles.propostaCardResumo}>
+                                <span className={styles.propostaCardResumoLabel}>Resumo e Detalhamento</span>
+                                <p className={styles.propostaCardResumoText}>{proposta.descricao}</p>
+                              </div>
+                            )}
+                          </article>
+                        ))}
                       </div>
                     )}
                   </CardContent>
