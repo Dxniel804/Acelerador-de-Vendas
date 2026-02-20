@@ -157,9 +157,39 @@ const DashboardEquipe = () => {
             return;
         }
 
+        // Validações de campos obrigatórios
+        if (!novaProposta.cliente || !novaProposta.cliente.trim()) {
+            setError('Nome do cliente é obrigatório');
+            alert('Por favor, preencha o nome do cliente.');
+            return;
+        }
+
+        if (!novaProposta.vendedor || !novaProposta.vendedor.trim()) {
+            setError('Nome do consultor responsável é obrigatório');
+            alert('Por favor, preencha o nome do consultor responsável.');
+            return;
+        }
+
+        if (!novaProposta.valor_proposta || parseFloat(novaProposta.valor_proposta) <= 0) {
+            setError('Valor da proposta é obrigatório e deve ser maior que zero');
+            alert('Por favor, preencha um valor válido para a proposta.');
+            return;
+        }
+
+        if (!novaProposta.arquivo_pdf) {
+            setError('É obrigatório anexar o PDF da proposta');
+            alert('Por favor, anexe o arquivo PDF da proposta.');
+            return;
+        }
+
         try {
             setSalvando(true);
+            setError(null);
+            
+            // Obter token e usuário - garantir que estamos usando o mesmo método do fetchData
             const token = storage.getToken();
+            const user = storage.getUser();
+            const equipe = storage.getEquipe();
 
             if (!token) {
                 setError('Token de autenticação não encontrado. Faça login novamente.');
@@ -168,12 +198,26 @@ const DashboardEquipe = () => {
                 return;
             }
 
+            // Verificar se o usuário é realmente da equipe
+            if (!user || user.nivel !== 'equipe') {
+                setError('Você precisa estar logado como equipe para enviar propostas.');
+                alert('Erro: Você precisa estar logado como equipe para enviar propostas.');
+                return;
+            }
+
+            console.log('DEBUG: Enviando proposta - Token:', token ? 'Presente (' + token.substring(0, 10) + '...)' : 'Ausente');
+            console.log('DEBUG: Usuário:', user);
+            console.log('DEBUG: Equipe:', equipe);
+            console.log('DEBUG: Status sistema:', statusAtual);
+            console.log('DEBUG: Pode enviar:', podeEnviar);
+
             const formDataToSend = new FormData();
-            formDataToSend.append('cliente', novaProposta.cliente);
-            formDataToSend.append('vendedor', novaProposta.vendedor);
-            formDataToSend.append('valor_proposta', novaProposta.valor_proposta);
-            formDataToSend.append('descricao', novaProposta.descricao);
+            formDataToSend.append('cliente', novaProposta.cliente.trim());
+            formDataToSend.append('vendedor', novaProposta.vendedor.trim());
+            formDataToSend.append('valor_proposta', String(novaProposta.valor_proposta));
+            formDataToSend.append('descricao', novaProposta.descricao || '');
             formDataToSend.append('quantidade_produtos', String(Math.max(0, parseInt(novaProposta.quantidade_produtos, 10) || 0)));
+            // FormData envia booleanos como strings, mas o backend espera valores que possam ser convertidos para boolean
             formDataToSend.append('bonus_vinhos_casa_perini_mundo', novaProposta.bonus_vinhos_casa_perini_mundo);
             formDataToSend.append('bonus_vinhos_fracao_unica', novaProposta.bonus_vinhos_fracao_unica);
             formDataToSend.append('bonus_espumantes_vintage', novaProposta.bonus_espumantes_vintage);
@@ -193,9 +237,15 @@ const DashboardEquipe = () => {
                 body: formDataToSend
             });
 
+            console.log('DEBUG: Response status:', response.status);
+            console.log('DEBUG: Response ok:', response.ok);
+
             if (response.status === 401) {
                 // Token inválido ou expirado
+                const errorData = await response.json().catch(() => ({}));
+                console.error('DEBUG: 401 - Token inválido:', errorData);
                 storage.clear();
+                alert('Sessão expirada. Faça login novamente.');
                 window.location.href = '/login';
                 return;
             }
@@ -203,9 +253,35 @@ const DashboardEquipe = () => {
             if (response.status === 403) {
                 // Acesso negado - usuário não é equipe ou não tem permissão
                 const errorData = await response.json().catch(() => ({}));
-                const msg = errorData.error || 'Acesso negado. Verifique se você está logado como equipe.';
+                console.error('DEBUG: 403 - Acesso negado:', errorData);
+                console.error('DEBUG: Response completa:', {
+                    status: response.status,
+                    statusText: response.statusText,
+                    headers: Object.fromEntries(response.headers.entries())
+                });
+                
+                let msg = errorData.error || errorData.message || 'Acesso negado.';
+                
+                // Mensagens mais específicas baseadas no erro
+                if (errorData.error === 'Acesso negado') {
+                    msg = 'Acesso negado. Verifique se você está logado como equipe e se sua equipe está associada ao seu perfil.';
+                } else if (errorData.error && errorData.error.includes('Perfil de acesso não encontrado')) {
+                    msg = 'Perfil de acesso não encontrado. Entre em contato com o administrador.';
+                } else if (errorData.error && errorData.error.includes('Equipe não selecionada')) {
+                    msg = 'Equipe não selecionada. Entre em contato com o administrador para associar uma equipe ao seu usuário.';
+                } else if (errorData.error && errorData.error.includes('Envio de propostas não permitido')) {
+                    msg = `Envio de propostas não permitido no status atual do sistema. Status atual: ${errorData.status_atual || 'desconhecido'}`;
+                }
+                
                 setError(msg);
                 alert('Erro ao cadastrar proposta: ' + msg);
+                
+                // Se o erro for sobre equipe não selecionada ou perfil, tentar recarregar dados
+                if (errorData.error && (errorData.error.includes('Equipe não selecionada') || errorData.error.includes('Perfil de acesso'))) {
+                    setTimeout(() => {
+                        fetchData();
+                    }, 2000);
+                }
                 return;
             }
 
