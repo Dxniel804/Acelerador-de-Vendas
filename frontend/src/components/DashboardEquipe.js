@@ -159,7 +159,7 @@ const DashboardEquipe = () => {
 
         try {
             setSalvando(true);
-            const token = sessionStorage.getItem('token');
+            const token = storage.getToken();
 
             const formDataToSend = new FormData();
             formDataToSend.append('cliente', novaProposta.cliente);
@@ -232,7 +232,7 @@ const DashboardEquipe = () => {
         if (!selectedProposta) return;
         try {
             setSalvando(true);
-            const token = sessionStorage.getItem('token');
+            const token = storage.getToken();
             const response = await fetch(`${API_BASE}/api/propostas/${selectedProposta.id}/registrar_venda_pre_workshop/`, {
                 method: 'POST',
                 headers: {
@@ -273,7 +273,7 @@ const DashboardEquipe = () => {
         if (!vendaParaCorrigir) return;
         try {
             setSalvando(true);
-            const token = sessionStorage.getItem('token');
+            const token = storage.getToken();
             const response = await fetch(`${API_BASE}/api/equipe/vendas-concretizadas/`, {
                 method: 'POST',
                 headers: {
@@ -328,7 +328,7 @@ const DashboardEquipe = () => {
     };
 
     const logout = () => {
-        sessionStorage.clear();
+        storage.clear();
         window.location.reload();
     };
 
@@ -358,7 +358,7 @@ const DashboardEquipe = () => {
         );
     }
 
-    const equipe = JSON.parse(sessionStorage.getItem('equipe') || '{}');
+    const equipe = storage.getEquipe() || {};
 
     return (
         <div className={styles.dashboard}>
