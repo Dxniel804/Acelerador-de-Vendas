@@ -140,6 +140,9 @@ class PerfilAcesso(models.Model):
         """Gestor pode ver todas as propostas para validação"""
         return self.nivel in ['administrador', 'admin', 'gestor']
     
+    def pode_alterar_status_sistema(self):
+        """Apenas admin pode alterar status do sistema"""
+        return self.nivel in ['administrador', 'admin']
     
     
     

@@ -1433,7 +1433,7 @@ def gerenciar_usuarios(request):
 
 @api_view(['GET', 'POST', 'PUT'])
 @permission_classes([IsAuthenticated])
-# @verificar_permissao('pode_alterar_status_sistema')  # Temporariamente comentado
+@verificar_permissao('pode_alterar_status_sistema')
 def gerenciar_status_sistema(request):
     """Gerenciar status global do sistema (apenas administrador)"""
     
