@@ -59,7 +59,7 @@ const DashboardAdmin = () => {
             setUserData(userData);
 
             // Buscar status do sistema
-            const statusResponse = await fetch(`${API_URL}/admin/status_sistema/`, { headers });
+            const statusResponse = await fetch(`${API_URL}/api/admin/status_sistema/`, { headers });
             if (statusResponse.status === 401 || statusResponse.status === 403) {
                 sessionStorage.clear();
                 window.location.href = '/login';
