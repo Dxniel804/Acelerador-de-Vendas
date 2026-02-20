@@ -1063,9 +1063,9 @@ def login_view(request):
                 # Para equipes: verificar se precisa selecionar equipe ou se já tem equipe associada
                 requires_equipe_selection = False
                 if perfil.nivel == 'equipe':
-                    # Se o perfil não tem equipe associada, precisa selecionar
-                    if not perfil.equipe:
-                        requires_equipe_selection = True
+                    # Para usuários do tipo equipe, não precisa selecionar equipe
+                    # Eles acessam diretamente com o próprio usuário
+                    requires_equipe_selection = False
                 
                 response_data = {
                     'token': token.key,
