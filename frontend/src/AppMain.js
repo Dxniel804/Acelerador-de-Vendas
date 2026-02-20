@@ -35,6 +35,7 @@ const DashboardByRole = ({ user, authChecked }) => {
   switch (user.nivel) {
     case 'administrador':
     case 'geral':
+    case 'admin':
       return <DashboardAdmin />;
     case 'gestor':
       return <DashboardGestor />;
