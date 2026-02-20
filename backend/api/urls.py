@@ -49,7 +49,7 @@ urlpatterns = [
     path('gestor/propostas/', views.listar_propostas_gestor, name='listar_propostas_gestor'),
     path('gestor/propostas/<int:proposta_id>/', views.detalhar_proposta_gestor, name='detalhar_proposta_gestor'),
     path('gestor/propostas/<int:proposta_id>/validar/', views.validar_proposta_gestor, name='validar_proposta_gestor'),
-    path('gestor/vendas/<int:venda_id>/validar/', views.validar_venda_gestor, name='validar_venda_gestor'),
+    path('gestor/vendas/<int:venda_id>/validar/', views.validar_venda_pre_workshop, name='validar_venda_gestor'),
     
     # URLs para equipes corrigirem propostas
     path('propostas/<int:proposta_id>/reenviar/', views.reenviar_proposta, name='reenviar_proposta'),
