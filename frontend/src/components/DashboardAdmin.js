@@ -73,14 +73,13 @@ const DashboardAdmin = () => {
             setUserData(userData);
 
             // Buscar estatísticas reais da API
-            const [usersResponse, equipesResponse, regionaisResponse, statusResponse] = await Promise.all([
+            const [usersResponse, equipesResponse, statusResponse] = await Promise.all([
                 fetch(`${API_URL}/api/admin/usuarios/`, { headers }),
                 fetch(`${API_URL}/api/admin/equipes/`, { headers }),
-                fetch(`${API_URL}/api/regionais/`, { headers }),
                 fetch(`${API_URL}/api/admin/status_sistema/`, { headers })
             ]);
 
-            const anyForbidden = [usersResponse, equipesResponse, regionaisResponse, statusResponse].some(
+            const anyForbidden = [usersResponse, equipesResponse, statusResponse].some(
                 (r) => r.status === 401 || r.status === 403
             );
             if (anyForbidden) {
@@ -91,19 +90,17 @@ const DashboardAdmin = () => {
 
             if (!usersResponse.ok) throw new Error('Erro ao buscar usuários');
             if (!equipesResponse.ok) throw new Error('Erro ao buscar equipes');
-            if (!regionaisResponse.ok) throw new Error('Erro ao buscar regionais');
             if (!statusResponse.ok) throw new Error('Erro ao buscar status');
 
             const users = await usersResponse.json();
             const equipes = await equipesResponse.json();
-            const regionais = await regionaisResponse.json();
             const statusData = await statusResponse.json();
 
             setStats({
                 totalUsers: Array.isArray(users) ? users.length : 0,
                 totalEquipes: Array.isArray(equipes) ? equipes.length : 0,
-                totalPropostas: 0, // TODO: implementar quando tiver propostas
-                totalRegionais: Array.isArray(regionais) ? regionais.length : 0
+                totalPropostas: 0,
+                totalRegionais: 0
             });
 
             setSystemStatus(statusData);

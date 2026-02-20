@@ -26,7 +26,6 @@ urlpatterns = [
     path('admin/usuarios/', views.gerenciar_usuarios, name='gerenciar_usuarios'),
     path('admin/status_sistema/', views.gerenciar_status_sistema, name='gerenciar_status_sistema'),
     path('admin/regras_pontuacao/', views.gerenciar_regras_pontuacao, name='gerenciar_regras_pontuacao'),
-    path('regionais/', views.listar_regionais, name='listar_regionais'),
     
     # URLs de propostas e ranking
     path('propostas/', views.gerenciar_propostas, name='gerenciar_propostas'),
