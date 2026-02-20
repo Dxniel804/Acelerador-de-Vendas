@@ -17,7 +17,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-3s!rrsa6eojb0+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() in ('1', 'true', 'yes', 'y', 'on')
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost 127.0.0.1 0.0.0.0 backend').split()
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'api.aceleradorvendas.online aceleradorvendas.online localhost 127.0.0.1 0.0.0.0 backend').split()
 
 
 # Application definition
@@ -151,7 +151,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # CORS settings
-CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', "http://localhost:3000 http://127.0.0.1:3000").split()
+CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'https://aceleradorvendas.online https://www.aceleradorvendas.online http://localhost:3000 http://127.0.0.1:3000').split()
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -160,4 +160,4 @@ if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
 
 # CSRF settings
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', "http://localhost:3000 http://127.0.0.1:3000").split()
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'https://aceleradorvendas.online https://www.aceleradorvendas.online http://localhost:3000 http://127.0.0.1:3000').split()

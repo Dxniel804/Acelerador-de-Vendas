@@ -2,6 +2,10 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import './LandingPage.css';
 
+// Importando as imagens para garantir que o Webpack as processe e inclua no build
+import logoImg from '../assets/img/vendamais_logo.png';
+import heroImg from '../assets/img/img1_acelerador.png';
+
 const LandingPage = ({ onLoginClick }) => {
   return (
     <div className="login-page">
@@ -10,7 +14,7 @@ const LandingPage = ({ onLoginClick }) => {
         <div className="header-bar">
           <div className="header-container">
             <img
-              src="/img/vendamais_logo.png"
+              src={logoImg}
               alt="Venda Mais Logo"
               className="header-logo"
             />
@@ -57,11 +61,10 @@ const LandingPage = ({ onLoginClick }) => {
             </button>
           </div>
 
-          {/* Substituído o SVG pela sua Logo */}
           <div className="login-illustration">
             <img
-              src="/img/img1_acelerador.png"
-              alt="Venda Mais Logo"
+              src={heroImg}
+              alt="Acelerador"
               className="login-logo-img"
             />
           </div>
@@ -83,5 +86,3 @@ const LandingPage = ({ onLoginClick }) => {
 };
 
 export default LandingPage;
-
-
