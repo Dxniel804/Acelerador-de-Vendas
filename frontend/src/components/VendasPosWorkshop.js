@@ -14,7 +14,6 @@ const BonusSelection = ({ bonusData, onChange }) => {
         { key: 'bonus_vinhos_fracao_unica', label: 'Vinhos Fração Única (min 5 Produtos)', pontos: 5 },
         { key: 'bonus_espumantes_vintage', label: 'Espumantes Vintage (min 5 Produtos)', pontos: 5 },
         { key: 'bonus_espumantes_premium', label: 'Espumantes Premium (min 2 Produtos)', pontos: 5 },
-        { key: 'bonus_aceleracao', label: 'Bônus de Aceleração (Venda fechada durante o game)', pontos: 25 },
     ];
 
     const total = bonusOptions.reduce((s, b) => s + (bonusData[b.key] ? b.pontos : 0), 0);

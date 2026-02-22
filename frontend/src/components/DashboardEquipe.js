@@ -14,8 +14,7 @@ import {
     Download,
     TrendingUp,
     CheckCircle,
-    AlertCircle,
-    ArrowRight
+    AlertCircle
 } from 'lucide-react';
 import VendasPosWorkshop from './VendasPosWorkshop';
 import logoImg from '../assets/img/vendamais_logo.png';
@@ -725,8 +724,7 @@ const DashboardEquipe = () => {
                                                     (novaProposta.bonus_vinhos_casa_perini_mundo ? 5 : 0) +
                                                     (novaProposta.bonus_vinhos_fracao_unica ? 5 : 0) +
                                                     (novaProposta.bonus_espumantes_vintage ? 5 : 0) +
-                                                    (novaProposta.bonus_espumantes_premium ? 5 : 0) +
-                                                    (novaProposta.bonus_aceleracao ? 25 : 0)
+                                                    (novaProposta.bonus_espumantes_premium ? 5 : 0)
                                                 }</div>
                                                 <div className={styles.bonusTotalLabel}>Pontos Extras</div>
                                             </div>
@@ -759,21 +757,6 @@ const DashboardEquipe = () => {
                                             </div>
 
                                             <div className="space-y-4">
-                                                <p className={`${styles.bonusCategoryTitle} ${styles.bonusCategoryTitleRed}`}>Aceleração de Evento</p>
-                                                <div
-                                                    className={`${styles.bonusCard} ${styles.bonusCardAcceleration} ${novaProposta.bonus_aceleracao ? styles.bonusCardActive : ''}`}
-                                                    onClick={() => setNovaProposta({ ...novaProposta, bonus_aceleracao: !novaProposta.bonus_aceleracao })}
-                                                >
-                                                    <div className={styles.bonusCheckbox}>
-                                                        {novaProposta.bonus_aceleracao && <CheckCircle className="h-4 w-4" />}
-                                                    </div>
-                                                    <div className={styles.bonusInfo}>
-                                                        <div className={styles.bonusLabel} style={{ fontSize: '1.2rem', fontFamily: "'Jaro', sans-serif" }}>Aceleração Máxima</div>
-                                                        <div className={styles.bonusSublabel}>Venda concretizada durante o workshop</div>
-                                                    </div>
-                                                    <div className="ml-auto font-extrabold text-xl text-[#ef4444]">+25 PTS</div>
-                                                </div>
-
                                                 <div className="p-6 bg-white/5 rounded-2xl border border-white/5 backdrop-blur-sm mt-4">
                                                     <div className="flex items-start gap-4">
                                                         <AlertCircle className="h-5 w-5 text-[#FF5E3A] mt-1 flex-shrink-0" />
@@ -792,10 +775,7 @@ const DashboardEquipe = () => {
                                                     <span className="submitButtonText">Registrando...</span>
                                                 </div>
                                             ) : (
-                                                <div className="flex items-center gap-3">
-                                                    <span className={styles.submitButtonText}>Confirmar e Enviar Proposta Digital</span>
-                                                    <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform" />
-                                                </div>
+                                                <span className={styles.submitButtonText}>Confirmar e Enviar Proposta Digital</span>
                                             )}
                                         </button>
                                     </div>

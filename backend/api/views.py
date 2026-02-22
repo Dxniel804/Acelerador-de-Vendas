@@ -73,7 +73,6 @@ def calcular_pontos_proposta(proposta):
             if proposta.bonus_vinhos_fracao_unica: pontos_bonus += 5
             if proposta.bonus_espumantes_vintage: pontos_bonus += 5
             if proposta.bonus_espumantes_premium: pontos_bonus += 5
-            if proposta.bonus_aceleracao: pontos_bonus += 25
             
             pontos = pontos_proposta + pontos_produtos + pontos_bonus
             proposta.pontos_bonus = pontos_bonus
@@ -96,7 +95,6 @@ def calcular_pontos_proposta(proposta):
             if proposta.bonus_vinhos_fracao_unica: pontos_bonus += 5
             if proposta.bonus_espumantes_vintage: pontos_bonus += 5
             if proposta.bonus_espumantes_premium: pontos_bonus += 5
-            if proposta.bonus_aceleracao: pontos_bonus += 25
             
             pontos = pontos_venda + pontos_produtos + pontos_bonus
             proposta.pontos_bonus = pontos_bonus
@@ -2700,16 +2698,12 @@ def dashboard_banca(request):
 
 
 
-    # Workshop: faturamento previsto (soma do valor das propostas VALIDADAS)
-
+    # Faturamento previsto: propostas validadas + vendidas aguardando validação do gestor
+    # Só sai do previsto quando o gestor validar a venda (venda_validada=True)
     faturamento_previsto = Proposta.objects.filter(
-
-        status='validada'
-
+        Q(status='validada') | Q(status='vendida', venda_validada=False)
     ).aggregate(
-
         total=Coalesce(Sum('valor_proposta'), Value(0), output_field=FloatField())
-
     )['total'] or 0
 
 
@@ -2774,16 +2768,11 @@ def dashboard_banca(request):
 
         
 
-        # Faturamento previsto por equipe: soma de propostas validadas
-
+        # Faturamento previsto por equipe: validadas + vendidas aguardando validação
         faturamento_previsto_equipe = propostas_equipe.filter(
-
-            status='validada'
-
+            Q(status='validada') | Q(status='vendida', venda_validada=False)
         ).aggregate(
-
             total=Coalesce(Sum('valor_proposta'), Value(0), output_field=FloatField())
-
         )['total'] or 0
 
         # Faturamento realizado por equipe: soma das vendas validadas
